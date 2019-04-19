@@ -13,13 +13,6 @@ public class Piece {
     boolean isDead;
     Player owner;
 
-    public void kill()
-    {
-        if (isDead) throw new IllegalStateException("This piece is dead.");
-
-        isDead = true;
-    }
-
     public boolean isDead()
     {
         return isDead;
@@ -50,7 +43,7 @@ public class Piece {
     {
         if (isDead) throw new IllegalStateException("This piece is dead.");
 
-        return isOnBoard
+        return isOnBoard;
     }
 
     public String getType()
@@ -58,6 +51,23 @@ public class Piece {
         if (isDead) throw new IllegalStateException("This piece is dead.");
 
         return name;
+    }
+
+    public void kill()
+    {
+        if (isDead) throw new IllegalStateException("This piece is dead.");
+
+        isDead = true;
+    }
+
+    public void addToBoard()
+    {
+        isOnBoard = true;
+    }
+
+    public void removeFromBoard()
+    {
+        isOnBoard = false;
     }
 
     public FightResult fight(Piece piece)
