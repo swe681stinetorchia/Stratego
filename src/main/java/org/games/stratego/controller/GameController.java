@@ -1,19 +1,8 @@
 package org.games.stratego.controller;
 
-
-import java.util.List;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang3.StringUtils;
+import org.games.stratego.database.DBConnection;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -45,6 +34,31 @@ public class GameController{
     public String testThree(@PathVariable("param") String parameter) throws JSONException {
 
         return "Here is the parameter you sent: " + parameter;
+    }
+
+    @CrossOrigin
+    @RequestMapping(value="/testDB/{param}", method = RequestMethod.GET)
+    public String testDB(@PathVariable("param") String parameter) throws JSONException {
+
+        DBConnection dbConnection = new DBConnection(false);
+        return "Here is the DB parameter you sent: " + parameter;
+    }
+
+    @CrossOrigin
+    @RequestMapping(value="/testDBTwo/{param}", method = RequestMethod.GET)
+    public String testDBTwo(@PathVariable("param") String parameter) throws JSONException {
+
+        DBConnection dbConnection = new DBConnection(true);
+        return "Two: Here is the DB parameter you sent: " + parameter;
+    }
+
+    @CrossOrigin
+    @RequestMapping(value="/testDBThree/{param}", method = RequestMethod.GET)
+    public String testDBThree(@PathVariable("param") String parameter) throws JSONException {
+
+        DBConnection dbConnection = new DBConnection(true);
+        String custRet = dbConnection.getCustomers();
+        return custRet + "\nTwo: Here is the DB parameter you sent: " + parameter;
     }
 
 
