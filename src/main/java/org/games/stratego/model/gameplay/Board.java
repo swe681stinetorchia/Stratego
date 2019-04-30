@@ -1,31 +1,26 @@
 package org.games.stratego.model.gameplay;
+import org.games.stratego.database.StrategoDBConnection;
+import java.util.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class Board {
-
-    private Map<Integer, Map<Integer, Square>> boardMatrix;
+public class Board
+{
+    String[][] board;
 
     public Board()
     {
-        boardMatrix = new HashMap<Integer, Map<Integer, Square>>();
-
-        for (int i = 0; i < 10; i++)
-        {
-
-            Map<Integer, Square> row = new HashMap<Integer, Square>();
-
-            for (int j = 0; j < 10; j++)
-            {
-                Square square = new Square(i, j);
-
-                row.put(j, square);
+        String col_name;
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[row].length; col++) {
+                col_name ="position_" + row + "_" + col;
+                //Need to bring in game_id
+                board[row][col] = StrategoDBConnection.getPiece(col_name, "11");
             }
-
-            boardMatrix.put(i, row);
+        }
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[row].length; col++) {
+                System.out.print(board[row][col] + "\t");
+            }
+            System.out.println();
         }
     }
-
-
 }
