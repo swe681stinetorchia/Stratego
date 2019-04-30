@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class DBConnection {
 
-    private Connection connect = null;
+    private Connection connection = null;
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
@@ -20,40 +20,36 @@ public class DBConnection {
     private final String DB_USERNAME = "root";
     private final String DB_PASSWORD = "g3ntlemenST@Rty0ur$nTine$";
 
-    public DBConnection(boolean optionTwo)
+    private static DBConnection dbConn = new DBConnection();
+
+    private DBConnection()
     {
-        if (optionTwo)
-        {
-            try {
-                Class.forName("com.mysql.jdbc.Driver").newInstance();
-            } catch (Exception e) {
-                System.out.println("JAVA: Class.forName() error");
-                e.printStackTrace();
-            }
-            try {
 
-                connect = DriverManager.getConnection(URL, DB_USERNAME, DB_PASSWORD);
-            } catch (SQLException e) {
-                System.out.println("Error in initializing a connection to MYSQL DB");
-                e.printStackTrace();
-
-            }
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+        } catch (Exception e) {
+            System.out.println("JAVA: Class.forName() error");
+            e.printStackTrace();
         }
-        else {
-            try {
-                // This will load the MySQL driver, each DB has its own driver
-                Class.forName("com.mysql.jdbc.Driver");
-                // Setup the connection with the DB
-                connect = DriverManager
-                        .getConnection("jdbc:mysql://localhost/classicmodels?"
-                                + "user=root&password=g3ntlemenST@Rty0ur$nTine$");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        try {
 
+            connection = DriverManager.getConnection(URL, DB_USERNAME, DB_PASSWORD);
+        } catch (SQLException e) {
+            System.out.println("Error in initializing a connection to MYSQL DB");
+            e.printStackTrace();
+
+        }
     }
 
+    public static DBConnection getInstance() { return dbConn;}
+
+    public Connection getConnection()
+    {
+        return connection;
+    }
+
+
+    /**
     public String getUsers()
     {
         String returnVal = "";
@@ -94,5 +90,5 @@ public class DBConnection {
             e.printStackTrace();
         }
         return returnVal;
-    }
+    }**/
 }
