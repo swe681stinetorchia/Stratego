@@ -6,7 +6,7 @@
 			<meta name="dcterms.created" content="Tue, 11 Oct 2016 15:07:22 GMT">
 			<meta name="description" content="">
 			<meta name="keywords" content="">
-			
+		
 			<title>eApp Login</title>
 		
 			<link rel="stylesheet" type="text/css" href="${initParam.siteURL}/styles.css">
@@ -14,32 +14,28 @@
 		
 			<style type="text/css">
 			</style>
-	</head>
+
 	<body>
-	   <h1>Stratego
+			<h1>eApp
+				<img src="${initParam.siteURL}/NBIB-logo.png" width="79" height="79" style="vertical-align:middle; margin-right:10px; float:right;">
 			</h1>
 			<hr style="margin:auto; height:1px"/>
 	
 			<section>
-				<p class="explanation">
-					Some explanation stuff.
-		   	</p>
-		   	
-		   	<%--
-		   	<p>${initParam['siteURL']}</p>
-		   	<p>${1+1}</p>
-            --%>
-            
-		   	<form method="post" action="${initParam.siteURL}/servlets" class="login">
+				<p class="errorText">
+					You have entered an incorrect username or password. Please try again.
+				</p>
+	 
+				<form method="post" action="${initParam.siteURL}" class="login">
 					<p>Username: <input type="text" name="username" value="" style="width:150px"></p>
 					<p>Password: <input type="password" name="password" value="" style="width:150px"></p>
 					<p><input type="submit" name="loginSubmit" value="Submit"></p>
 				</form>
-		   </section>
+			</section>
 	
-			<footer>
-				<p></p>
-			</footer>
+			<footer >
+		   	<p></p>
+	   	</footer>
 	
 	</body>
 

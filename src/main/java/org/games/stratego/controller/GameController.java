@@ -3,15 +3,25 @@ package org.games.stratego.controller;
 import org.games.stratego.database.DBConnection;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
-/**
- * Handles comments associated with requests.
- */
+//import org.springframework.web.bind.annotation.*;
+//import org.springframework.web.bind.annotation.CrossOrigin;
 
-@RestController
+
+
+public class GameController extends HttpServlet
+{
+
+}
+
+/**@RestController
 @RequestMapping(value="game")
 public class GameController{
 
@@ -65,4 +75,4 @@ public class GameController{
 
 
 
-}
+}**/

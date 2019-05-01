@@ -2,23 +2,23 @@ package org.games.stratego.Services;
 
 import java.util.HashMap;
 
-public class LoginService
+public class UserService
 {
     private static final long serialVersionUID = 1L;
-    
+
     private static HashMap<String, String> loginMap;
-    
-    private static LoginService validation = new LoginService();
-    
-    
-    
-    private LoginService()
+
+    private static UserService validation = new UserService();
+
+
+
+    private UserService()
     {
-        loginMap = new HashMap<>();
+        loginMap = new HashMap();
         loginMap.put( "KentDolan", "Dolan123456" );
     }
     
-    public static LoginService getInstance()
+    public static UserService getInstance()
     {
         return validation;
     }
