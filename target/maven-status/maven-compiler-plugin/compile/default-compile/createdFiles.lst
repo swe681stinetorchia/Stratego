@@ -1,11 +1,17 @@
 org\games\stratego\model\gameplay\Pieces\Scout.class
+org\games\stratego\database\GameDAO.class
 org\games\stratego\model\gameplay\Pieces\Colonel.class
-org\games\stratego\StrategoApplication.class
 org\games\stratego\model\gameplay\Pieces\Flag.class
+org\games\stratego\Services\UserService.class
 org\games\stratego\model\gameplay\Pieces\General.class
 org\games\stratego\model\admin\game.class
 org\games\stratego\model\gameplay\Pieces\Minor.class
+org\games\stratego\database\PlayerDAO.class
+org\games\stratego\database\BoardDAO.class
+org\games\stratego\Services\SecureHash.class
+org\games\stratego\database\UserDAO.class
 org\games\stratego\model\gameplay\Pieces\Marshal.class
+org\games\stratego\controller\Login.class
 org\games\stratego\model\gameplay\Square.class
 org\games\stratego\model\gameplay\Pieces\Sergeant.class
 org\games\stratego\model\gameplay\Pieces\Piece.class
@@ -14,6 +20,7 @@ org\games\stratego\database\DBConnection.class
 org\games\stratego\model\gameplay\Pieces\Spy.class
 org\games\stratego\model\gameplay\Pieces\Major.class
 org\games\stratego\model\admin\User.class
+org\games\stratego\database\PieceDAO.class
 org\games\stratego\model\gameplay\Player.class
 org\games\stratego\model\gameplay\Pieces\Captain.class
 org\games\stratego\model\gameplay\Board.class

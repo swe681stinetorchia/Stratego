@@ -65,5 +65,6 @@ public class UserDAO {
                 }
             }
         }
+        return 0;
     }
 }

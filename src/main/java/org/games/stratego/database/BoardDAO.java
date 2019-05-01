@@ -42,7 +42,7 @@ public class BoardDAO {
         }
         catch(SQLException sqe)
         {
-            connect.
+            sqe.printStackTrace();
         }
     }
 }
