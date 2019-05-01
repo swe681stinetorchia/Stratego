@@ -7,10 +7,10 @@ import java.util.Properties;
 
 public class StrategoGetPropertyValues {
 
-    static String value = "";
-    static InputStream inputStream;
+    String value = "";
+    InputStream inputStream;
 
-    public static String getPropValues(String key) throws IOException {
+    public String getPropValues(String key) throws IOException {
 
         try {
             Properties prop = new Properties();

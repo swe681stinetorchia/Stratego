@@ -13,10 +13,10 @@ import java.util.Date;
 
 public class StrategoDBConnection {
 
-    protected static Connection connect = null;
-    protected static Statement statement = null;
-    protected static PreparedStatement preparedStatement = null;
-    protected static ResultSet resultSet = null;
+    protected Connection connect = null;
+    protected Statement statement = null;
+    protected PreparedStatement preparedStatement = null;
+    protected ResultSet resultSet = null;
     protected final Logger log = Logger.getLogger(getClass());
     protected String url;
     protected String username;
@@ -24,9 +24,10 @@ public class StrategoDBConnection {
 
     public StrategoDBConnection() {
         try {
-            url = StrategoGetPropertyValues.getPropValues("dbURL");
-            username = StrategoGetPropertyValues.getPropValues("username");
-            password = StrategoGetPropertyValues.getPropValues("password");
+            StrategoGetPropertyValues config = new StrategoGetPropertyValues();
+            url = config.getPropValues("dbURL");
+            username = config.getPropValues("username");
+            password = config.getPropValues("password");
             // This will load the MySQL driver, each DB has its own driver
             Class.forName("com.mysql.jdbc.Driver");
             // Setup the connection with the DB

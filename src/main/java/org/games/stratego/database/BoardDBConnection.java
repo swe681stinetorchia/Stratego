@@ -16,6 +16,7 @@ public class BoardDBConnection extends StrategoDBConnection {
             while (resultSet.next()) {
                 returnVal = resultSet.getString(col_name);
             }
+            connect.close();
         } catch (Exception e) {
             log.fatal(e.getMessage());
         }
