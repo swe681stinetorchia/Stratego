@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import org.games.stratego.Services.AntiCSRF;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -53,7 +53,8 @@ public class Login extends HttpServlet {
                 System.out.println( "validation success -- dispatch sf86-Part1" );
 
                 session.setAttribute( "loggedIn", "true" );
-
+                //in authentication function
+                session.setAttribute("csrfToken", AntiCSRF.generateCSRFToken());
                 RequestDispatcher dispatcher = request.getRequestDispatcher( "/WEB-INF/html/sf86-Part1.jsp" );
                 dispatcher.forward( request, response );
                 return;

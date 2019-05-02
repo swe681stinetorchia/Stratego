@@ -24,6 +24,7 @@
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
+
     
    <!-- Set the DefaultServlet to handle static HTML content -->
     <!--
