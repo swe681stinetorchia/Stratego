@@ -42,4 +42,42 @@ public class BoardDBConnection extends StrategoDBConnection {
         }
         return returnVal;
     }
+
+    public void createBoard(String gameId)
+    {
+        try {
+            preparedStatement = connect
+                    .prepareStatement("insert into stratego.board(game_id) values(?)");
+            preparedStatement.setString(1, gameId);
+            int result = preparedStatement.executeUpdate();
+            connect.close();
+
+            if (result!=1)
+            {
+                throw new Exception("Failed to execute createBoard for game " + gameId);
+            }
+        } catch (Exception e) {
+            log.fatal(e.getMessage());
+        }
+    }
+
+    public void addPiece(String gameId, String piece)
+    {
+        try {
+            preparedStatement = connect
+                    .prepareStatement("update stratego.board set piece_id = ? where game_id = ?");
+            preparedStatement.setString(1, piece);
+            preparedStatement.setString(2, gameId);
+            int result = preparedStatement.executeUpdate();
+            connect.close();
+
+            if (result!=1)
+            {
+                throw new Exception("Failed to execute addPiece for game " + gameId);
+            }
+        } catch (Exception e) {
+            log.fatal(e.getMessage());
+        }
+
+    }
 }

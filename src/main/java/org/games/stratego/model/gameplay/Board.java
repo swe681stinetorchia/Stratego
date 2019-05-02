@@ -9,7 +9,14 @@ public class Board
     // 10 x 10 Grid
     String[][] board = new String[10][10];
 
+    //Instantiate new board and add to db
     public Board()
+    {
+
+    }
+
+    //Load preexisting board from db
+    public Board(String gameId)
     {
         String col_name;
         String piece_id;
@@ -18,8 +25,8 @@ public class Board
                 col_name ="position_" + row + "_" + col;
                 //Need to bring in game_id
                 BoardDBConnection db = new BoardDBConnection();
-                piece_id = db.getPiece(col_name, "11");
-                board[row][col] = db.getPiece(col_name, "11");
+                piece_id = db.getPiece(col_name, gameId);
+                board[row][col] = db.getPiece(col_name, gameId);
             }
         }
 
