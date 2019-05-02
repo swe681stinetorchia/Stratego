@@ -12,11 +12,13 @@ public class Board
     public Board()
     {
         String col_name;
+        String piece_id;
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[row].length; col++) {
                 col_name ="position_" + row + "_" + col;
                 //Need to bring in game_id
                 BoardDBConnection db = new BoardDBConnection();
+                piece_id = db.getPiece(col_name, "11");
                 board[row][col] = db.getPiece(col_name, "11");
             }
         }

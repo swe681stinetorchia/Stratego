@@ -62,4 +62,40 @@ public class UserDBConnection extends StrategoDBConnection {
         }
         return users;
     }
+
+    public String getID(String sessionID)
+    {
+        String user ="";
+        try {
+            preparedStatement = connect
+                    .prepareStatement("select id from stratego.users WHERE session_id = ?");
+            preparedStatement.setString(1, sessionID);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next())
+            {
+               user = resultSet.getString("id");
+            }
+            connect.close();
+        }
+        catch (SQLException e) {
+            log.fatal(e.getMessage());
+        }
+        return user;
+    }
+
+    public void setSessionID(String sessionID, String username, String password)
+    {
+        try {
+            preparedStatement = connect
+                    .prepareStatement("update stratego.users set session_id = ? WHERE username = ? and password = ?");
+            preparedStatement.setString(1, sessionID);
+            preparedStatement.setString(2, username);
+            preparedStatement.setString(3, password);
+            preparedStatement.executeQuery();
+            connect.close();
+        }
+        catch (SQLException e) {
+            log.fatal(e.getMessage());
+        }
+    }
 }
