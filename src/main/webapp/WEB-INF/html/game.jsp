@@ -9,6 +9,16 @@
 <html>
 <head>
     <title>Title</title>
+    <script>
+        function addPieceImageToLocation(locationId, imagePath)
+        {
+            document.getElementById(locationId).src=imagePath;
+        }
+        function removePieceImageFromLocation(locationId)
+        {
+            document.getElementById(locationId).src="images/blank.PNG";
+        }
+    </script>
 </head>
 <body>
 <form>
