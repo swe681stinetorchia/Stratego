@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 
 
 
-public class GameController extends HttpServlet
+public class Game extends HttpServlet
 {
     //in your servlet or other web request handling code
 
