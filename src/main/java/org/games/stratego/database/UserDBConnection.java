@@ -24,6 +24,25 @@ public class UserDBConnection extends StrategoDBConnection {
             log.fatal(e.getMessage());
         }
     }
+    public Boolean isActiveUser(String userID)
+    {
+        Boolean isActive = false;
+        try {
+            preparedStatement = connect
+                    .prepareStatement("select isActive from stratego.users WHERE id = ?");
+            preparedStatement.setString(1, userID);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next())
+            {
+                isActive = Boolean.parseBoolean(resultSet.getString("isActive"));
+            }
+            connect.close();
+        }
+        catch (SQLException e) {
+            log.fatal(e.getMessage());
+        }
+        return isActive;
+    }
 
     public List getActiveUsers()
     {
