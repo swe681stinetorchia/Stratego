@@ -1,5 +1,9 @@
 package org.games.stratego.Services;
 
+import org.games.stratego.database.UserDBConnection;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 
 public class UserService
@@ -25,21 +29,42 @@ public class UserService
     
     public void addUser( String username, String password )
     {
-        loginMap.put( username, password );
+        try {
+            String hash = SecureHash.generateStrongPasswordHash(password);
+
+            UserDBConnection userDBConnection = new UserDBConnection();
+
+            userDBConnection.addUser(username, hash);
+        }
+        catch (NoSuchAlgorithmException nsae)
+        {
+            nsae.printStackTrace();
+        }
+        catch (InvalidKeySpecException ikse)
+        {
+            ikse.printStackTrace();
+        }
     }
     
     public boolean validate( String username, String password )
     {
-        //System.out.println( "username = " + username + ", password = " + password );
-        
-        String storedPassword = loginMap.get( username );
-        
-        if( storedPassword != null && storedPassword.equals( password ))
-        {
-            return true;
+        try {
+            String hash = SecureHash.generateStrongPasswordHash(password);
+
+            UserDBConnection userDBConnection = new UserDBConnection();
+
+            return userDBConnection.checkPassword(username, hash);
         }
-        
-        return false;
+        catch (NoSuchAlgorithmException nsae)
+        {
+            nsae.printStackTrace();
+            return false;
+        }
+        catch (InvalidKeySpecException ikse)
+        {
+            ikse.printStackTrace();
+            return false;
+        }
     }
     
 }

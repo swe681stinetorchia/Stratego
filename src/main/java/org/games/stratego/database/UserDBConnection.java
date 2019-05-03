@@ -98,4 +98,25 @@ public class UserDBConnection extends StrategoDBConnection {
             log.fatal(e.getMessage());
         }
     }
+
+    public boolean checkPassword(String username, String password)
+    {
+        try {
+            preparedStatement = connect
+                    .prepareStatement("select * from stratego.users WHERE username = ? and password = ?");
+            preparedStatement.setString(2, username);
+            preparedStatement.setString(3, password);
+            resultSet = preparedStatement.executeQuery();
+
+            if (!resultSet.next())
+            {
+                return false;
+            }
+            connect.close();
+            return true;
+        }
+        catch (SQLException e) {
+            log.fatal(e.getMessage());
+        }
+    }
 }

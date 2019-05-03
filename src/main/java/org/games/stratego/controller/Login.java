@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import org.games.stratego.Services.UserService;
+import org.games.stratego.model.admin.Session;
 
 public class Login extends HttpServlet {
 
@@ -53,8 +54,11 @@ public class Login extends HttpServlet {
 
                 session.setAttribute( "loggedIn", "true" );
                 //in authentication function
-                session.setAttribute("csrfToken", AntiCSRF.generateCSRFToken());
-                RequestDispatcher dispatcher = request.getRequestDispatcher( "/WEB-INF/html/sf86-Part1.jsp" );
+                String username = request.getParameter("username");
+                String sessionToken = AntiCSRF.generateCSRFToken();
+                Session.addSession(sessionToken, username);
+                session.setAttribute("csrfToken", session);
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "/WEB-INF/html/userHome.jsp" );
                 dispatcher.forward( request, response );
                 return;
             }
@@ -74,6 +78,7 @@ public class Login extends HttpServlet {
             }
         }
 
+        /**
         boolean loggedIn = Boolean.getBoolean( (String) session.getAttribute( "loggedIn" ));
         if( loggedIn )
         {
@@ -97,14 +102,15 @@ public class Login extends HttpServlet {
         {
             System.out.println( "Not logged in error" );
             invalidAccess( response );
-        }
+        }**/
     }
 
+    /**
     @Override
     public void destroy()
     {
         // Finalization code...
-    }
+    }**/
 
 
     private void invalidAccess( HttpServletResponse response )  throws IOException

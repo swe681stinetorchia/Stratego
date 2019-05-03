@@ -8,7 +8,7 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
 public class SecureHash {
-    private static String generateStorngPasswordHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException
+    public static String generateStrongPasswordHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException
     {
         int iterations = 1000;
         char[] chars = password.toCharArray();
