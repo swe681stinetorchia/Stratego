@@ -12,5 +12,9 @@
 </head>
 <body>
 
+    <form method="post" action="${initParam.siteURL}/servlets" class="testlogin">
+		<p><input type="submit" name="testlogin" value="Submit"></p>
+	</form>
+
 </body>
 </html>
