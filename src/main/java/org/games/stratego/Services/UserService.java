@@ -1,5 +1,7 @@
 package org.games.stratego.Services;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.games.stratego.database.UserDBConnection;
 
 import java.security.NoSuchAlgorithmException;
@@ -13,6 +15,7 @@ public class UserService
     private static HashMap<String, String> loginMap;
 
     private static UserService validation = new UserService();
+    protected final Logger log = LogManager.getLogger(getClass());
 
 
 
@@ -34,7 +37,11 @@ public class UserService
 
             UserDBConnection userDBConnection = new UserDBConnection();
 
+            System.out.println("1 adding " + username + " : " + hash + " : " +SecureHash.validatePassword(password, hash));
+
             userDBConnection.addUser(username, hash);
+
+            System.out.println("Test success: " + validate(username, password));
         }
         catch (NoSuchAlgorithmException nsae)
         {
@@ -48,23 +55,11 @@ public class UserService
     
     public boolean validate( String username, String password )
     {
-        try {
-            String hash = SecureHash.generateStrongPasswordHash(password);
+        System.out.println("Password to check: " + password);
 
-            UserDBConnection userDBConnection = new UserDBConnection();
+        UserDBConnection userDBConnection = new UserDBConnection();
 
-            return userDBConnection.checkPassword(username, hash);
-        }
-        catch (NoSuchAlgorithmException nsae)
-        {
-            nsae.printStackTrace();
-            return false;
-        }
-        catch (InvalidKeySpecException ikse)
-        {
-            ikse.printStackTrace();
-            return false;
-        }
+        return userDBConnection.checkPassword(username, password);
     }
     
 }

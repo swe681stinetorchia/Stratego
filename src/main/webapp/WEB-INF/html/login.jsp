@@ -22,7 +22,7 @@
 	
 			<section>
 				<p class="explanation">
-					Some explanation stuff.
+					Login
 		   	</p>
 		   	
 		   	<%--
@@ -30,7 +30,7 @@
 		   	<p>${1+1}</p>
             --%>
 
-            <a href="/html/newUser.jsp"> New User </a>
+            <a href="${initParam.siteURL}/newUser"> New User </a>
             
 		   	<form method="post" action="${initParam.siteURL}/login" class="login">
 					<p>Username: <input type="text" name="username" value="" style="width:150px"></p>

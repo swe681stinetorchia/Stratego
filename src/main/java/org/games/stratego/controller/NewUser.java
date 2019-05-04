@@ -47,24 +47,16 @@ public class NewUser extends HttpServlet {
 
         String param = (String) request.getParameter("newUser");
         if (param != null) {
-            try {
-                String username = request.getParameter("username");
-                String password = request.getParameter("password");
-                String hash = SecureHash.generateStrongPasswordHash(password);
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
 
-                UserService userService = UserService.getInstance();
+            UserService userService = UserService.getInstance();
 
-                userService.addUser(username, hash);
+            userService.addUser(username, password);
 
 
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/html/login.jsp");
-                dispatcher.forward(request, response);
-                return;
-            } catch (NoSuchAlgorithmException nsae) {
-                nsae.printStackTrace();
-            } catch (InvalidKeySpecException ikse) {
-                ikse.printStackTrace();
-            }
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/html/login.jsp");
+            dispatcher.forward(request, response);
         }
     }
 

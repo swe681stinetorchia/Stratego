@@ -40,7 +40,8 @@ public class SecureHash {
             return hex;
         }
     }
-    private static boolean validatePassword(String originalPassword, String storedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException
+
+    public static boolean validatePassword(String originalPassword, String storedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException
     {
         String[] parts = storedPassword.split(":");
         int iterations = Integer.parseInt(parts[0]);
@@ -58,6 +59,7 @@ public class SecureHash {
         }
         return diff == 0;
     }
+
     private static byte[] fromHex(String hex)
     {
         byte[] bytes = new byte[hex.length() / 2];

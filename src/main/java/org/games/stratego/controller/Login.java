@@ -11,6 +11,7 @@ import org.games.stratego.Services.AntiCSRF;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.games.stratego.Services.SecureHash;
 import org.games.stratego.Services.UserService;
 import org.games.stratego.model.admin.Session;
 
@@ -20,7 +21,29 @@ public class Login extends HttpServlet {
     public void doGet( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException
     {
-        System.out.println( "doGet" );
+
+        try {
+            String p = "queen";
+            String h = SecureHash.generateStrongPasswordHash(p);
+            String h1 = SecureHash.generateStrongPasswordHash(p);
+            String h2 = SecureHash.generateStrongPasswordHash(p);
+            String h3 = SecureHash.generateStrongPasswordHash(p);
+
+            System.out.println("Hash for password " + p + ": " + h);
+            System.out.println("Hash for password " + p + ": " + h1);
+            System.out.println("Hash for password " + p + ": " + h2);
+            System.out.println("Hash for password " + p + ": " + h3);
+            System.out.println("compare" + p + " : " + h + ": " + SecureHash.validatePassword(p,h));
+            System.out.println("compare" + p + " : " + h1 + ": " + SecureHash.validatePassword(p,h1));
+            System.out.println("compare" + p + " : " + h2 + ": " + SecureHash.validatePassword(p,h2));
+            System.out.println("compare" + p + " : " + h3 + ": " + SecureHash.validatePassword(p,h3));
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        System.out.println("doGet");
 
         // Create a session
         HttpSession session = request.getSession();

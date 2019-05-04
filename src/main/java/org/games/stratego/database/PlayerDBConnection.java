@@ -29,7 +29,7 @@ public class PlayerDBConnection extends StrategoDBConnection {
             username = config.getPropValues("username");
             password = config.getPropValues("password");
             // This will load the MySQL driver, each DB has its own driver
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (Exception e) {
             log.fatal(e.getMessage());
         }
