@@ -11,12 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
-//import org.springframework.web.bind.annotation.*;
-//import org.springframework.web.bind.annotation.CrossOrigin;
-
-
-
 public class Game extends HttpServlet
 {
     //in your servlet or other web request handling code
@@ -54,20 +48,58 @@ public class Game extends HttpServlet
         for (int row = 1; row < 11; row++) {
             for (int col = 1; col < 11; col++) {
                 col_name = "position_" + row + "_" + col;
+                id_name = "sq" + row + col;
                 //Need to bring in game_id
                 BoardDBConnection db = new BoardDBConnection();
                 //piece_id = db.getPiece(col_name, gameID);
                 piece_id = "4bb3493d-6e8b-11e9-b4e5-025041000001";
-                piece_name = db.getPieceRank(piece_id);
-                id_name = "sq" + row + col;
                 ServletContext context = getServletContext(); // Inherited from HttpServlet.
-                String picture = "";
-                if(piece_name.equals("Flag")){
-                    picture = context.getRealPath("/html/images/flag.PNG");
-                    //src = context.getResource("/html/images/flag.PNG").getPath();
+                //check if the piece is the owner
+                //if(db.getOwner())
+                if (true) {
+                    piece_name = db.getPieceRank(piece_id);
+                    String picture = "";
+                    if (piece_name.equals("Flag")) {
+                        //picture = context.getRealPath("/html/images/flag.PNG");
+                        src = context.getResource("/html/images/flag.PNG").getPath();
+                    } else if (piece_name.equals("Bomb")) {
+                        //picture = context.getRealPath("/html/images/flag.PNG");
+                        src = context.getResource("/html/images/bomb.PNG").getPath();
+                    }
+                    if (piece_name.equals("Marshall")) {
+                        //picture = context.getRealPath("/html/images/flag.PNG");
+                        src = context.getResource("/html/images/marshall.PNG").getPath();
+                    } else if (piece_name.equals("General")) {
+                        //picture = context.getRealPath("/html/images/flag.PNG");
+                        src = context.getResource("/html/images/general.PNG").getPath();
+                    } else if (piece_name.equals("Major")) {
+                        //picture = context.getRealPath("/html/images/flag.PNG");
+                        src = context.getResource("/html/images/major.PNG").getPath();
+                    } else if (piece_name.equals("Captain")) {
+                        //picture = context.getRealPath("/html/images/flag.PNG");
+                        src = context.getResource("/html/images/captain.PNG").getPath();
+                    } else if (piece_name.equals("Lieutenant")) {
+                        //picture = context.getRealPath("/html/images/flag.PNG");
+                        src = context.getResource("/html/images/lieutenant.PNG").getPath();
+                    } else if (piece_name.equals("Sergeant")) {
+                        //picture = context.getRealPath("/html/images/flag.PNG");
+                        src = context.getResource("/html/images/sergeant.PNG").getPath();
+                    } else if (piece_name.equals("Miner")) {
+                        //picture = context.getRealPath("/html/images/flag.PNG");
+                        src = context.getResource("/html/images/miner.PNG").getPath();
+                    } else if (piece_name.equals("Scout")) {
+                        //picture = context.getRealPath("/html/images/flag.PNG");
+                        src = context.getResource("/html/images/scout.PNG").getPath();
+                    } else if (piece_name.equals("Spy")) {
+                        //picture = context.getRealPath("/html/images/flag.PNG");
+                        src = context.getResource("/html/images/spy.PNG").getPath();
+                    } else
+                        src = context.getResource("/html/images/blank.PNG").getPath();
                 }
-
-                request.setAttribute(id_name, picture);
+                else
+                    //opponents piece
+                src = context.getResource("/html/images/mystery.PNG").getPath();
+                request.setAttribute(id_name, src);
             }
         }
     }
