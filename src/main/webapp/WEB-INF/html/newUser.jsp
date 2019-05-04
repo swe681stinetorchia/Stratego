@@ -30,10 +30,10 @@
 		   	<p>${1+1}</p>
             --%>
             
-		   	<form method="post" action="${initParam.siteURL}/login" class="login">
+		   	<form method="post" action="${initParam.siteURL}/newUser" class="newUser">
 					<p>Username: <input type="text" name="username" value="" style="width:150px"></p>
 					<p>Password: <input type="password" name="password" value="" style="width:150px"></p>
-					<p><input type="submit" name="loginSubmit" value="Submit"></p>
+					<p><input type="submit" name="newUser" value="Submit"></p>
 				</form>
 		   </section>
 	

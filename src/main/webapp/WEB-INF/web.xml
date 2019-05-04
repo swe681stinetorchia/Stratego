@@ -25,6 +25,15 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
+
+    <servlet>
+        <servlet-name>NewUser</servlet-name>
+        <servlet-class>org.games.stratego.controller.NewUser</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NewUser</servlet-name>
+        <url-pattern>/newUser</url-pattern>
+    </servlet-mapping>
     
    <!-- Set the DefaultServlet to handle static HTML content -->
     <!--
