@@ -8,27 +8,6 @@ import java.sql.*;
 
 public class BoardDBConnection extends StrategoDBConnection {
 
-    protected Connection connect = null;
-    protected Statement statement = null;
-    protected PreparedStatement preparedStatement = null;
-    protected ResultSet resultSet = null;
-    protected final Logger log = LogManager.getLogger(getClass());
-    protected String url;
-    protected String username;
-    protected String password;
-
-    public BoardDBConnection() {
-        try {
-            StrategoGetPropertyValues config = new StrategoGetPropertyValues();
-            url = config.getPropValues("dbURL");
-            username = config.getPropValues("username");
-            password = config.getPropValues("password");
-            // This will load the MySQL driver, each DB has its own driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (Exception e) {
-            log.fatal(e.getMessage());
-        }
-    }
 
     public String getPiece(String col_name, String game_id)
     {
@@ -47,6 +26,27 @@ public class BoardDBConnection extends StrategoDBConnection {
 
             while (resultSet.next()) {
                 returnVal = resultSet.getString(col_name);
+            }
+            connect.close();
+        } catch (Exception e) {
+            log.fatal(e.getMessage());
+        }
+        return returnVal;
+    }
+
+    public String getPieceRank(String piece_id)
+    {
+        String returnVal = "";
+
+        try {
+
+            preparedStatement = connect
+                    .prepareStatement("select piece from piece_lookup as a join piece as b on a.piece_id = b.piece_id where b.id = ?");
+            preparedStatement.setString(1, piece_id);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                returnVal = resultSet.getString("piece");
             }
             connect.close();
         } catch (Exception e) {

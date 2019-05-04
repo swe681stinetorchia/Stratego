@@ -33,6 +33,15 @@
         <servlet-name>NewUser</servlet-name>
         <url-pattern>/newUser</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Game</servlet-name>
+        <servlet-class>org.games.stratego.controller.Game</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Game</servlet-name>
+        <url-pattern>/game</url-pattern>
+    </servlet-mapping>
     
    <!-- Set the DefaultServlet to handle static HTML content -->
     <!--
