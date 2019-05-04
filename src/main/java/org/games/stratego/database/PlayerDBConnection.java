@@ -7,8 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
-import org.apache.log4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class PlayerDBConnection extends StrategoDBConnection {
@@ -17,7 +17,7 @@ public class PlayerDBConnection extends StrategoDBConnection {
     protected Statement statement = null;
     protected PreparedStatement preparedStatement = null;
     protected ResultSet resultSet = null;
-    protected final Logger log = Logger.getLogger(getClass());
+    protected final Logger log = LogManager.getLogger(getClass());
     protected String url;
     protected String username;
     protected String password;

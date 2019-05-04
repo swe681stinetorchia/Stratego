@@ -1,9 +1,5 @@
 package org.games.stratego.controller;
 
-import org.games.stratego.database.DBConnection;
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

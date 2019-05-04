@@ -1,6 +1,7 @@
 package org.games.stratego.database;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.games.stratego.Services.StrategoGetPropertyValues;
 
 import java.sql.*;
@@ -13,7 +14,7 @@ public class UserDBConnection extends StrategoDBConnection {
     protected Statement statement = null;
     protected PreparedStatement preparedStatement = null;
     protected ResultSet resultSet = null;
-    protected final Logger log = Logger.getLogger(getClass());
+    protected final Logger log = LogManager.getLogger(getClass());
     protected String url;
     protected String username;
     protected String password;
@@ -142,6 +143,7 @@ public class UserDBConnection extends StrategoDBConnection {
         }
         catch (SQLException e) {
             log.fatal(e.getMessage());
+            return false;
         }
     }
 }
