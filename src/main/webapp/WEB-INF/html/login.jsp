@@ -29,6 +29,8 @@
 		   	<p>${initParam['siteURL']}</p>
 		   	<p>${1+1}</p>
             --%>
+
+            <a href="/html/newUser.jsp"> New User </a>
             
 		   	<form method="post" action="${initParam.siteURL}/login" class="login">
 					<p>Username: <input type="text" name="username" value="" style="width:150px"></p>
