@@ -1,5 +1,6 @@
 package org.games.stratego.controller;
 
+import  org.games.stratego.Services.RegexHelper;
 import org.games.stratego.database.BoardDBConnection;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -17,15 +18,47 @@ public class Game extends HttpServlet
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String storedToken = (String)session.getAttribute("csrfToken");
+        String storedToken = (String) session.getAttribute("csrfToken");
         String token = request.getParameter("token");
-        //do check
-        if (storedToken.equals(token)) {
-            //go ahead and process ... do business logic here
-
-
+        String input = request.getParameter("move");
+        RegexHelper rh = new RegexHelper();
+        int curRow = 0;
+        int curCol = 0;
+        int moveRow = 0;
+        int moveCol = 0;
+        String cur_piece = "";
+        String move_piece = "";
+        if (rh.isMoveRegex(input)) {
+            //do check
+            if (storedToken.equals(token)) {
+                //go ahead and process ... do business logic here
+                curRow = Integer.parseInt(input.substring(0, 1));
+                curCol = Integer.parseInt(input.substring(2, 3));
+                moveRow = Integer.parseInt(input.substring(0, 1));
+                moveCol = Integer.parseInt(input.substring(2, 3));
+                cur_piece = "position_" + curRow + "_" + curCol;
+                //is Piece owner
+                if (true) {
+                    //is legitimate move
+                    if (legitMove(curRow, curCol, moveRow, moveCol)) {
+                        System.out.println("Outstanding Move!");
+                        move_piece = "position_" + curRow + "_" + curCol;
+                        
+                    } else {
+                        System.out.println("Choose a legitimate move silly!");
+                    }
+                }
+             else {
+                System.out.println("Choose a piece that you own silly!");
+            }
         } else {
             //DO NOT PROCESS ... this is to be considered a CSRF attack - handle appropriately
+            System.out.println("CSRF Check Failed");
+        }
+    }
+        else
+        {
+            System.out.println( "Regex Check failed" );
         }
     }
 
@@ -36,6 +69,26 @@ public class Game extends HttpServlet
         RequestDispatcher dispatcher = request.getRequestDispatcher( "/WEB-INF/html/game.jsp" );
         getBoard(request);
         dispatcher.forward( request, response );
+    }
+
+    public Boolean legitMove(int curRow, int curCol, int moveRow, int moveCol) {
+    Boolean legit = false;
+
+    if(curRow == moveRow){
+        if((curCol == moveCol + 1) || (curCol == moveCol - 1)) {
+            legit = true;
+        }
+    }
+    else if(curCol == moveCol)
+        {
+            if((curRow == moveRow + 1) || (curRow == moveRow - 1)) {
+                legit = true;
+            }
+        }
+    else {
+        legit = false;
+    }
+    return legit;
     }
 
     public void getBoard(HttpServletRequest request) throws MalformedURLException {
