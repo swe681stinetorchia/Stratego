@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class Game extends HttpServlet
-{
+public class Game extends HttpServlet {
     //in your servlet or other web request handling code
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        BoardDBConnection db = new BoardDBConnection();
         HttpSession session = request.getSession();
         String storedToken = (String) session.getAttribute("csrfToken");
         String token = request.getParameter("token");
@@ -28,6 +28,8 @@ public class Game extends HttpServlet
         int moveCol = 0;
         String cur_piece = "";
         String move_piece = "";
+        String cur_piece_name = "";
+        String move_piece_name = "";
         if (rh.isMoveRegex(input)) {
             //do check
             if (storedToken.equals(token)) {
@@ -37,25 +39,32 @@ public class Game extends HttpServlet
                 moveRow = Integer.parseInt(input.substring(0, 1));
                 moveCol = Integer.parseInt(input.substring(2, 3));
                 cur_piece = "position_" + curRow + "_" + curCol;
-                //is Piece owner
-                if (true) {
-                    //is legitimate move
-                    if (legitMove(curRow, curCol, moveRow, moveCol)) {
-                        System.out.println("Outstanding Move!");
-                        move_piece = "position_" + curRow + "_" + curCol;
-                        
+                cur_piece_name = db.getPieceRank(cur_piece);
+                //Bomb and Flag cant move!
+                if (!(cur_piece_name.equals("Flag") || cur_piece_name.equals("Bomb"))) {
+                    //is Piece owner
+                    if (true) {
+                        //is legitimate move
+                        if (legitMove(curRow, curCol, moveRow, moveCol)) {
+                            System.out.println("Outstanding Move!");
+                            collision();
+                        } else {
+                            System.out.println("Choose a legitimate move silly!");
+                        }
                     } else {
-                        System.out.println("Choose a legitimate move silly!");
+                        System.out.println("Choose a piece that you own silly!");
                     }
                 }
-             else {
-                System.out.println("Choose a piece that you own silly!");
+                    else {
+                    System.out.println("Bomb and Flag Cannot move");
+                }
             }
-        } else {
+         else {
             //DO NOT PROCESS ... this is to be considered a CSRF attack - handle appropriately
             System.out.println("CSRF Check Failed");
         }
     }
+
         else
         {
             System.out.println( "Regex Check failed" );
@@ -90,6 +99,10 @@ public class Game extends HttpServlet
     }
     return legit;
     }
+
+    //need to finish writing out
+    public void collision()
+    {}
 
     public void getBoard(HttpServletRequest request) throws MalformedURLException {
         String col_name;
