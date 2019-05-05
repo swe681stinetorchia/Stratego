@@ -156,6 +156,31 @@ public class UserDBConnection extends StrategoDBConnection {
         }
     }
 
+    public String validateUserName(String username)
+    {
+        String user = "";
+        try {
+            connect = DriverManager
+                    .getConnection(url, username, password);
+
+            preparedStatement = connect
+                    .prepareStatement("select username from stratego.users WHERE username = ?");
+            preparedStatement.setString(1, username);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next())
+            {
+                user = resultSet.getString("username");
+            }
+            connect.close();
+        }
+        catch (SQLException e) {
+            log.fatal(e.getMessage());
+
+        }
+
+        return user;
+    }
+
     public boolean checkPassword(String user, String pass)
     {
         try {

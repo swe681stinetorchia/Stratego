@@ -4,8 +4,8 @@ import org.games.stratego.Services.AntiCSRF;
 import org.games.stratego.Services.SecureHash;
 import org.games.stratego.Services.UserService;
 import org.games.stratego.database.UserDBConnection;
-import org.games.stratego.model.admin.Session;
-
+import org.games.stratego.model.admin.Sessions;
+import org.games.stratego.Services.RegexHelper;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -49,14 +49,22 @@ public class NewUser extends HttpServlet {
         if (param != null) {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
-
-            UserService userService = UserService.getInstance();
-
-            userService.addUser(username, password);
-
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/html/login.jsp");
-            dispatcher.forward(request, response);
+            UserDBConnection db = new UserDBConnection();
+            RegexHelper rx = new RegexHelper();
+            if(rx.isAlphaNumericRegex(username)) {
+                    if (username.equals(db.validateUserName(username))) {
+                    UserService userService = UserService.getInstance();
+                    userService.addUser(username, password);
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/html/login.jsp");
+                    dispatcher.forward(request, response);
+                }
+                else {
+                    System.out.println("Username already taken");
+                }
+                }
+            else {
+            System.out.println("Please enter alpha numeric for username");
+            }
         }
     }
 
