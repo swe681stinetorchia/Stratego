@@ -16,7 +16,6 @@ public class RegexHelper {
     //Move format is currRow:currCol moveRow:move:Col
     public Boolean isMoveRegex (String input)
     {
-        //Regex check for piece:row:col
         String regex = "^([1-9]|10){1}:([1-9]|10){1} ([1-9]|10){1}:([1-9]|10){1}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
