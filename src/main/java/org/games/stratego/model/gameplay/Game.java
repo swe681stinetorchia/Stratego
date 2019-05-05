@@ -15,9 +15,7 @@ public class Game {
     private List<Piece> playerOnePieces;
     private List<Piece> playerTwoPieces;
 
-
-
-
+    
 
     private void instantiateBoard()
     {
