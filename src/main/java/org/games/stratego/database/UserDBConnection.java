@@ -14,39 +14,15 @@ import java.util.UUID;
 
 public class UserDBConnection extends StrategoDBConnection {
 
-    protected Connection connect = null;
-    protected Statement statement = null;
-    protected PreparedStatement preparedStatement = null;
-    protected ResultSet resultSet = null;
-    protected final Logger log = LogManager.getLogger(getClass());
-    protected String url;
-    protected String username;
-    protected String password;
-
-    public UserDBConnection() {
-        try {
-            StrategoGetPropertyValues config = new StrategoGetPropertyValues();
-            url = config.getPropValues("dbURL");
-            username = config.getPropValues("username");
-            password = config.getPropValues("password");
-            // This will load the MySQL driver, each DB has its own driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (Exception e) {
-            log.fatal(e.getMessage());
-        }
-    }
 
     public void addUser(String user, String pass)
     {
 
         try {
-            connect = DriverManager
-                    .getConnection(url, username, password);
-
             log.debug("1 adding " + user + " : " + pass);
 
             preparedStatement = connect
-                    .prepareStatement("insert into stratego.users values(UUID(), ?, ?, TRUE, SYSDATE())");
+                    .prepareStatement("insert into stratego.users (username, password, isActive, dateAdded) values(?, ?, TRUE, SYSDATE())");
             preparedStatement.setString(1, user);
             preparedStatement.setString(2, pass);
             int result = preparedStatement.executeUpdate();
@@ -62,16 +38,14 @@ public class UserDBConnection extends StrategoDBConnection {
             log.fatal(e.getMessage());
         }
     }
-    public Boolean isActiveUser(String userID)
+    public Boolean isActiveUser(int userID)
     {
         Boolean isActive = false;
         try {
-            connect = DriverManager
-                    .getConnection(url, username, password);
 
             preparedStatement = connect
                     .prepareStatement("select isActive from stratego.users WHERE id = ?");
-            preparedStatement.setString(1, userID);
+            preparedStatement.setInt(1, userID);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
             {
@@ -89,8 +63,6 @@ public class UserDBConnection extends StrategoDBConnection {
     {
         List<String> users =  new ArrayList<String>();
         try {
-            connect = DriverManager
-                    .getConnection(url, username, password);
 
             preparedStatement = connect
                     .prepareStatement("select username from stratego.users WHERE isActive = TRUE");
@@ -111,9 +83,6 @@ public class UserDBConnection extends StrategoDBConnection {
     {
         String user ="";
         try {
-            connect = DriverManager
-                    .getConnection(url, username, password);
-
             preparedStatement = connect
                     .prepareStatement("select id from stratego.users WHERE session_id = ?");
             preparedStatement.setString(1, sessionID);
@@ -133,9 +102,6 @@ public class UserDBConnection extends StrategoDBConnection {
     public void setSessionID(String sessionID, String user, String pass)
     {
         try {
-            connect = DriverManager
-                    .getConnection(url, username, password);
-
             preparedStatement = connect
                     .prepareStatement("update stratego.users set session_id = ? WHERE username = ? and password = ?");
             preparedStatement.setString(1, sessionID);
@@ -160,9 +126,6 @@ public class UserDBConnection extends StrategoDBConnection {
     {
         String user = "";
         try {
-            connect = DriverManager
-                    .getConnection(url, username, password);
-
             preparedStatement = connect
                     .prepareStatement("select username from stratego.users WHERE username = ?");
             preparedStatement.setString(1, username);
@@ -184,9 +147,6 @@ public class UserDBConnection extends StrategoDBConnection {
     public boolean checkPassword(String user, String pass)
     {
         try {
-            connect = DriverManager
-                    .getConnection(url, username, password);
-
             preparedStatement = connect
                     .prepareStatement("select password from stratego.users WHERE username = ?");
             preparedStatement.setString(1, user);
