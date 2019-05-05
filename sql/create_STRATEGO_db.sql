@@ -207,6 +207,7 @@ CREATE TABLE stratego.movesHistory (
     user_id int NOT NULL,
     game_id VARCHAR(36) NOT NULL,
 	move VARCHAR(12),
+    dateAdded datetime NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES stratego.users(id),
 	FOREIGN KEY (game_id) REFERENCES stratego.game(id)

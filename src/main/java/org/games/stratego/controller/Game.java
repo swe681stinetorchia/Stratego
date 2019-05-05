@@ -53,7 +53,7 @@ public class Game extends HttpServlet {
                 moveRow = Integer.parseInt(input.substring(0, 1));
                 moveCol = Integer.parseInt(input.substring(2, 3));
                 cur_piece = "position_" + curRow + "_" + curCol;
-                cur_piece_name = db.getPieceRank(cur_piece);
+                cur_piece_name = db.getPieceRank(Integer.parseInt(cur_piece));
                 //Bomb and Flag cant move!
                 if (!(cur_piece_name.equals("Flag") || cur_piece_name.equals("Bomb"))) {
                     //is Piece owner
@@ -136,13 +136,12 @@ public class Game extends HttpServlet {
                 id_name = "sq" + row + col;
                 //Need to bring in game_id
                 BoardDBConnection db = new BoardDBConnection();
-                //piece_id = db.getPiece(col_name, gameID);
-                piece_id = "4bb3493d-6e8b-11e9-b4e5-025041000001";
+                piece_id = db.getPiece(col_name, gameID);
                 ServletContext context = getServletContext(); // Inherited from HttpServlet.
                 //check if the piece is the owner
                 //if(db.getOwner())
                 if (true) {
-                    piece_name = db.getPieceRank(piece_id);
+                    piece_name = db.getPieceRank(Integer.parseInt(piece_id));
                     String picture = "";
                     if (piece_name.equals("Flag")) {
                         //picture = context.getRealPath("/html/images/flag.PNG");
