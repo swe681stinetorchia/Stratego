@@ -1,5 +1,6 @@
 package org.games.stratego.model.gameplay;
 
+import org.games.stratego.model.admin.User;
 import org.games.stratego.model.gameplay.Pieces.Piece;
 
 import java.util.HashMap;
@@ -13,16 +14,23 @@ public class Game {
 
     private Player playerOne;
     private Player playerTwo;
-    private Player winner;
+    private User winner;
+    private User loser;
     private List<Piece> playerOnePieces;
     private List<Piece> playerTwoPieces;
 
-    public Game(Player playerOne, Player playerTwo, Player winner)
+    //New Game
+    public Game(User userOne, User userTwo)
     {
-        this.playerOne = playerOne;
-        this.playerTwo = playerTwo;
-        this.winner = winner;
+        Player p1 = new Player(userOne.getName(), userOne);
+        Player p2 = new Player(userTwo.getName(), userTwo);
+        this.playerOne = p1;
+        this.playerTwo = p2;
         instantiateBoard();
+    }
+    
+    public static Game loadPreviousGame(String gameId)
+    {
 
     }
 
