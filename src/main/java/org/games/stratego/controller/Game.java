@@ -89,6 +89,11 @@ public class Game extends HttpServlet {
     public void doGet( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException
     {
+
+        HttpSession session = request.getSession();
+        String gameId = request.getParameter("gameId");
+        String storedToken = (String) session.getAttribute("csrfToken");
+
         RequestDispatcher dispatcher = request.getRequestDispatcher( "/WEB-INF/html/game.jsp" );
         getBoard(request);
         dispatcher.forward( request, response );
