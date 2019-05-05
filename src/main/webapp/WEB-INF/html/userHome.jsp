@@ -8,12 +8,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>User Home</title>
 </head>
 <body>
 
-    <form method="post" action="${initParam.siteURL}/servlets" class="testlogin">
-		<p><input type="submit" name="testlogin" value="Submit"></p>
+
+	<form method="get" action="${initParam.siteURL}/openGame" class="openGame">
+	    <label>Open existing game.</label>
+		<p>Game Id: <input type="text" name="gameId" value="" style="width:150px"></p>
+		<p><input type="submit" name="openGame" value="Submit"></p>
+	</form>
+
+	<form method="post" action="${initParam.siteURL}/newGame" class="newGame">
+	    <label>Start new game.</label>
+		<p>Opponent: <input type="text" name="opponent" value="" style="width:150px"></p>
+		<p><input type="submit" name="newGame" value="Submit"></p>
 	</form>
 
 </body>

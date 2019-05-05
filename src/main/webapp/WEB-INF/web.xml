@@ -34,6 +34,26 @@
         <url-pattern>/newUser</url-pattern>
     </servlet-mapping>
 
+
+    <servlet>
+        <servlet-name>OpenGame</servlet-name>
+        <servlet-class>org.games.stratego.controller.OpenGame</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NewUser</servlet-name>
+        <url-pattern>/newUser</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>NewUser</servlet-name>
+        <servlet-class>org.games.stratego.controller.NewUser</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NewUser</servlet-name>
+        <url-pattern>/newUser</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>Game</servlet-name>
         <servlet-class>org.games.stratego.controller.Game</servlet-class>

@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 
 import org.games.stratego.Services.SecureHash;
 import org.games.stratego.Services.UserService;
-import org.games.stratego.model.admin.Session;
+import org.games.stratego.model.admin.Sessions;
 
 public class Login extends HttpServlet {
 
@@ -21,28 +21,6 @@ public class Login extends HttpServlet {
     public void doGet( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException
     {
-
-        try {
-            String p = "queen";
-            String h = SecureHash.generateStrongPasswordHash(p);
-            String h1 = SecureHash.generateStrongPasswordHash(p);
-            String h2 = SecureHash.generateStrongPasswordHash(p);
-            String h3 = SecureHash.generateStrongPasswordHash(p);
-
-            System.out.println("Hash for password " + p + ": " + h);
-            System.out.println("Hash for password " + p + ": " + h1);
-            System.out.println("Hash for password " + p + ": " + h2);
-            System.out.println("Hash for password " + p + ": " + h3);
-            System.out.println("compare" + p + " : " + h + ": " + SecureHash.validatePassword(p,h));
-            System.out.println("compare" + p + " : " + h1 + ": " + SecureHash.validatePassword(p,h1));
-            System.out.println("compare" + p + " : " + h2 + ": " + SecureHash.validatePassword(p,h2));
-            System.out.println("compare" + p + " : " + h3 + ": " + SecureHash.validatePassword(p,h3));
-
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
         System.out.println("doGet");
 
         // Create a session
@@ -79,7 +57,7 @@ public class Login extends HttpServlet {
                 //in authentication function
                 String username = request.getParameter("username");
                 String sessionToken = AntiCSRF.generateCSRFToken();
-                Session.addSession(sessionToken, username);
+                Sessions.addSession(sessionToken, username);
                 session.setAttribute("csrfToken", session);
                 RequestDispatcher dispatcher = request.getRequestDispatcher( "/WEB-INF/html/userHome.jsp" );
                 dispatcher.forward( request, response );
@@ -95,37 +73,11 @@ public class Login extends HttpServlet {
                 session.setAttribute( "loginAttempts",
                         new Integer( attempts == null ? 1 : attempts.intValue() + 1 ));
 
-                RequestDispatcher dispatcher = request.getRequestDispatcher( "html/loginError.jsp" );
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/loginError.jsp" );
                 dispatcher.forward( request, response );
                 return;
             }
         }
-
-        /**
-        boolean loggedIn = Boolean.getBoolean( (String) session.getAttribute( "loggedIn" ));
-        if( loggedIn )
-        {
-            param = (String) request.getParameter( "savePart1" );
-            if( param != null )
-            {
-                System.out.println( "Save Part 1" );
-
-                return;
-            }
-
-            param = (String) request.getParameter( "continuePart1" );
-            if( param != null )
-            {
-                System.out.println( "Save Part 1 and Continue" );
-
-                return;
-            }
-        }
-        else
-        {
-            System.out.println( "Not logged in error" );
-            invalidAccess( response );
-        }**/
     }
 
     /**

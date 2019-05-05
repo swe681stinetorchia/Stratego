@@ -3,7 +3,7 @@ package org.games.stratego.model.admin;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Session {
+public class Sessions {
 
     private static Map<String, String> sessions = new HashMap<String, String>();
 
