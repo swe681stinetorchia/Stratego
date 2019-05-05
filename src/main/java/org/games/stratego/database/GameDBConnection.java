@@ -74,6 +74,7 @@ public class GameDBConnection extends StrategoDBConnection{
 
             if (resultSet.next())
             {
+
             }
 
         }

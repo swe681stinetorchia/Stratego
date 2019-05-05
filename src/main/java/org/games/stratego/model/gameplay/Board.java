@@ -1,5 +1,7 @@
 package org.games.stratego.model.gameplay;
 import org.games.stratego.database.BoardDBConnection;
+import org.games.stratego.model.gameplay.Pieces.Piece;
+
 import java.util.*;
 
 import static org.games.stratego.database.BoardDBConnection.*;
@@ -42,5 +44,19 @@ public class Board
         for(int row = 0; row < 10; row++) {
             System.out.print((row + 1) + "\t");
         }*/
+    }
+
+    public void setGameId(String gameId)
+    {
+
+    }
+
+    public Piece getPieceAt(int row, int col)
+    {
+
+    }
+
+    public boolean pieceAt(int row, int col)
+    {
     }
 }
