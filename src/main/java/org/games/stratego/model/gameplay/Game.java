@@ -28,7 +28,7 @@ public class Game {
         this.playerTwo = p2;
         instantiateBoard();
     }
-    
+
     public static Game loadPreviousGame(String gameId)
     {
 
