@@ -14,10 +14,6 @@ public class BoardDBConnection extends StrategoDBConnection {
         String returnVal = "";
 
         try {
-            // Setup the connection with the DB
-            connect = DriverManager
-                    .getConnection(url, username, password);
-
             preparedStatement = connect
                     .prepareStatement("select ? from stratego.board where game_id=?");
             preparedStatement.setString(1, col_name);
@@ -34,7 +30,7 @@ public class BoardDBConnection extends StrategoDBConnection {
         return returnVal;
     }
 
-    public String getPieceRank(String piece_id)
+    public String getPieceRank(int piece_id)
     {
         String returnVal = "";
 
@@ -42,7 +38,7 @@ public class BoardDBConnection extends StrategoDBConnection {
 
             preparedStatement = connect
                     .prepareStatement("select piece from piece_lookup as a join piece as b on a.piece_id = b.piece_id where b.id = ?");
-            preparedStatement.setString(1, piece_id);
+            preparedStatement.setInt(1, piece_id);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -55,7 +51,7 @@ public class BoardDBConnection extends StrategoDBConnection {
         return returnVal;
     }
 
-    public String getOwner(String pieceID)
+    public String getOwner(int pieceID)
     {
         String returnVal = "";
 
@@ -66,7 +62,7 @@ public class BoardDBConnection extends StrategoDBConnection {
 
             preparedStatement = connect
                     .prepareStatement("select owner from stratego.piece where piece_id=?");
-            preparedStatement.setString(1, pieceID);
+            preparedStatement.setInt(1, pieceID);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -101,16 +97,14 @@ public class BoardDBConnection extends StrategoDBConnection {
         }
     }
 
-    public void addPiece(String gameId, String piece)
+
+    public void addPiece(String gameId, int piece)
     {
         try {
-            // Setup the connection with the DB
-            connect = DriverManager
-                    .getConnection(url, username, password);
 
             preparedStatement = connect
                     .prepareStatement("update stratego.board set piece_id = ? where game_id = ?");
-            preparedStatement.setString(1, piece);
+            preparedStatement.setInt(1, piece);
             preparedStatement.setString(2, gameId);
             int result = preparedStatement.executeUpdate();
             connect.close();

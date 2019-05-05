@@ -1,13 +1,14 @@
 CREATE DATABASE 
   IF NOT EXISTS stratego;
-  
+
+DROP TABLE IF EXISTS stratego.movesHistory;
 DROP TABLE IF EXISTS stratego.piece; 
 DROP TABLE IF EXISTS stratego.piece_lookup;
 DROP TABLE IF EXISTS stratego.board; 
 DROP TABLE IF EXISTS stratego.game; 
 DROP TABLE IF EXISTS stratego.player; 
 DROP TABLE IF EXISTS stratego.users; 
-  
+
 CREATE TABLE stratego.users (
     id int NOT NULL auto_increment,
     username VARCHAR(255) NOT NULL,
@@ -28,7 +29,7 @@ CREATE TABLE stratego.player (
 )  ENGINE=INNODB;
 
 CREATE TABLE stratego.game (
-    id int NOT NULL auto_increment,
+    id VARCHAR(36) NOT NULL,
     player_one int NOT NULL,
 	player_two int NOT NULL,
     startTime datetime NOT NULL,
@@ -42,7 +43,7 @@ CREATE TABLE stratego.game (
 
 CREATE TABLE stratego.board (
     id int NOT NULL auto_increment,
-    game_id int NOT NULL,
+    game_id VARCHAR(36) NOT NULL,
 	position_1_1 int NOT NULL,
 	position_1_2 int NOT NULL,
 	position_1_3 int NOT NULL,
@@ -199,5 +200,16 @@ CREATE TABLE stratego.piece (
     PRIMARY KEY (id),
     FOREIGN KEY (piece_id) REFERENCES stratego.piece_lookup(piece_id),
 	FOREIGN KEY (owner) REFERENCES stratego.player(id)
+)  ENGINE=INNODB;
+
+CREATE TABLE stratego.movesHistory (
+    id int NOT NULL auto_increment,
+    user_id int NOT NULL,
+    game_id VARCHAR(36) NOT NULL,
+	move VARCHAR(12),
+    dateAdded datetime NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES stratego.users(id),
+	FOREIGN KEY (game_id) REFERENCES stratego.game(id)
 )  ENGINE=INNODB;
 

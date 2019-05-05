@@ -1,6 +1,23 @@
 package org.games.stratego.controller;
 
-public class UserHome {
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+
+public class UserHome extends HttpServlet {
+
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response )
+            throws ServletException, IOException
+    {
+        System.out.println( "doGet" );
+        RequestDispatcher dispatcher = request.getRequestDispatcher( "/WEB-INF/html/userHome.jsp" );
+        dispatcher.forward( request, response );
+    }
 
     //sudo code
     public void startDefaultGame(String player_one, String player_two)

@@ -11,29 +11,7 @@ import java.util.UUID;
 
 public class GameDBConnection extends StrategoDBConnection{
 
-    protected Connection connect = null;
-    protected Statement statement = null;
-    protected PreparedStatement preparedStatement = null;
-    protected ResultSet resultSet = null;
-    protected final Logger log = LogManager.getLogger(getClass());
-    protected String url;
-    protected String username;
-    protected String password;
-
-    public GameDBConnection() {
-        try {
-            StrategoGetPropertyValues config = new StrategoGetPropertyValues();
-            url = config.getPropValues("dbURL");
-            username = config.getPropValues("username");
-            password = config.getPropValues("password");
-            // This will load the MySQL driver, each DB has its own driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (Exception e) {
-            log.fatal(e.getMessage());
-        }
-    }
-
-    public String addGame(String playerOneID, String playerTwoID)
+    public String addGame(int playerOneID, int playerTwoID)
     {
         try {
             // Setup the connection with the DB
@@ -44,8 +22,10 @@ public class GameDBConnection extends StrategoDBConnection{
             preparedStatement = connect
                     .prepareStatement("insert into stratego.game (id, player_one, player_two, startTime) (?, ?, ?, SYSDATE())");
             preparedStatement.setString(1, uuid);
-            preparedStatement.setString(2, playerOneID);
-            preparedStatement.setString(3, playerTwoID);
+            preparedStatement.setInt(2, playerOneID);
+            preparedStatement.setInt(3, playerTwoID);
+            preparedStatement.setInt(1, playerOneID);
+            preparedStatement.setInt(2, playerTwoID);
             int result = preparedStatement.executeUpdate();
             connect.close();
 
@@ -61,12 +41,10 @@ public class GameDBConnection extends StrategoDBConnection{
         }
     }
 
-    public Game getGame(String gameId)
+    public void getGame(String gameId)
     {
         try
         {
-            connect = DriverManager
-                    .getConnection(url, username, password);
             preparedStatement = connect
                     .prepareStatement("select * from stratego.game where id = ?");
             preparedStatement.setString(1, gameId);
@@ -80,7 +58,6 @@ public class GameDBConnection extends StrategoDBConnection{
         }
         catch (SQLException e) {
             log.fatal(e.getMessage());
-            return null;
         }
 
     }
