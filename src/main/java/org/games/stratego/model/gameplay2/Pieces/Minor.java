@@ -1,6 +1,6 @@
 package org.games.stratego.model.gameplay2.Pieces;
 
-import org.games.stratego.model.gameplay.Player;
+import org.games.stratego.model.gameplay2.Player;
 
 public class Minor extends Piece {
 

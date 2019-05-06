@@ -1,7 +1,7 @@
 package org.games.stratego.model.gameplay2.Pieces;
 
-import org.games.stratego.model.gameplay.FightResult;
-import org.games.stratego.model.gameplay.Player;
+import org.games.stratego.model.gameplay2.FightResult;
+import org.games.stratego.model.gameplay2.Player;
 
 public class Bomb extends Piece {
 

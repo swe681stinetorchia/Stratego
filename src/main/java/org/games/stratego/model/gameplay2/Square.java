@@ -1,7 +1,7 @@
 package org.games.stratego.model.gameplay2;
 
-import org.games.stratego.model.gameplay.Pieces.Piece;
-import org.games.stratego.model.gameplay.Player;
+import org.games.stratego.model.gameplay2.Pieces.Piece;
+import org.games.stratego.model.gameplay2.Player;
 
 public class Square {
 
@@ -16,7 +16,7 @@ public class Square {
         this.column = column;
     }
 
-    public void addPiece(Piece pieceToAdd)
+    protected void addPiece(Piece pieceToAdd)
     {
         if (piece != null)
         {
@@ -39,7 +39,16 @@ public class Square {
         }
     }
 
-    public void removePiece()
+    protected Piece getPiece()
+    {
+        if (piece==null)
+        {
+            return null;
+        }
+        return piece;
+    }
+
+    protected void removePiece()
     {
         if (piece != null)
         {
@@ -49,5 +58,25 @@ public class Square {
             }
             piece.removeFromBoard();
         }
+    }
+
+    public boolean hasPiece()
+    {
+        return (piece!=null);
+    }
+
+    public String readPiece(Player reader)
+    {
+        if (piece==null)
+        {
+            return null;
+        }
+
+        if (reader == piece.getOwner())
+        {
+            return piece.getType();
+        }
+
+        return "A Piece";
     }
 }

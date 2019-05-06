@@ -1,15 +1,15 @@
 package org.games.stratego.model.gameplay2;
 
 import org.games.stratego.model.admin.User;
-import org.games.stratego.model.gameplay.Pieces.Piece;
-import org.games.stratego.model.gameplay.Player;
+import org.games.stratego.model.gameplay2.Pieces.Piece;
+import org.games.stratego.model.gameplay2.Player;
 
 import java.util.List;
 
 public class Game {
 
 
-    String[][] board = new String[10][10];
+    Board board;
 
     private Player playerOne;
     private Player playerTwo;
@@ -17,6 +17,7 @@ public class Game {
     private User loser;
     private List<Piece> playerOnePieces;
     private List<Piece> playerTwoPieces;
+    private boolean gameOver;
 
     //New Game
     public Game(User userOne, User userTwo)
@@ -25,41 +26,53 @@ public class Game {
         Player p2 = new Player(userTwo.getName(), userTwo);
         this.playerOne = p1;
         this.playerTwo = p2;
-        instantiateBoard();
+        board = new Board();
+        gameOver = false;
     }
 
-    public static Game loadPreviousGame(String gameId)
+    /**public static Game loadPreviousGame(String gameId)
     {
 
-    }
+    }**/
 
-    public Game(Player playerOne, Player playerTwo, String[][] board)
+    protected void move(int fromRow, int fromCol, int toRow, int toCol, Player player)
     {
-        this.playerOne = playerOne;
-        this.playerTwo = playerTwo;
-        this.board = board;
-    }
-
-    public Game(Player playerOne, Player playerTwo)
-    {
-        this.playerOne = playerOne;
-        this.playerTwo = playerTwo;
-        this.winner = null;
-        instantiateBoard();
-    }
-
-
-
-    private void instantiateBoard()
-    {
-
-        for (int i = 0; i < 10; i++)
+        if (gameOver)
         {
-            for (int j = 0; j < 10; j++)
+            throw new IllegalArgumentException("This game is over");
+        }
+        FightResult fightResult = board.move(fromRow, fromCol, toRow, toCol);
+
+        if (fightResult == FightResult.CapturedFlag)
+        {
+            if (player==playerOne)
             {
-                board[i][j]="Empty";
+                winner = playerOne.getUser();
+                loser = playerTwo.getUser();
+                gameOver = true;
+            }
+            if (player==playerTwo)
+            {
+                winner = playerTwo.getUser();
+                loser = playerOne.getUser();
+                gameOver = true;
             }
         }
+    }
+
+    public Player getPlayerOne()
+    {
+        return playerOne;
+    }
+
+    public Player getPlayerTwo()
+    {
+        return playerTwo;
+    }
+
+    public Board getBoard()
+    {
+        return board;
     }
 
 }

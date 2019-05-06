@@ -17,4 +17,6 @@ public class Player {
     {
         return name;
     }
+
+    public User getUser() {return user;}
 }
