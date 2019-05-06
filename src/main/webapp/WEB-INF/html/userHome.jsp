@@ -13,13 +13,13 @@
 <body>
 
 
-	<form method="get" action="${initParam.siteURL}/openGame" class="openGame">
+	<form method="get" action="${initParam.siteURL}/game" class="openGame">
 	    <label>Open existing game.</label>
 		<p>Game Id: <input type="text" name="gameId" value="" style="width:150px"></p>
 		<p><input type="submit" name="openGame" value="Submit"></p>
 	</form>
 
-	<form method="post" action="${initParam.siteURL}/newGame" class="newGame">
+	<form method="post" action="${initParam.siteURL}/game" class="newGame">
 	    <label>Start new game.</label>
 		<p>Opponent: <input type="text" name="opponent" value="" style="width:150px"></p>
 		<p><input type="submit" name="newGame" value="Submit"></p>

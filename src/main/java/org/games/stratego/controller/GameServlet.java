@@ -1,9 +1,8 @@
 package org.games.stratego.controller;
 
-import  org.games.stratego.Services.RegexHelper;
+import org.games.stratego.Services.RegexHelper;
 import org.games.stratego.database.BoardDBConnection;
-import java.io.IOException;
-import java.net.MalformedURLException;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -11,8 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.net.MalformedURLException;
 
-public class Game extends HttpServlet {
+public class GameServlet extends HttpServlet {
     //in your servlet or other web request handling code
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -93,6 +94,8 @@ public class Game extends HttpServlet {
         HttpSession session = request.getSession();
         String gameId = request.getParameter("gameId");
         String storedToken = (String) session.getAttribute("csrfToken");
+
+        GameServlet
 
         RequestDispatcher dispatcher = request.getRequestDispatcher( "/WEB-INF/html/game.jsp" );
         getBoard(request);
