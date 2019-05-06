@@ -53,4 +53,34 @@ public class PlayerDBConnection {
             log.fatal(e.getMessage());
         }
     }
+
+    public int getUserId(int playerId)
+    {
+        int userId = -1;
+
+        try
+        {
+            // Setup the connection with the DB
+            connect = DriverManager
+                    .getConnection(url, username, password);
+            preparedStatement = connect
+                    .prepareStatement("select user_id from stratego.game where id = ?");
+            preparedStatement.setInt(1, playerId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+
+            if (resultSet.next())
+            {
+                userId = resultSet.getInt("user_id");
+            }
+            else
+            {
+                throw new IllegalArgumentException("player " + playerId + " does not exist");
+            }
+        }
+        catch (SQLException e) {
+            log.fatal(e.getMessage());
+        }
+        return userId;
+    }
 }

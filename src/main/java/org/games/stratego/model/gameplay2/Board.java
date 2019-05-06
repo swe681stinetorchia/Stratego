@@ -19,7 +19,7 @@ public class Board
     }
 
     //Load preexisting board from db
-    public Board(String gameId)
+    public Board(int gameId)
     {
         String col_name;
         String piece_id;

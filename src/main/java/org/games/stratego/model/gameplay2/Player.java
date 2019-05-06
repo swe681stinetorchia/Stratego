@@ -7,9 +7,9 @@ public class Player {
     private String name;
     private User user;
 
-    public Player(String name, User user)
+    public Player(User user)
     {
-        this.name = name;
+        this.name = user.getName();
         this.user = user;
     }
 

@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.games.stratego.Services.StrategoGetPropertyValues;
 import org.games.stratego.model.gameplay.Game;
+import org.games.stratego.model.gameplay2.Player;
 
 import java.sql.*;
 import java.util.UUID;
@@ -63,28 +64,124 @@ public class GameDBConnection {
         }
     }
 
-    public void getGame(String gameId)
+    public int getLoserId(int gameId)
     {
+        int loserId = -1;
+
         try
         {
             // Setup the connection with the DB
             connect = DriverManager
                     .getConnection(url, username, password);
             preparedStatement = connect
-                    .prepareStatement("select * from stratego.game where id = ?");
-            preparedStatement.setString(1, gameId);
+                    .prepareStatement("select loser from stratego.game where id = ?");
+            preparedStatement.setInt(1, gameId);
             ResultSet resultSet = preparedStatement.executeQuery();
+
 
             if (resultSet.next())
             {
-
+                loserId = resultSet.getInt("loser");
             }
-
+            else
+            {
+                throw new IllegalArgumentException("game " + gameId + " does not exist");
+            }
         }
         catch (SQLException e) {
             log.fatal(e.getMessage());
         }
+        return loserId;
+    }
 
+    public int getWinnerId(int gameId)
+    {
+        int winnerId = -1;
+
+        try
+        {
+            // Setup the connection with the DB
+            connect = DriverManager
+                    .getConnection(url, username, password);
+            preparedStatement = connect
+                    .prepareStatement("select winner from stratego.game where id = ?");
+            preparedStatement.setInt(1, gameId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+
+            if (resultSet.next())
+            {
+                winnerId = resultSet.getInt("winner");
+            }
+            else
+            {
+                throw new IllegalArgumentException("game " + gameId + " does not exist");
+            }
+        }
+        catch (SQLException e) {
+            log.fatal(e.getMessage());
+        }
+        return winnerId;
+    }
+
+    public int getPlayerOneId(int gameId)
+    {
+        int playerOneId = -1;
+
+        try
+        {
+            // Setup the connection with the DB
+            connect = DriverManager
+                    .getConnection(url, username, password);
+            preparedStatement = connect
+                    .prepareStatement("select player_one from stratego.game where id = ?");
+            preparedStatement.setInt(1, gameId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+
+            if (resultSet.next())
+            {
+                playerOneId = resultSet.getInt("player_one");
+            }
+            else
+            {
+                throw new IllegalArgumentException("game " + gameId + " does not exist");
+            }
+        }
+        catch (SQLException e) {
+            log.fatal(e.getMessage());
+        }
+        return playerOneId;
+    }
+
+    public int getPlayerTwoId(int gameId)
+    {
+        int playerTwoId = -1;
+
+        try
+        {
+            // Setup the connection with the DB
+            connect = DriverManager
+                    .getConnection(url, username, password);
+            preparedStatement = connect
+                    .prepareStatement("select player_two from stratego.game where id = ?");
+            preparedStatement.setInt(1, gameId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+
+            if (resultSet.next())
+            {
+                playerTwoId = resultSet.getInt("player_two");
+            }
+            else
+            {
+                throw new IllegalArgumentException("game " + gameId + " does not exist");
+            }
+        }
+        catch (SQLException e) {
+            log.fatal(e.getMessage());
+        }
+        return playerTwoId;
     }
 
 
