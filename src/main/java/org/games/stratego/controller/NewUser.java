@@ -51,15 +51,17 @@ public class NewUser extends HttpServlet {
             String password = request.getParameter("password");
             UserDBConnection db = new UserDBConnection();
             RegexHelper rx = new RegexHelper();
-            if(rx.isAlphaNumericRegex(username)) {
-                    if (username.equals(db.validateUserName(username))) {
+            if(rx.isAlphaNumericRegex(username))
+            {
+                if (username.equals(db.validateUserName(username)))
+                {
+                    System.out.println("Username already taken");
+                }
+                else {
                     UserService userService = UserService.getInstance();
                     userService.addUser(username, password);
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/html/login.jsp");
                     dispatcher.forward(request, response);
-                }
-                else {
-                    System.out.println("Username already taken");
                 }
                 }
             else {

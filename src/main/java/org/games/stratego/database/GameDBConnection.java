@@ -9,7 +9,29 @@ import java.sql.*;
 import java.util.UUID;
 
 
-public class GameDBConnection extends StrategoDBConnection{
+public class GameDBConnection {
+
+    protected Connection connect = null;
+    protected Statement statement = null;
+    protected PreparedStatement preparedStatement = null;
+    protected ResultSet resultSet = null;
+    protected final Logger log = LogManager.getLogger(getClass());
+    protected String url;
+    protected String username;
+    protected String password;
+
+    public GameDBConnection() {
+        try {
+            StrategoGetPropertyValues config = new StrategoGetPropertyValues();
+            url = config.getPropValues("dbURL");
+            username = config.getPropValues("username");
+            password = config.getPropValues("password");
+            // This will load the MySQL driver, each DB has its own driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (Exception e) {
+            log.fatal(e.getMessage());
+        }
+    }
 
     public String addGame(int playerOneID, int playerTwoID)
     {
@@ -45,6 +67,9 @@ public class GameDBConnection extends StrategoDBConnection{
     {
         try
         {
+            // Setup the connection with the DB
+            connect = DriverManager
+                    .getConnection(url, username, password);
             preparedStatement = connect
                     .prepareStatement("select * from stratego.game where id = ?");
             preparedStatement.setString(1, gameId);

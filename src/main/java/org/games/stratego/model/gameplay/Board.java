@@ -51,12 +51,12 @@ public class Board
 
     }
 
-    public Piece getPieceAt(int row, int col)
+    /**public Piece getPieceAt(int row, int col)
     {
 
     }
 
     public boolean pieceAt(int row, int col)
     {
-    }
+    }**/
 }

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.games.stratego.Services.AntiCSRF;
-import org.games.stratego.model.admin.Session;
+import org.games.stratego.model.admin.Sessions;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,7 +26,7 @@ public class TestLogin extends HttpServlet {
 
         String token = (String) session.getAttribute("csrfToken");
 
-        String username = Session.checkSession(token);
+        String username = Sessions.checkSession(token);
 
     }
 }

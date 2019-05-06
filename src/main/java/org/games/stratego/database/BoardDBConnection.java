@@ -6,7 +6,29 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 
-public class BoardDBConnection extends StrategoDBConnection {
+public class BoardDBConnection {
+
+    protected Connection connect = null;
+    protected Statement statement = null;
+    protected PreparedStatement preparedStatement = null;
+    protected ResultSet resultSet = null;
+    protected final Logger log = LogManager.getLogger(getClass());
+    protected String url;
+    protected String username;
+    protected String password;
+
+    public BoardDBConnection() {
+        try {
+            StrategoGetPropertyValues config = new StrategoGetPropertyValues();
+            url = config.getPropValues("dbURL");
+            username = config.getPropValues("username");
+            password = config.getPropValues("password");
+            // This will load the MySQL driver, each DB has its own driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (Exception e) {
+            log.fatal(e.getMessage());
+        }
+    }
 
 
     public String getPiece(String col_name, String game_id)
@@ -14,6 +36,9 @@ public class BoardDBConnection extends StrategoDBConnection {
         String returnVal = "";
 
         try {
+            // Setup the connection with the DB
+            connect = DriverManager
+                    .getConnection(url, username, password);
             preparedStatement = connect
                     .prepareStatement("select ? from stratego.board where game_id=?");
             preparedStatement.setString(1, col_name);
@@ -36,6 +61,9 @@ public class BoardDBConnection extends StrategoDBConnection {
 
         try {
 
+            // Setup the connection with the DB
+            connect = DriverManager
+                    .getConnection(url, username, password);
             preparedStatement = connect
                     .prepareStatement("select piece from piece_lookup as a join piece as b on a.piece_id = b.piece_id where b.id = ?");
             preparedStatement.setInt(1, piece_id);
@@ -102,6 +130,9 @@ public class BoardDBConnection extends StrategoDBConnection {
     {
         try {
 
+            // Setup the connection with the DB
+            connect = DriverManager
+                    .getConnection(url, username, password);
             preparedStatement = connect
                     .prepareStatement("update stratego.board set piece_id = ? where game_id = ?");
             preparedStatement.setInt(1, piece);

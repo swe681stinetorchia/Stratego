@@ -95,8 +95,6 @@ public class GameServlet extends HttpServlet {
         String gameId = request.getParameter("gameId");
         String storedToken = (String) session.getAttribute("csrfToken");
 
-        GameServlet
-
         RequestDispatcher dispatcher = request.getRequestDispatcher( "/WEB-INF/html/game.jsp" );
         getBoard(request);
         dispatcher.forward( request, response );
