@@ -15,12 +15,10 @@ import java.util.UUID;
 public class UserDBConnection extends StrategoDBConnection {
 
 
-    public void addUser(String user, String pass)
+    public int addUser(String user, String pass)
     {
 
         try {
-            log.debug("1 adding " + user + " : " + pass);
-
             preparedStatement = connect
                     .prepareStatement("insert into stratego.users (username, password, isActive, dateAdded) values(?, ?, TRUE, SYSDATE())");
             preparedStatement.setString(1, user);
@@ -32,12 +30,22 @@ public class UserDBConnection extends StrategoDBConnection {
                 log.debug("failed insert");
             }
             connect.close();
+
+            PreparedStatement lastIdStat = connect.prepareCall("SELECT LAST_INSERT_ID()");
+            ResultSet idResSet = lastIdStat.executeQuery();
+            while(idResSet.next())
+            {
+                int id = idResSet.getInt(0);
+                return id;
+            }
         }
         catch (SQLException e) {
             e.printStackTrace();
             log.fatal(e.getMessage());
         }
+        return -1;
     }
+
     public Boolean isActiveUser(int userID)
     {
         Boolean isActive = false;
@@ -59,7 +67,7 @@ public class UserDBConnection extends StrategoDBConnection {
         return isActive;
     }
 
-    public List getActiveUsers()
+    public List<String> getActiveUsers()
     {
         List<String> users =  new ArrayList<String>();
         try {
@@ -69,7 +77,7 @@ public class UserDBConnection extends StrategoDBConnection {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
             {
-                users.add(resultSet.getString("username"));
+                users.add(resultSet.getInt("id") + " : " + resultSet.getString("username"));
             }
             connect.close();
         }
@@ -122,13 +130,13 @@ public class UserDBConnection extends StrategoDBConnection {
         }
     }
 
-    public String validateUserName(String username)
+    public String validateUserName(String usname)
     {
         String user = "";
         try {
             preparedStatement = connect
                     .prepareStatement("select username from stratego.users WHERE username = ?");
-            preparedStatement.setString(1, username);
+            preparedStatement.setString(1, usname);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
             {
@@ -142,6 +150,29 @@ public class UserDBConnection extends StrategoDBConnection {
         }
 
         return user;
+    }
+
+    public String getUserAttributes(int userId)
+    {
+        try {
+            preparedStatement = connect
+                    .prepareStatement("select username from stratego.users WHERE id = ?");
+            preparedStatement.setInt(1, userId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next())
+            {
+                String name = resultSet.getString("username");
+                int id = resultSet.getInt("id");
+
+                return id + ":" + name;
+            }
+            connect.close();
+        }
+        catch (SQLException e) {
+            log.fatal(e.getMessage());
+
+        }
+        throw new RuntimeException("Failed to get user: " + userId);
     }
 
     public boolean checkPassword(String user, String pass)

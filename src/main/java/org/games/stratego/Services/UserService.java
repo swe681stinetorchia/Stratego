@@ -3,6 +3,7 @@ package org.games.stratego.Services;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.games.stratego.database.UserDBConnection;
+import org.games.stratego.model.admin.User;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -30,7 +31,7 @@ public class UserService
         return validation;
     }
     
-    public void addUser( String username, String password )
+    public User addUser(String username, String password )
     {
         try {
             String hash = SecureHash.generateStrongPasswordHash(password);
@@ -39,9 +40,9 @@ public class UserService
 
             System.out.println("1 adding " + username + " : " + hash + " : " +SecureHash.validatePassword(password, hash));
 
-            userDBConnection.addUser(username, hash);
+            int id = userDBConnection.addUser(username, hash);
 
-            System.out.println("Test success: " + validate(username, password));
+            return new User(username, id);
         }
         catch (NoSuchAlgorithmException nsae)
         {
@@ -51,6 +52,7 @@ public class UserService
         {
             ikse.printStackTrace();
         }
+        throw new RuntimeException("Failed to add user.");
     }
     
     public boolean validate( String username, String password )
