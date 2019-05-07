@@ -15,9 +15,7 @@ public class StrategoGetPropertyValues {
         try {
             Properties prop = new Properties();
             String propFileName = "org/games/stratego/config.properties";
-            //PMD Recommended fix
-            inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(propFileName);
-            //inputStream = StrategoGetPropertyValues.class.getClassLoader().getResourceAsStream(propFileName);
+            inputStream = StrategoGetPropertyValues.class.getClassLoader().getResourceAsStream(propFileName);
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
             inputStream = classLoader.getResourceAsStream(propFileName);
             if (inputStream != null) {
