@@ -4,7 +4,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 
 import java.security.SecureRandom;
 
-public class AntiCSRF {
+public final class AntiCSRF {
     // Generate a random string to use as a CSRF token.
     public static String generateCSRFToken() {
         byte[] b = new byte[18];

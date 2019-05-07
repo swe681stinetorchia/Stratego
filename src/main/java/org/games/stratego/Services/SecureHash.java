@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
-public class SecureHash {
+public final class SecureHash {
     public static String generateStrongPasswordHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException
     {
         int iterations = 1000;

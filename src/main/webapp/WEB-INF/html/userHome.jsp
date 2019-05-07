@@ -12,7 +12,8 @@
 </head>
 <body>
 
-
+	<a href="${initParam.siteURL}/logout"> Logout </a>
+	
 	<form method="get" action="${initParam.siteURL}/game" class="openGame">
 	    <label>Open existing game.</label>
 		<p>Game Id: <input type="text" name="gameId" value="" style="width:150px"></p>
