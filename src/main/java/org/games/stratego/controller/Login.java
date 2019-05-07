@@ -68,7 +68,7 @@ public class Login extends HttpServlet {
                 session.setAttribute( "loginAttempts",
                         new Integer( attempts == null ? 1 : attempts.intValue() + 1 ));
 
-                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/loginError.jsp" );
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/loginError.jsp" );
                 dispatcher.forward( request, response );
             }
         }
