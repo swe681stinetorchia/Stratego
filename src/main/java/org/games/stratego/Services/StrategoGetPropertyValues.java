@@ -14,7 +14,8 @@ public class StrategoGetPropertyValues {
 
         try {
             Properties prop = new Properties();
-            String propFileName = "org/games/stratego/config.properties";
+            //String propFileName = "org/games/stratego/config.properties";
+            String propFileName = "config.properties";
             inputStream = StrategoGetPropertyValues.class.getClassLoader().getResourceAsStream(propFileName);
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
             inputStream = classLoader.getResourceAsStream(propFileName);
