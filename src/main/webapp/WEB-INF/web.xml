@@ -57,7 +57,21 @@
     <session-config>
         <session-timeout>15</session-timeout>
     </session-config>
-    
+
+    <!-- Enable HTTPS for java servlets -->
+    <!--
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Servlet4Push</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+
+    </security-constraint> -->
+
    <!-- Set the DefaultServlet to handle static HTML content -->
     <!--
     <servlet>
