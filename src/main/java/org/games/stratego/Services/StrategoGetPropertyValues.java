@@ -7,17 +7,19 @@ import java.util.Properties;
 
 public class StrategoGetPropertyValues {
 
-    String value = "";
+    transient String value = "";
     InputStream inputStream;
 
     public String getPropValues(String key) throws IOException {
 
         try {
             Properties prop = new Properties();
-            String propFileName = "config.properties";
-
-            inputStream = StrategoGetPropertyValues.class.getClassLoader().getResourceAsStream(propFileName);
-
+            String propFileName = "org/games/stratego/config.properties";
+            //PMD Recommended fix
+            inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(propFileName);
+            //inputStream = StrategoGetPropertyValues.class.getClassLoader().getResourceAsStream(propFileName);
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            inputStream = classLoader.getResourceAsStream(propFileName);
             if (inputStream != null) {
                 prop.load(inputStream);
             } else {
