@@ -140,7 +140,7 @@ public class GameServlet extends HttpServlet {
         int gameId = Integer.valueOf(request.getParameter("gameId"));
 
         String storedToken = (String) session.getAttribute("csrfToken");
-        
+
         String sessionUserName = Sessions.checkSession(storedToken);
 
         if (sessionUserName==null)
