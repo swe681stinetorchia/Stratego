@@ -1,4 +1,5 @@
 package org.games.stratego.model.gameplay2;
+
 import org.games.stratego.database.BoardDBConnection;
 import org.games.stratego.model.gameplay2.Pieces.Piece;
 

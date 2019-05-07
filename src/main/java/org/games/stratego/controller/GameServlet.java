@@ -7,14 +7,12 @@ import org.games.stratego.model.admin.User;
 import org.games.stratego.model.gameplay2.Game;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 public class GameServlet extends HttpServlet {
     //in your servlet or other web request handling code
@@ -22,9 +20,23 @@ public class GameServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
-        String storedToken = (String)session.getAttribute("csrfToken");
+        String storedToken;
 
-        String token = request.getParameter("token");
+        try {
+            storedToken = (String) session.getAttribute("csrfToken");
+        }
+        catch (ClassCastException cce)
+        {
+            session.setAttribute( "loggedIn", "false" );
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/loginError.jsp" );
+
+            dispatcher.forward( request, response );
+
+            return;
+        }
+
+            String token = request.getParameter("token");
 
         //do check
         if (storedToken.equals(token)) {
@@ -60,10 +72,29 @@ public class GameServlet extends HttpServlet {
 
             dispatcher.forward( request, response );
 
-            return;
-
         } else {
             //DO NOT PROCESS ... this is to be considered a CSRF attack - handle appropriately
+            session.setAttribute( "loggedIn", "false" );
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/loginError.jsp" );
+
+            dispatcher.forward( request, response );
+        }
+    }
+
+    public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        BoardDBConnection db = new BoardDBConnection();
+
+        HttpSession session = request.getSession();
+
+        String storedToken;
+
+        try {
+            storedToken = (String) session.getAttribute("csrfToken");
+        }
+        catch (ClassCastException cce)
+        {
             session.setAttribute( "loggedIn", "false" );
 
             RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/loginError.jsp" );
@@ -72,12 +103,7 @@ public class GameServlet extends HttpServlet {
 
             return;
         }
-    }
 
-    public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        BoardDBConnection db = new BoardDBConnection();
-        HttpSession session = request.getSession();
-        String storedToken = (String) session.getAttribute("csrfToken");
         String token = request.getParameter("token");
         String input = request.getParameter("move");
         RegexHelper rh = new RegexHelper();
@@ -139,7 +165,21 @@ public class GameServlet extends HttpServlet {
 
         int gameId = Integer.valueOf(request.getParameter("gameId"));
 
-        String storedToken = (String) session.getAttribute("csrfToken");
+        String storedToken;
+
+        try {
+            storedToken = (String) session.getAttribute("csrfToken");
+        }
+        catch (ClassCastException cce)
+        {
+            session.setAttribute( "loggedIn", "false" );
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/loginError.jsp" );
+
+            dispatcher.forward( request, response );
+
+            return;
+        }
 
         String sessionUserName = Sessions.checkSession(storedToken);
 
@@ -164,11 +204,9 @@ public class GameServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/game.jsp" );
 
         dispatcher.forward( request, response );
-
-        return;
     }
 
-    public Boolean legitMove(int curRow, int curCol, int moveRow, int moveCol) {
+    private Boolean legitMove(int curRow, int curCol, int moveRow, int moveCol) {
     Boolean legit = false;
 
     if(curRow == moveRow){
@@ -189,10 +227,10 @@ public class GameServlet extends HttpServlet {
     }
 
     //need to finish writing out
-    public void collision()
+    private void collision()
     {}
 
-    /**
+    /*
     public void getBoard(HttpServletRequest request) throws MalformedURLException {
         String col_name;
         String piece_id;

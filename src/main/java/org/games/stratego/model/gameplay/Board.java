@@ -27,8 +27,8 @@ public class Board
                 col_name ="position_" + row + "_" + col;
                 //Need to bring in game_id
                 BoardDBConnection db = new BoardDBConnection();
-                piece_id = db.getPiece(col_name, gameId);
-                board[row][col] = db.getPiece(col_name, gameId);
+                //piece_id = db.getPiece(col_name, gameId);
+                //board[row][col] = db.getPiece(col_name, gameId);
             }
         }
 

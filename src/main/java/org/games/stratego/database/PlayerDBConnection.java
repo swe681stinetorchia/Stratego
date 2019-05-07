@@ -1,26 +1,23 @@
 package org.games.stratego.database;
+
 import org.games.stratego.Services.StrategoGetPropertyValues;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Date;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
 public class PlayerDBConnection {
 
-    protected Connection connect = null;
-    protected Statement statement = null;
-    protected PreparedStatement preparedStatement = null;
-    protected ResultSet resultSet = null;
-    protected final Logger log = LogManager.getLogger(getClass());
-    protected String url;
-    protected String username;
-    protected String password;
+    private Connection connect = null;
+    private PreparedStatement preparedStatement = null;
+    private final Logger log = LogManager.getLogger(getClass());
+    private String url;
+    private String username;
+    private String password;
 
     public PlayerDBConnection() {
         try {
@@ -35,6 +32,7 @@ public class PlayerDBConnection {
         }
     }
 
+    /*
     public void addPlayer(int userID)
     {
 
@@ -46,13 +44,17 @@ public class PlayerDBConnection {
             preparedStatement = connect
                     .prepareStatement("insert into stratego.player (user_id, lastLogin) VALUES (?, SYSDATE())");
             preparedStatement.setInt(1, userID);
-            resultSet = preparedStatement.executeQuery();
+            int result = preparedStatement.executeUpdate();
             connect.close();
+            if (result != 1)
+            {
+                throw new RuntimeException("Failed to perform update.");
+            }
         }
         catch (SQLException e) {
             log.fatal(e.getMessage());
         }
-    }
+    }*/
 
     public int getUserId(int playerId)
     {

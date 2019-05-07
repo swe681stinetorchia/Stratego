@@ -1,10 +1,7 @@
 package org.games.stratego.controller;
 
-import org.games.stratego.Services.AntiCSRF;
-import org.games.stratego.Services.SecureHash;
 import org.games.stratego.Services.UserService;
 import org.games.stratego.database.UserDBConnection;
-import org.games.stratego.model.admin.Sessions;
 import org.games.stratego.Services.RegexHelper;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,9 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-
 public class NewUser extends HttpServlet {
 
     @Override
@@ -45,7 +39,7 @@ public class NewUser extends HttpServlet {
             return;
         }
 
-        String param = (String) request.getParameter("newUser");
+        String param = request.getParameter("newUser");
         if (param != null) {
             String username = request.getParameter("username");
             String password = request.getParameter("password");

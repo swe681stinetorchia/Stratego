@@ -8,14 +8,13 @@ import java.sql.*;
 
 public class BoardDBConnection {
 
-    protected Connection connect = null;
-    protected Statement statement = null;
-    protected PreparedStatement preparedStatement = null;
-    protected ResultSet resultSet = null;
-    protected final Logger log = LogManager.getLogger(getClass());
-    protected String url;
-    protected String username;
-    protected String password;
+    private Connection connect = null;
+    private PreparedStatement preparedStatement = null;
+    private ResultSet resultSet = null;
+    private final Logger log = LogManager.getLogger(getClass());
+    private String url;
+    private String username;
+    private String password;
 
     public BoardDBConnection() {
         try {

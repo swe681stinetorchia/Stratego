@@ -5,7 +5,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class UserHome extends HttpServlet {
@@ -19,6 +18,7 @@ public class UserHome extends HttpServlet {
         dispatcher.forward( request, response );
     }
 
+    /*
     //sudo code
     public void startDefaultGame(String player_one, String player_two)
     {
@@ -131,5 +131,5 @@ public class UserHome extends HttpServlet {
         board [9][9] = "8";
 
         return board;
-    }
+    }*/
 }

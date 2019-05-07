@@ -5,7 +5,6 @@ import org.games.stratego.database.PlayerDBConnection;
 import org.games.stratego.model.admin.Sessions;
 import org.games.stratego.model.admin.User;
 import org.games.stratego.model.gameplay2.Pieces.Piece;
-import org.games.stratego.model.gameplay2.Player;
 
 import java.util.List;
 

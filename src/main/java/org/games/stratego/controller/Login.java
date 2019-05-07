@@ -1,7 +1,6 @@
 package org.games.stratego.controller;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +10,6 @@ import org.games.stratego.Services.AntiCSRF;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import org.games.stratego.Services.SecureHash;
 import org.games.stratego.Services.UserService;
 import org.games.stratego.model.admin.Sessions;
 
@@ -45,21 +43,20 @@ public class Login extends HttpServlet {
             return;
         }
 
-        String param = (String) request.getParameter( "loginSubmit" );
+        String param = request.getParameter( "loginSubmit" );
         if( param != null )
         {
-            if( UserService.getInstance().validate( (String) request.getParameter( "username" ),
-                    (String) request.getParameter( "password" )))
+            if( UserService.getInstance().validate( request.getParameter( "username" ),
+                     request.getParameter( "password" )))
             {
                 session.setAttribute( "loggedIn", "true" );
                 //in authentication function
                 String username = request.getParameter("username");
                 String sessionToken = AntiCSRF.generateCSRFToken();
                 Sessions.addSession(sessionToken, username);
-                session.setAttribute("csrfToken", session);
+                session.setAttribute("csrfToken", sessionToken);
                 RequestDispatcher dispatcher = request.getRequestDispatcher( "/WEB-INF/html/userHome.jsp" );
                 dispatcher.forward( request, response );
-                return;
             }
             else
             {
@@ -73,12 +70,11 @@ public class Login extends HttpServlet {
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/loginError.jsp" );
                 dispatcher.forward( request, response );
-                return;
             }
         }
     }
 
-    /**
+    /*
     @Override
     public void destroy()
     {

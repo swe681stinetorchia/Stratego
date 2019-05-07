@@ -8,20 +8,15 @@ import org.games.stratego.Services.StrategoGetPropertyValues;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 public class UserDBConnection {
 
-    protected Connection connect = null;
-    protected Statement statement = null;
-    protected PreparedStatement preparedStatement = null;
-    protected ResultSet resultSet = null;
-    protected final Logger log = LogManager.getLogger(getClass());
-    protected String url;
-    protected String username;
-    protected String password;
+    private Connection connect = null;
+    private PreparedStatement preparedStatement = null;
+    private final Logger log = LogManager.getLogger(getClass());
+    private String url;
+    private String username;
+    private String password;
 
     public UserDBConnection() {
         try {
@@ -54,14 +49,16 @@ public class UserDBConnection {
             {
                 log.debug("failed insert");
             }
-            connect.close();
 
             PreparedStatement lastIdStat = connect.prepareCall("SELECT LAST_INSERT_ID()");
+
             ResultSet idResSet = lastIdStat.executeQuery();
-            while(idResSet.next())
+
+            connect.close();
+
+            if(idResSet.next())
             {
-                int id = idResSet.getInt(0);
-                return id;
+                return idResSet.getInt(0);
             }
         }
         catch (SQLException e) {
@@ -71,6 +68,7 @@ public class UserDBConnection {
         return -1;
     }
 
+    /*
     public Boolean isActiveUser(int userID)
     {
         Boolean isActive = false;
@@ -93,8 +91,9 @@ public class UserDBConnection {
             log.fatal(e.getMessage());
         }
         return isActive;
-    }
+    }*/
 
+    /*
     public List<String> getActiveUsers()
     {
         List<String> users =  new ArrayList<String>();
@@ -116,8 +115,9 @@ public class UserDBConnection {
             log.fatal(e.getMessage());
         }
         return users;
-    }
+    }*/
 
+    /*
     public String getID(String sessionID)
     {
         String user ="";
@@ -139,8 +139,9 @@ public class UserDBConnection {
             log.fatal(e.getMessage());
         }
         return user;
-    }
+    }*/
 
+    /*
     public void setSessionID(String sessionID, String user, String pass)
     {
         try {
@@ -165,7 +166,7 @@ public class UserDBConnection {
         catch (SQLException e) {
             log.fatal(e.getMessage());
         }
-    }
+    }*/
 
     public String validateUserName(String usname)
     {
@@ -177,7 +178,7 @@ public class UserDBConnection {
             preparedStatement = connect
                     .prepareStatement("select username from stratego.users WHERE username = ?");
             preparedStatement.setString(1, usname);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
             {
                 user = resultSet.getString("username");
@@ -201,15 +202,15 @@ public class UserDBConnection {
             preparedStatement = connect
                     .prepareStatement("select username from stratego.users WHERE id = ?");
             preparedStatement.setInt(1, userId);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next())
+            ResultSet resultSet = preparedStatement.executeQuery();
+            connect.close();
+            if (resultSet.next())
             {
                 String name = resultSet.getString("username");
                 int id = resultSet.getInt("id");
 
                 return id + ":" + name;
             }
-            connect.close();
         }
         catch (SQLException e) {
             log.fatal(e.getMessage());
@@ -227,15 +228,15 @@ public class UserDBConnection {
             preparedStatement = connect
                     .prepareStatement("select username from stratego.users WHERE username = ?");
             preparedStatement.setString(1, userName);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next())
+            ResultSet resultSet = preparedStatement.executeQuery();
+            connect.close();
+            if (resultSet.next())
             {
                 String name = resultSet.getString("username");
                 int id = resultSet.getInt("id");
 
                 return id + ":" + name;
             }
-            connect.close();
         }
         catch (SQLException e) {
             log.fatal(e.getMessage());
@@ -253,7 +254,7 @@ public class UserDBConnection {
             preparedStatement = connect
                     .prepareStatement("select password from stratego.users WHERE username = ?");
             preparedStatement.setString(1, user);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next())
             {
