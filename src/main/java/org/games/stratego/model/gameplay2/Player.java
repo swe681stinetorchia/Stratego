@@ -1,6 +1,10 @@
 package org.games.stratego.model.gameplay2;
 
 import org.games.stratego.model.admin.User;
+import org.games.stratego.model.gameplay2.Pieces.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
 

@@ -4,8 +4,9 @@ import org.games.stratego.database.GameDBConnection;
 import org.games.stratego.database.PlayerDBConnection;
 import org.games.stratego.model.admin.Sessions;
 import org.games.stratego.model.admin.User;
-import org.games.stratego.model.gameplay2.Pieces.Piece;
+import org.games.stratego.model.gameplay2.Pieces.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
@@ -161,6 +162,140 @@ public class Game {
     public Player getPlayerTwo()
     {
         return playerTwo;
+    }
+
+    public List<Piece> getPlayerPieces(String token)
+    {
+        if (gameOver)
+        {
+            throw new IllegalArgumentException("This game is over");
+        }
+
+        String username = Sessions.checkSession(token);
+
+        Player player = null;
+
+        if (username.equals(playerOne.getName()))
+        {
+            return playerOnePieces;
+        }
+        else if (username.equals(playerOne.getName()))
+        {
+            return playerTwoPieces;
+        }
+        else
+        {
+            return new ArrayList<Piece>();
+        }
+
+
+    }
+
+    private void instaniatePieces()
+    {
+        playerOnePieces = new ArrayList<Piece>();
+
+        Flag flag = new Flag(playerOne);
+        playerOnePieces.add(flag);
+        Spy spy = new Spy(playerOne);
+        playerOnePieces.add(spy);
+        for (int i = 0; i < 8; i++)
+        {
+            Scout scout = new Scout(playerOne);
+            playerOnePieces.add(scout);
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            Minor minor = new Minor(playerOne);
+            playerOnePieces.add(minor);
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            Sergeant sergeant = new Sergeant(playerOne);
+            playerOnePieces.add(sergeant);
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            Lieutenant lieutenant = new Lieutenant(playerOne);
+            playerOnePieces.add(lieutenant);
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            Captain captain = new Captain(playerOne);
+            playerOnePieces.add(captain);
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            Major major = new Major(playerOne);
+            playerOnePieces.add(major);
+        }
+        for (int i = 0; i < 2; i++)
+        {
+            Colonel colonel = new Colonel(playerOne);
+            playerOnePieces.add(colonel);
+        }
+        General general = new General(playerOne);
+        playerOnePieces.add(general);
+        Marshal marshal = new Marshal(playerOne);
+
+        for (int i = 0; i < 6; i++)
+        {
+            Bomb bomb = new Bomb(playerOne);
+            playerOnePieces.add(bomb);
+        }
+
+
+
+        playerTwoPieces = new ArrayList<Piece>();
+
+        Flag flag2 = new Flag(playerTwo);
+        playerTwoPieces.add(flag2);
+        Spy spy2 = new Spy(playerTwo);
+        playerTwoPieces.add(spy2);
+        for (int i = 0; i < 8; i++)
+        {
+            Scout scout = new Scout(playerTwo);
+            playerTwoPieces.add(scout);
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            Minor minor = new Minor(playerTwo);
+            playerTwoPieces.add(minor);
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            Sergeant sergeant = new Sergeant(playerTwo);
+            playerTwoPieces.add(sergeant);
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            Lieutenant lieutenant = new Lieutenant(playerTwo);
+            playerTwoPieces.add(lieutenant);
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            Captain captain = new Captain(playerTwo);
+            playerTwoPieces.add(captain);
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            Major major = new Major(playerTwo);
+            playerTwoPieces.add(major);
+        }
+        for (int i = 0; i < 2; i++)
+        {
+            Colonel colonel = new Colonel(playerTwo);
+            playerTwoPieces.add(colonel);
+        }
+        General general2 = new General(playerTwo);
+        playerTwoPieces.add(general);
+        Marshal marshal2 = new Marshal(playerTwo);
+
+        for (int i = 0; i < 6; i++)
+        {
+            Bomb bomb = new Bomb(playerTwo);
+            playerTwoPieces.add(bomb);
+        }
     }
 
 }
