@@ -45,11 +45,11 @@ public class PlayerDBConnection {
                     .prepareStatement("insert into stratego.player (user_id, lastLogin) VALUES (?, SYSDATE())");
             preparedStatement.setInt(1, userID);
             int result = preparedStatement.executeUpdate();
-            connect.close();
             if (result != 1)
             {
                 throw new RuntimeException("Failed to perform update.");
             }
+            connect.close();
         }
         catch (SQLException e) {
             log.fatal(e.getMessage());
@@ -69,8 +69,6 @@ public class PlayerDBConnection {
                     .prepareStatement("select user_id from stratego.game where id = ?");
             preparedStatement.setInt(1, playerId);
             ResultSet resultSet = preparedStatement.executeQuery();
-
-
             if (resultSet.next())
             {
                 userId = resultSet.getInt("user_id");

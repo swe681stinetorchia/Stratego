@@ -50,13 +50,13 @@ public class Board
 
     protected void addPiece(int row, int col, Piece piece)
     {
-        board[row][col].addPiece(piece);
+        board[row-1][col-1].addPiece(piece);
     }
 
     protected FightResult move(int fromRow, int fromCol, int toRow, int toCol)
     {
-        Square fromSquare = board[fromRow][fromCol];
-        Square toSquare = board[toRow][toCol];
+        Square fromSquare = board[fromRow-1][fromCol-1];
+        Square toSquare = board[toRow-1][toCol-1];
 
         if (!fromSquare.hasPiece())
         {
@@ -134,6 +134,6 @@ public class Board
 
     public Piece getPieceAt(int row, int col)
     {
-        return board[row][col].getPiece();
+        return board[row-1][col-1].getPiece();
     }
 }

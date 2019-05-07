@@ -113,12 +113,13 @@ public class BoardDBConnection {
                     .prepareStatement("insert into stratego.board(game_id) values(?)");
             preparedStatement.setString(1, gameId);
             int result = preparedStatement.executeUpdate();
-            connect.close();
 
             if (result!=1)
             {
+                connect.close();
                 throw new Exception("Failed to execute createBoard for game " + gameId);
             }
+            connect.close();
         } catch (Exception e) {
             log.fatal(e.getMessage());
         }
@@ -137,12 +138,13 @@ public class BoardDBConnection {
             preparedStatement.setInt(1, piece);
             preparedStatement.setString(2, gameId);
             int result = preparedStatement.executeUpdate();
-            connect.close();
 
             if (result!=1)
             {
+                connect.close();
                 throw new Exception("Failed to execute addPiece for game " + gameId);
             }
+            connect.close();
         } catch (Exception e) {
             log.fatal(e.getMessage());
         }

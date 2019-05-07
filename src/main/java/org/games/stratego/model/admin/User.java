@@ -35,6 +35,11 @@ public class User {
 
         String attributeStr = userDBConnection.getUserAttributes(userName);
 
+        if (attributeStr==null)
+        {
+            throw new IllegalArgumentException("User " + userName + " does not exist.");
+        }
+
         String[] attributes = attributeStr.split(":");
 
         int foundId = Integer.valueOf(attributes[0]);

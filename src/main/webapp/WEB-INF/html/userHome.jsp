@@ -11,8 +11,24 @@
     <title>User Home</title>
 </head>
 <body>
+<%
+    String message = "";
+    Object mesObj = session.getAttribute("message");
+    if (mesObj != null)
+    {
+        message = (String) mesObj;
+    }
+%>
 
 	<a href="${initParam.siteURL}/logout"> Logout </a>
+
+	<p>
+	<br>
+	<br>
+	    ${message}
+	<br>
+	<br>
+	<p>
 	
 	<form method="get" action="${initParam.siteURL}/game" class="openGame">
 	    <label>Open existing game.</label>

@@ -27,6 +27,7 @@ public class UserDBConnection {
             // This will load the MySQL driver, each DB has its own driver
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (Exception e) {
+            e.printStackTrace();
             log.fatal(e.getMessage());
         }
     }
@@ -54,12 +55,12 @@ public class UserDBConnection {
 
             ResultSet idResSet = lastIdStat.executeQuery();
 
-            connect.close();
-
             if(idResSet.next())
             {
-                return idResSet.getInt(0);
+                return idResSet.getInt(1);
             }
+
+            connect.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -203,7 +204,6 @@ public class UserDBConnection {
                     .prepareStatement("select username from stratego.users WHERE id = ?");
             preparedStatement.setInt(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            connect.close();
             if (resultSet.next())
             {
                 String name = resultSet.getString("username");
@@ -211,6 +211,7 @@ public class UserDBConnection {
 
                 return id + ":" + name;
             }
+            connect.close();
         }
         catch (SQLException e) {
             log.fatal(e.getMessage());
@@ -226,23 +227,26 @@ public class UserDBConnection {
             connect = DriverManager
                     .getConnection(url, username, password);
             preparedStatement = connect
-                    .prepareStatement("select username from stratego.users WHERE username = ?");
+                    .prepareStatement("select id, username from stratego.users WHERE username = ?");
             preparedStatement.setString(1, userName);
             ResultSet resultSet = preparedStatement.executeQuery();
-            connect.close();
             if (resultSet.next())
             {
                 String name = resultSet.getString("username");
+
                 int id = resultSet.getInt("id");
+
+                connect.close();
 
                 return id + ":" + name;
             }
+            connect.close();
         }
         catch (SQLException e) {
             log.fatal(e.getMessage());
 
         }
-        throw new RuntimeException("Failed to get user: " + userName);
+        return null;
     }
 
     public boolean checkPassword(String user, String pass)

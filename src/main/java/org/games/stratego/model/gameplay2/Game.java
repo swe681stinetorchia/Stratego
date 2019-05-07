@@ -142,7 +142,7 @@ public class Game {
 
         if (piece==null)
         {
-            return "empty";
+            return "blank";
         }
 
         if(player.equals(piece.getOwner()))
@@ -150,7 +150,7 @@ public class Game {
             return piece.getType();
         }
 
-        return "Piece";
+        return "piece";
     }
 
     public Player getPlayerOne()

@@ -4,6 +4,7 @@ import org.games.stratego.Services.RegexHelper;
 import org.games.stratego.database.BoardDBConnection;
 import org.games.stratego.model.admin.Sessions;
 import org.games.stratego.model.admin.User;
+import org.games.stratego.model.gameplay2.BoardView;
 import org.games.stratego.model.gameplay2.Game;
 
 import javax.servlet.RequestDispatcher;
@@ -40,6 +41,57 @@ public class GameServlet extends HttpServlet {
 
             String token = request.getParameter("token");
 
+        //go ahead and process ... do business logic here
+        String sessionUserName = Sessions.checkSession(storedToken);
+
+        if (sessionUserName==null)
+        {
+            System.out.println("sessionUserName: " + sessionUserName);
+            //session token is stale or invalid
+            session.setAttribute( "loggedIn", "false" );
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/loginError.jsp" );
+
+            dispatcher.forward( request, response );
+
+            return;
+        }
+
+        try {
+            User userOne = new User(sessionUserName);
+
+            String userTwoName = request.getParameter("opponent");
+
+            User userTwo = new User(userTwoName);
+
+            Game game = new Game(userOne, userTwo);
+
+            session.setAttribute("csrfToken", storedToken);
+
+            session.setAttribute("game", game);
+
+            BoardView boardView = new BoardView(game, storedToken);
+
+            session.setAttribute("board", boardView);
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+
+            dispatcher.forward( request, response );
+        }
+        catch (IllegalArgumentException iae)
+        {
+            session.setAttribute("csrfToken", storedToken);
+
+            session.setAttribute("message", iae.getMessage());
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/userHome.jsp" );
+
+            dispatcher.forward( request, response );
+        }
+
+
+
+        /*
         //do check
         if (storedToken.equals(token)) {
 
@@ -84,7 +136,7 @@ public class GameServlet extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/loginError.jsp" );
 
             dispatcher.forward( request, response );
-        }
+        }*/
     }
 
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -205,6 +257,10 @@ public class GameServlet extends HttpServlet {
         session.setAttribute("csrfToken", storedToken);
 
         session.setAttribute("game", game);
+
+        BoardView boardView = new BoardView(game, storedToken);
+
+        session.setAttribute("board", boardView);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
 
