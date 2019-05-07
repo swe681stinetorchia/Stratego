@@ -27,9 +27,11 @@ public class GameServlet extends HttpServlet {
         }
         catch (ClassCastException cce)
         {
+            cce.printStackTrace();
+
             session.setAttribute( "loggedIn", "false" );
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/loginError.jsp" );
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/loginError.jsp" );
 
             dispatcher.forward( request, response );
 
@@ -46,10 +48,11 @@ public class GameServlet extends HttpServlet {
 
             if (sessionUserName==null)
             {
+                System.out.println("sessionUserName: " + sessionUserName);
                 //session token is stale or invalid
                 session.setAttribute( "loggedIn", "false" );
 
-                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/loginError.jsp" );
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/loginError.jsp" );
 
                 dispatcher.forward( request, response );
 
@@ -68,15 +71,17 @@ public class GameServlet extends HttpServlet {
 
             session.setAttribute("game", game);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/game.jsp" );
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
 
             dispatcher.forward( request, response );
 
         } else {
+            System.out.println("Stored token: " + storedToken);
+            System.out.println("token: " + token);
             //DO NOT PROCESS ... this is to be considered a CSRF attack - handle appropriately
             session.setAttribute( "loggedIn", "false" );
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/loginError.jsp" );
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/loginError.jsp" );
 
             dispatcher.forward( request, response );
         }
@@ -97,7 +102,7 @@ public class GameServlet extends HttpServlet {
         {
             session.setAttribute( "loggedIn", "false" );
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/loginError.jsp" );
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/loginError.jsp" );
 
             dispatcher.forward( request, response );
 
@@ -174,7 +179,7 @@ public class GameServlet extends HttpServlet {
         {
             session.setAttribute( "loggedIn", "false" );
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/loginError.jsp" );
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/loginError.jsp" );
 
             dispatcher.forward( request, response );
 
@@ -188,7 +193,7 @@ public class GameServlet extends HttpServlet {
             //session token is stale or invalid
             session.setAttribute( "loggedIn", "false" );
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/loginError.jsp" );
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/loginError.jsp" );
 
             dispatcher.forward( request, response );
 
@@ -201,7 +206,7 @@ public class GameServlet extends HttpServlet {
 
         session.setAttribute("game", game);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/game.jsp" );
+        RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
 
         dispatcher.forward( request, response );
     }
