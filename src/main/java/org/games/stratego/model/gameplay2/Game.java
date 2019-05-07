@@ -2,6 +2,7 @@ package org.games.stratego.model.gameplay2;
 
 import org.games.stratego.database.GameDBConnection;
 import org.games.stratego.database.PlayerDBConnection;
+import org.games.stratego.model.admin.Sessions;
 import org.games.stratego.model.admin.User;
 import org.games.stratego.model.gameplay2.Pieces.Piece;
 import org.games.stratego.model.gameplay2.Player;
@@ -71,12 +72,30 @@ public class Game {
         gameOver = false;
     }
 
-    protected void move(int fromRow, int fromCol, int toRow, int toCol, Player player)
+    protected void move(int fromRow, int fromCol, int toRow, int toCol, String token) throws IllegalAccessException
     {
         if (gameOver)
         {
             throw new IllegalArgumentException("This game is over");
         }
+
+        String username = Sessions.checkSession(token);
+
+        Player player = null;
+
+        if (username.equals(playerOne.getName()))
+        {
+            player = playerOne;
+        }
+        else if (username.equals(playerOne.getName()))
+        {
+            player = playerTwo;
+        }
+        else
+        {
+            return;
+        }
+
         FightResult fightResult = board.move(fromRow, fromCol, toRow, toCol);
 
         if (fightResult == FightResult.CapturedFlag)
@@ -96,6 +115,45 @@ public class Game {
         }
     }
 
+    public String getPieceAt(int row, int col, String token)
+    {
+        if (gameOver)
+        {
+            throw new IllegalArgumentException("This game is over");
+        }
+
+        String username = Sessions.checkSession(token);
+
+        Player player = null;
+
+        if (username.equals(playerOne.getName()))
+        {
+            player = playerOne;
+        }
+        else if (username.equals(playerOne.getName()))
+        {
+            player = playerTwo;
+        }
+        else
+        {
+            return "Unauthorized";
+        }
+
+        Piece piece = board.getPieceAt(row, col);
+
+        if (piece==null)
+        {
+            return "empty";
+        }
+
+        if(player.equals(piece.getOwner()))
+        {
+            return piece.getType();
+        }
+
+        return "Piece";
+    }
+
     public Player getPlayerOne()
     {
         return playerOne;
@@ -104,11 +162,6 @@ public class Game {
     public Player getPlayerTwo()
     {
         return playerTwo;
-    }
-
-    public Board getBoard()
-    {
-        return board;
     }
 
 }

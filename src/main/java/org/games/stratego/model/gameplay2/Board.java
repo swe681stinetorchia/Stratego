@@ -125,7 +125,7 @@ public class Board
         }
     }
 
-    /**
+
     public void setGameId(String gameId)
     {
 
@@ -133,10 +133,6 @@ public class Board
 
     public Piece getPieceAt(int row, int col)
     {
-
+        return board[row][col].getPiece();
     }
-
-    public boolean pieceAt(int row, int col)
-    {
-    }**/
 }

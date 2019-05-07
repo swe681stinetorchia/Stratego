@@ -218,6 +218,32 @@ public class UserDBConnection {
         throw new RuntimeException("Failed to get user: " + userId);
     }
 
+    public String getUserAttributes(String userName)
+    {
+        try {
+            // Setup the connection with the DB
+            connect = DriverManager
+                    .getConnection(url, username, password);
+            preparedStatement = connect
+                    .prepareStatement("select username from stratego.users WHERE username = ?");
+            preparedStatement.setString(1, userName);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next())
+            {
+                String name = resultSet.getString("username");
+                int id = resultSet.getInt("id");
+
+                return id + ":" + name;
+            }
+            connect.close();
+        }
+        catch (SQLException e) {
+            log.fatal(e.getMessage());
+
+        }
+        throw new RuntimeException("Failed to get user: " + userName);
+    }
+
     public boolean checkPassword(String user, String pass)
     {
         try {

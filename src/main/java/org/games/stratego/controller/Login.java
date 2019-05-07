@@ -51,8 +51,6 @@ public class Login extends HttpServlet {
             if( UserService.getInstance().validate( (String) request.getParameter( "username" ),
                     (String) request.getParameter( "password" )))
             {
-                System.out.println( "validation success -- dispatch sf86-Part1" );
-
                 session.setAttribute( "loggedIn", "true" );
                 //in authentication function
                 String username = request.getParameter("username");

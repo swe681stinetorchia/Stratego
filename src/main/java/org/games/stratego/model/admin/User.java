@@ -29,6 +29,23 @@ public class User {
         this.name = username;
     }
 
+    public User(String userName)
+    {
+        UserDBConnection userDBConnection = new UserDBConnection();
+
+        String attributeStr = userDBConnection.getUserAttributes(userName);
+
+        String[] attributes = attributeStr.split(":");
+
+        int foundId = Integer.valueOf(attributes[0]);
+
+        String username = attributes[1];
+
+        this.id = foundId;
+
+        this.name = username;
+    }
+
     public String getName()
     {
         return name;

@@ -2,6 +2,9 @@ package org.games.stratego.controller;
 
 import org.games.stratego.Services.RegexHelper;
 import org.games.stratego.database.BoardDBConnection;
+import org.games.stratego.model.admin.Sessions;
+import org.games.stratego.model.admin.User;
+import org.games.stratego.model.gameplay2.Game;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -18,15 +21,56 @@ public class GameServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+
         String storedToken = (String)session.getAttribute("csrfToken");
+
         String token = request.getParameter("token");
+
         //do check
         if (storedToken.equals(token)) {
-            //go ahead and process ... do business logic here
 
+            //go ahead and process ... do business logic here
+            String sessionUserName = Sessions.checkSession(storedToken);
+
+            if (sessionUserName==null)
+            {
+                //session token is stale or invalid
+                session.setAttribute( "loggedIn", "false" );
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/loginError.jsp" );
+
+                dispatcher.forward( request, response );
+
+                return;
+            }
+
+            User userOne = new User(sessionUserName);
+
+            String userTwoName = request.getParameter("opponent");
+
+            User userTwo = new User(userTwoName);
+
+            Game game = new Game(userOne, userTwo);
+
+            session.setAttribute("csrfToken", storedToken);
+
+            session.setAttribute("game", game);
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/game.jsp" );
+
+            dispatcher.forward( request, response );
+
+            return;
 
         } else {
             //DO NOT PROCESS ... this is to be considered a CSRF attack - handle appropriately
+            session.setAttribute( "loggedIn", "false" );
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/loginError.jsp" );
+
+            dispatcher.forward( request, response );
+
+            return;
         }
     }
 
@@ -92,12 +136,36 @@ public class GameServlet extends HttpServlet {
     {
 
         HttpSession session = request.getSession();
-        String gameId = request.getParameter("gameId");
-        String storedToken = (String) session.getAttribute("csrfToken");
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher( "/WEB-INF/html/game.jsp" );
-        getBoard(request);
+        int gameId = Integer.valueOf(request.getParameter("gameId"));
+
+        String storedToken = (String) session.getAttribute("csrfToken");
+        
+        String sessionUserName = Sessions.checkSession(storedToken);
+
+        if (sessionUserName==null)
+        {
+            //session token is stale or invalid
+            session.setAttribute( "loggedIn", "false" );
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/loginError.jsp" );
+
+            dispatcher.forward( request, response );
+
+            return;
+        }
+
+        Game game = new Game(gameId);
+
+        session.setAttribute("csrfToken", storedToken);
+
+        session.setAttribute("game", game);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB_INF/html/game.jsp" );
+
         dispatcher.forward( request, response );
+
+        return;
     }
 
     public Boolean legitMove(int curRow, int curCol, int moveRow, int moveCol) {
@@ -124,12 +192,14 @@ public class GameServlet extends HttpServlet {
     public void collision()
     {}
 
+    /**
     public void getBoard(HttpServletRequest request) throws MalformedURLException {
         String col_name;
         String piece_id;
         String id_name;
         String piece_name;
         String src = "";
+        String token = (String) request.getAttribute("csrfToken");
         String gameID= "97f2c246-6e87-11e9-b4e5-025041000001";
         for (int row = 1; row < 11; row++) {
             for (int col = 1; col < 11; col++) {
@@ -187,63 +257,7 @@ public class GameServlet extends HttpServlet {
                 request.setAttribute(id_name, src);
             }
         }
-    }
+    }**/
 
 
 }
-
-/**@RestController
-@RequestMapping(value="game")
-public class GameController{
-
-    @CrossOrigin
-    @RequestMapping(value="testOne", method = RequestMethod.GET)
-    public String testOne() throws JSONException {
-
-        return "One";
-    }
-
-    @CrossOrigin
-    @RequestMapping(value="testTwo", method = RequestMethod.GET)
-    public String testTwo() throws JSONException {
-
-        return "Two";
-    }
-
-    @CrossOrigin
-    @RequestMapping(value="/testThree/{param}", method = RequestMethod.GET)
-    public String testThree(@PathVariable("param") String parameter) throws JSONException {
-
-        return "Here is the parameter you sent: " + parameter;
-    }
-
-    @CrossOrigin
-    @RequestMapping(value="/testDB/{param}", method = RequestMethod.GET)
-    public String testDB(@PathVariable("param") String parameter) throws JSONException {
-
-        DBConnection dbConnection = new DBConnection(false);
-        return "Here is the DB parameter you sent: " + parameter;
-    }
-
-    @CrossOrigin
-    @RequestMapping(value="/testDBTwo/{param}", method = RequestMethod.GET)
-    public String testDBTwo(@PathVariable("param") String parameter) throws JSONException {
-
-        DBConnection dbConnection = new DBConnection(true);
-        return "Two: Here is the DB parameter you sent: " + parameter;
-    }
-
-    @CrossOrigin
-    @RequestMapping(value="/testDBThree/{param}", method = RequestMethod.GET)
-    public String testDBThree(@PathVariable("param") String parameter) throws JSONException {
-
-        DBConnection dbConnection = new DBConnection(true);
-        String custRet = dbConnection.getCustomers();
-        return custRet + "\nTwo: Here is the DB parameter you sent: " + parameter;
-    }
-
-
-
-
-
-}**/

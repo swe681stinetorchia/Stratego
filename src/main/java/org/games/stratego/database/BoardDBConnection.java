@@ -31,7 +31,7 @@ public class BoardDBConnection {
     }
 
 
-    public String getPiece(String col_name, String game_id)
+    public String getPiece(String col_name, int game_id)
     {
         String returnVal = "";
 
@@ -42,7 +42,7 @@ public class BoardDBConnection {
             preparedStatement = connect
                     .prepareStatement("select ? from stratego.board where game_id=?");
             preparedStatement.setString(1, col_name);
-            preparedStatement.setString(2, game_id);
+            preparedStatement.setInt(2, game_id);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
