@@ -55,6 +55,7 @@ public class Login extends HttpServlet {
                 String sessionToken = AntiCSRF.generateCSRFToken();
                 Sessions.addSession(sessionToken, username);
                 session.setAttribute("csrfToken", sessionToken);
+                session.setAttribute("username", username);
                 RequestDispatcher dispatcher = request.getRequestDispatcher( "/WEB-INF/html/userHome.jsp" );
                 dispatcher.forward( request, response );
             }

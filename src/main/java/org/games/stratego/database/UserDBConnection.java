@@ -8,6 +8,8 @@ import org.games.stratego.Services.StrategoGetPropertyValues;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDBConnection {
 
@@ -94,21 +96,24 @@ public class UserDBConnection {
         return isActive;
     }*/
 
-    /*
-    public List<String> getActiveUsers()
+
+    public List<String> getOpponent(String username)
     {
         List<String> users =  new ArrayList<String>();
+        String user;
         try {
             // Setup the connection with the DB
             connect = DriverManager
                     .getConnection(url, username, password);
 
             preparedStatement = connect
-                    .prepareStatement("select username from stratego.users WHERE isActive = TRUE");
-            resultSet = preparedStatement.executeQuery();
+                    .prepareStatement("select username from stratego.users");
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
             {
-                users.add(resultSet.getInt("id") + " : " + resultSet.getString("username"));
+                user = resultSet.getString("username");
+                if(!user.equals(username))
+                users.add(resultSet.getString("username"));
             }
             connect.close();
         }
@@ -116,7 +121,7 @@ public class UserDBConnection {
             log.fatal(e.getMessage());
         }
         return users;
-    }*/
+    }
 
     /*
     public String getID(String sessionID)

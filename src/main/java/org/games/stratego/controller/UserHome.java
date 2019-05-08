@@ -1,11 +1,18 @@
 package org.games.stratego.controller;
 
+import org.games.stratego.database.UserDBConnection;
+import org.games.stratego.model.admin.Sessions;
+import org.games.stratego.model.gameplay2.Player;
+import org.games.stratego.database.UserDBConnection;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserHome extends HttpServlet {
 
@@ -13,9 +20,20 @@ public class UserHome extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException
     {
+        HttpSession session = request.getSession(true);
         System.out.println( "doGet" );
         RequestDispatcher dispatcher = request.getRequestDispatcher( "/WEB-INF/html/userHome.jsp" );
         dispatcher.forward( request, response );
+        String username = "";
+
+        try {
+            username = (String) session.getAttribute("username");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        UserDBConnection db = new UserDBConnection();
+        List<String> listPlayers = db.getOpponent(username);
+        request.setAttribute("listPlayers", listPlayers);
     }
 
     /*
