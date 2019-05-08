@@ -105,7 +105,9 @@ public class UserDBConnection {
                     .getConnection(url, username, password);
 
             preparedStatement = connect
-                    .prepareStatement("Select move from stratego.moveshistory join stratego.game on user_id where user_id =? and winner IS NOT NULL order by dateAdded desc");
+                    .prepareStatement("Select m.move from stratego.moveshistory m join (select g.id, u.username, g.winner from stratego.game g join stratego.users u on g.id = u.id) " +
+                            "gu where gu.username =? and gu.winner IS NOT NULL order by m.dateAdded desc");
+            preparedStatement.setString(1, username);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
             {
