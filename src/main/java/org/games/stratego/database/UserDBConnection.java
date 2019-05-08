@@ -96,6 +96,29 @@ public class UserDBConnection {
         return isActive;
     }*/
 
+    public List<String> getMoves(String username)
+    {
+        List<String> moves =  new ArrayList<String>();
+        try {
+            // Setup the connection with the DB
+            connect = DriverManager
+                    .getConnection(url, username, password);
+
+            preparedStatement = connect
+                    .prepareStatement("Select move from stratego.moveshistory join stratego.game on user_id where user_id =? and winner IS NOT NULL order by dateAdded desc");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next())
+            {
+                    moves.add(resultSet.getString("username"));
+            }
+            connect.close();
+        }
+        catch (SQLException e) {
+            log.fatal(e.getMessage());
+        }
+        return moves;
+    }
+
 
     public List<String> getOpponent(String username)
     {
@@ -113,7 +136,7 @@ public class UserDBConnection {
             {
                 user = resultSet.getString("username");
                 if(!user.equals(username))
-                users.add(resultSet.getString("username"));
+                users.add(username);
             }
             connect.close();
         }
