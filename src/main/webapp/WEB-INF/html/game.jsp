@@ -86,5 +86,11 @@
 			<p>To Column: <input type="text" name="toColumn" value="" style="width:150px"></p>
 			<p><input type="submit" name="modGame" value="Submit"></p>
 		</form>
+
+        <p>Available Pieces</p>
+		<c:forEach var='availablePiece' items='${sessionScope.board.availablePieces}'>
+            <c:out value="${availablePiece}"/>
+            <br>
+        </c:forEach>
 </body>
 </html>
