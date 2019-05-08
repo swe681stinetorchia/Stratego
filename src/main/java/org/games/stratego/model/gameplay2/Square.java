@@ -78,6 +78,7 @@ public class Square {
             }
             piece.removeFromBoard();
         }
+        piece = null;
     }
 
     public boolean hasPiece()

@@ -64,6 +64,19 @@ public class Board
         piece.addToBoard();
     }
 
+    protected void removePiece(int row, int col)
+    {
+        if(board[row-1][col-1].hasPiece())
+        {
+            board[row-1][col-1].removePiece();
+        }
+    }
+
+    protected boolean hasPiece(int row, int col)
+    {
+        return board[row-1][col-1].hasPiece();
+    }
+
     protected FightResult move(int fromRow, int fromCol, int toRow, int toCol)
     {
         Square fromSquare = board[fromRow-1][fromCol-1];

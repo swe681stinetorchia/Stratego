@@ -110,6 +110,7 @@ public class BoardView {
     private String sq1010 = "empty";
 
     private List<String> availablePieces;
+    private int piecesLength;
 
     public BoardView(Game game, String token)
     {
@@ -218,8 +219,10 @@ public class BoardView {
 
         List<Piece> pieces = game.getAvailablePlayerPieces(token);
 
+        piecesLength = 0;
         for (Piece piece : pieces)
         {
+            piecesLength++;
             availablePieces.add(piece.getType());
         }
     }
@@ -228,6 +231,12 @@ public class BoardView {
     {
         return availablePieces;
     }
+
+    public int getPiecesLength()
+    {
+        return piecesLength;
+    }
+
 
     public String getSq11()
     {

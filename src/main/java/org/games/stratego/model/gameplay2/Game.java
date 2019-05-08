@@ -197,26 +197,27 @@ public class Game {
 
         String username = Sessions.checkSession(token);
 
-        System.out.println("a");
         if (username.equals(playerOne.getName()))
         {
-            System.out.println("b");
             for (Piece pieceToTry : playerOnePieces)
             {
-                System.out.println("c");
-                System.out.println("Compare " + pieceType + " to " + pieceToTry.getType());
                 if(pieceType.equals(pieceToTry.getType()))
                 {
-                    System.out.println("d");
                     if(pieceToTry.isOnBoard())
                     {
-                        System.out.println("e");
                         continue;
                     }
-                    System.out.println("f");
+
+                    if (board.hasPiece(row, col))
+                    {
+                        playerOnePieces.add(board.getPieceAt(row, col));
+                        board.removePiece(row, col);
+                    }
+
                     board.addPiece(row, col, pieceToTry);
+
                     playerOnePieces.remove(pieceToTry);
-                    System.out.println("g");
+
                     return;
                 }
             }
@@ -231,6 +232,13 @@ public class Game {
                     {
                         continue;
                     }
+
+                    if (board.hasPiece(row, col))
+                    {
+                        playerTwoPieces.add(board.getPieceAt(row, col));
+                        board.removePiece(row, col);
+                    }
+
                     board.addPiece(row, col, pieceToTry);
                     playerTwoPieces.remove(pieceToTry);
                     return;
