@@ -2,6 +2,7 @@ package org.games.stratego.controller;
 
 import org.games.stratego.Services.RegexHelper;
 import org.games.stratego.database.BoardDBConnection;
+import org.games.stratego.model.admin.GameCache;
 import org.games.stratego.model.admin.Sessions;
 import org.games.stratego.model.admin.User;
 import org.games.stratego.model.gameplay2.BoardView;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.UUID;
 
 public class GameServlet extends HttpServlet {
     //in your servlet or other web request handling code
@@ -39,7 +41,7 @@ public class GameServlet extends HttpServlet {
             return;
         }
 
-            String token = request.getParameter("token");
+        String token = request.getParameter("token");
 
         //go ahead and process ... do business logic here
         String sessionUserName = Sessions.checkSession(storedToken);
@@ -66,9 +68,15 @@ public class GameServlet extends HttpServlet {
 
             Game game = new Game(userOne, userTwo);
 
+            String uuid = UUID.randomUUID().toString();
+
+            GameCache.addGame(uuid, game);
+
             session.setAttribute("csrfToken", storedToken);
 
             session.setAttribute("game", game);
+
+            session.setAttribute("gameId", game);
 
             BoardView boardView = new BoardView(game, storedToken);
 
@@ -88,57 +96,9 @@ public class GameServlet extends HttpServlet {
 
             dispatcher.forward( request, response );
         }
-
-
-
-        /*
-        //do check
-        if (storedToken.equals(token)) {
-
-            //go ahead and process ... do business logic here
-            String sessionUserName = Sessions.checkSession(storedToken);
-
-            if (sessionUserName==null)
-            {
-                System.out.println("sessionUserName: " + sessionUserName);
-                //session token is stale or invalid
-                session.setAttribute( "loggedIn", "false" );
-
-                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/loginError.jsp" );
-
-                dispatcher.forward( request, response );
-
-                return;
-            }
-
-            User userOne = new User(sessionUserName);
-
-            String userTwoName = request.getParameter("opponent");
-
-            User userTwo = new User(userTwoName);
-
-            Game game = new Game(userOne, userTwo);
-
-            session.setAttribute("csrfToken", storedToken);
-
-            session.setAttribute("game", game);
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
-
-            dispatcher.forward( request, response );
-
-        } else {
-            System.out.println("Stored token: " + storedToken);
-            System.out.println("token: " + token);
-            //DO NOT PROCESS ... this is to be considered a CSRF attack - handle appropriately
-            session.setAttribute( "loggedIn", "false" );
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/loginError.jsp" );
-
-            dispatcher.forward( request, response );
-        }*/
     }
 
+    /*
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         BoardDBConnection db = new BoardDBConnection();
@@ -211,6 +171,161 @@ public class GameServlet extends HttpServlet {
         {
             System.out.println( "Regex Check failed" );
         }
+    }*/
+
+    public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+
+        HttpSession session = request.getSession();
+
+        String storedToken;
+
+        try {
+            storedToken = (String) session.getAttribute("csrfToken");
+        }
+        catch (ClassCastException cce)
+        {
+            cce.printStackTrace();
+
+            session.setAttribute( "loggedIn", "false" );
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/loginError.jsp" );
+
+            dispatcher.forward( request, response );
+
+            return;
+        }
+
+        String token = request.getParameter("token");
+
+        //go ahead and process ... do business logic here
+        String sessionUserName = Sessions.checkSession(storedToken);
+
+        if (sessionUserName==null)
+        {
+            System.out.println("sessionUserName: " + sessionUserName);
+            //session token is stale or invalid
+            session.setAttribute( "loggedIn", "false" );
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/loginError.jsp" );
+
+            dispatcher.forward( request, response );
+
+            return;
+        }
+
+
+        String pieceType = request.getParameter("pieceType");
+
+        if (pieceType==null)
+        {
+            //No pieceType. This is not a add piece request.
+            String fromRow = request.getParameter("fromRow");
+            String fromColumn = request.getParameter("fromColumn");
+            String toRow = request.getParameter("toRow");
+            String toColumn = request.getParameter("toColumn");
+            if (fromRow == null || fromColumn == null || toRow == null || toColumn == null)
+            {
+                //Not a meaningful request.
+                return;
+            }
+
+            Game game = null;
+
+            String gameId = (String) session.getAttribute("gameId");
+
+            try {
+                game = GameCache.getGame(gameId);
+            }
+            catch(IllegalArgumentException iae)
+            {
+                session.setAttribute( "message", "game is stale" );
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+
+                dispatcher.forward( request, response );
+
+                return;
+            }
+            int fr = Integer.valueOf(fromRow);
+            int fc = Integer.valueOf(fromColumn);
+            int tr = Integer.valueOf(toRow);
+            int tc = Integer.valueOf(toColumn);
+
+            try
+            {
+                game.move(fr, fc, tr, tc, storedToken);
+            }
+            catch(IllegalAccessException iae)
+            {
+
+            }
+
+            GameCache.addGame(gameId, game);
+
+            session.setAttribute("csrfToken", storedToken);
+
+            session.setAttribute("game", game);
+
+            session.setAttribute("gameId", game);
+
+            BoardView boardView = new BoardView(game, storedToken);
+
+            session.setAttribute("board", boardView);
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+
+            dispatcher.forward( request, response );
+        }
+        else
+        {
+            String row = request.getParameter("row");
+            String column = request.getParameter("column");
+            if (row == null || column == null)
+            {
+                //Not a meaningful request.
+                return;
+            }
+            Game game = null;
+
+            String gameId = (String) session.getAttribute("gameId");
+
+            try {
+                game = GameCache.getGame(gameId);
+            }
+            catch(IllegalArgumentException iae)
+            {
+                session.setAttribute( "message", "game is stale" );
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+
+                dispatcher.forward( request, response );
+
+                return;
+            }
+            int r = Integer.valueOf(row);
+            int c = Integer.valueOf(column);
+
+            game.addPiece(r, c, pieceType, storedToken);
+
+            GameCache.addGame(gameId, game);
+
+            session.setAttribute("csrfToken", storedToken);
+
+            session.setAttribute("game", game);
+
+            session.setAttribute("gameId", game);
+
+            BoardView boardView = new BoardView(game, storedToken);
+
+            session.setAttribute("board", boardView);
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+
+            dispatcher.forward( request, response );
+
+        }
+
     }
 
     @Override

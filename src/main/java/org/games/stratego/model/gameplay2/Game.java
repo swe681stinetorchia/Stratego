@@ -72,7 +72,7 @@ public class Game {
         gameOver = false;
     }
 
-    protected void move(int fromRow, int fromCol, int toRow, int toCol, String token) throws IllegalAccessException
+    public void move(int fromRow, int fromCol, int toRow, int toCol, String token) throws IllegalAccessException
     {
         if (gameOver)
         {
@@ -164,7 +164,7 @@ public class Game {
         return playerTwo;
     }
 
-    public List<Piece> getPlayerPieces(String token)
+    public List<Piece> getAvailablePlayerPieces(String token)
     {
         if (gameOver)
         {
@@ -172,8 +172,6 @@ public class Game {
         }
 
         String username = Sessions.checkSession(token);
-
-        Player player = null;
 
         if (username.equals(playerOne.getName()))
         {
@@ -187,8 +185,53 @@ public class Game {
         {
             return new ArrayList<Piece>();
         }
+    }
 
+    public void addPiece(int row, int col, String pieceType, String token)
+    {
+        if (gameOver)
+        {
+            throw new IllegalArgumentException("This game is over");
+        }
 
+        String username = Sessions.checkSession(token);
+
+        if (username.equals(playerOne.getName()))
+        {
+            for (Piece pieceToTry : playerOnePieces)
+            {
+                if(pieceType.equals(pieceToTry.getType()))
+                {
+                    if(pieceToTry.isOnBoard())
+                    {
+                        continue;
+                    }
+                    board.addPiece(row, col, pieceToTry);
+                    playerOnePieces.remove(pieceToTry);
+                    return;
+                }
+            }
+        }
+        else if (username.equals(playerTwo.getName()))
+        {
+            for (Piece pieceToTry : playerTwoPieces)
+            {
+                if(pieceType.equals(pieceToTry.getType()))
+                {
+                    if(pieceToTry.isOnBoard())
+                    {
+                        continue;
+                    }
+                    board.addPiece(row, col, pieceToTry);
+                    playerTwoPieces.remove(pieceToTry);
+                    return;
+                }
+            }
+        }
+        else
+        {
+            return;
+        }
     }
 
     private void instaniatePieces()
@@ -297,5 +340,7 @@ public class Game {
             playerTwoPieces.add(bomb);
         }
     }
+
+
 
 }

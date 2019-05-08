@@ -51,6 +51,7 @@ public class Board
     protected void addPiece(int row, int col, Piece piece)
     {
         board[row-1][col-1].addPiece(piece);
+        piece.addToBoard();
     }
 
     protected FightResult move(int fromRow, int fromCol, int toRow, int toCol)

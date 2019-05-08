@@ -28,4 +28,9 @@ public class Sessions {
 
         sessions.put(token, username);
     }
+
+    public static void removeSession(String token)
+    {
+        sessions.remove(token);
+    }
 }

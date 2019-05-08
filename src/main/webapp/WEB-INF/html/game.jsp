@@ -69,5 +69,22 @@
     <input id="move" type="text"/>
     <input type = "submit" value = "Submit" />
 </form>
+
+        <form method="put" action="${initParam.siteURL}/game" class="game">
+	        <label>Add Piece</label>
+			<p>Piece Type: <input type="text" name="pieceType" value="" style="width:150px"></p>
+			<p>Row: <input type="text" name="row" value="" style="width:150px"></p>
+			<p>Column: <input type="text" name="column" value="" style="width:150px"></p>
+			<p><input type="submit" name="modGame" value="Submit"></p>
+		</form>
+
+        <form method="put" action="${initParam.siteURL}/game" class="game">
+	        <label>Move Piece</label>
+			<p>From Row: <input type="text" name="fromRow" value="" style="width:150px"></p>
+			<p>From Column: <input type="text" name="fromXolumn" value="" style="width:150px"></p>
+			<p>To Row: <input type="text" name="toRow" value="" style="width:150px"></p>
+			<p>To Column: <input type="text" name="toColumn" value="" style="width:150px"></p>
+			<p><input type="submit" name="modGame" value="Submit"></p>
+		</form>
 </body>
 </html>
