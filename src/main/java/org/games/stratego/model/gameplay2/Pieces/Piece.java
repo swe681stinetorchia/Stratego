@@ -50,7 +50,7 @@ public class Piece {
     {
         if (isDead) throw new IllegalStateException("This piece is dead.");
 
-        return name;
+        return "Piece";
     }
 
     public void kill()

@@ -46,4 +46,12 @@ public class Bomb extends Piece {
 
         return FightResult.DefenderVictory;
     }
+
+    @Override
+    public String getType()
+    {
+        if (isDead) throw new IllegalStateException("This piece is dead.");
+
+        return "bomb";
+    }
 }

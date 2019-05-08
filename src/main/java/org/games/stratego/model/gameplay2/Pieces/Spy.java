@@ -11,5 +11,14 @@ public class Spy extends Piece {
     public Spy(Player owner)
     {
         this.owner = owner;
+        this.name = "spy";
+    }
+
+    @Override
+    public String getType()
+    {
+        if (isDead) throw new IllegalStateException("This piece is dead.");
+
+        return "spy";
     }
 }

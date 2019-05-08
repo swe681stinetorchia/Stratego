@@ -268,7 +268,28 @@ public class GameServlet extends HttpServlet {
             {
                 game.move(fr, fc, tr, tc, storedToken);
             }
-            catch(IllegalAccessException iae)
+            catch(IllegalArgumentException iae)
+            {
+
+                GameCache.addGame(gameId, game);
+
+                session.setAttribute("csrfToken", storedToken);
+
+                session.setAttribute("game", game);
+
+                session.setAttribute("gameId", game);
+
+                BoardView boardView = new BoardView(game, storedToken);
+
+                session.setAttribute("board", boardView);
+
+                request.setAttribute("message", "Invalid move.");
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+
+                dispatcher.forward( request, response );
+            }
+            catch(IllegalAccessException iae2)
             {
 
             }
@@ -318,7 +339,34 @@ public class GameServlet extends HttpServlet {
             int r = Integer.valueOf(row);
             int c = Integer.valueOf(column);
 
-            game.addPiece(r, c, pieceType, storedToken);
+            System.out.println("Before: Piece at (" + r + ", " + c + "): " + game.getPieceAt(r, c, storedToken) );
+
+            try {
+                game.addPiece(r, c, pieceType, storedToken);
+            }
+            catch(IllegalArgumentException iae)
+            {
+                GameCache.addGame(gameId, game);
+
+                session.setAttribute("csrfToken", storedToken);
+
+                session.setAttribute("game", game);
+
+                session.setAttribute("gameId", gameId);
+
+                request.setAttribute("message", "Invalid Add");
+
+                BoardView boardView = new BoardView(game, storedToken);
+
+                session.setAttribute("board", boardView);
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+
+                dispatcher.forward( request, response );
+
+            }
+
+            System.out.println("After: Piece at (" + r + ", " + c + "): " + game.getPieceAt(r, c, storedToken) );
 
             GameCache.addGame(gameId, game);
 
@@ -326,7 +374,7 @@ public class GameServlet extends HttpServlet {
 
             session.setAttribute("game", game);
 
-            session.setAttribute("gameId", game);
+            session.setAttribute("gameId", gameId);
 
             BoardView boardView = new BoardView(game, storedToken);
 

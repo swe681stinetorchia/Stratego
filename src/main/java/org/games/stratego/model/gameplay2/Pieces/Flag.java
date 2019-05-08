@@ -41,4 +41,13 @@ public class Flag extends Piece {
 
         return FightResult.CapturedFlag;
     }
+
+
+    @Override
+    public String getType()
+    {
+        if (isDead) throw new IllegalStateException("This piece is dead.");
+
+        return "flag";
+    }
 }

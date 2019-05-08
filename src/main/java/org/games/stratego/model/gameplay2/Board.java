@@ -9,11 +9,19 @@ public class Board
     Square[][] board = new Square[10][10];
 
     //Instantiate new board and add to db
-    public Board()
+    public Board(Player playerOne, Player playerTwo)
     {
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[row].length; col++) {
                 Square square = new Square(row, col);
+                if (row>5)
+                {
+                    square.setOwner(playerOne);
+                }
+                else if(row<4)
+                {
+                    square.setOwner(playerTwo);
+                }
                 board[row][col] = square;
             }
         }
@@ -50,7 +58,9 @@ public class Board
 
     protected void addPiece(int row, int col, Piece piece)
     {
+        System.out.println("h: " + board[row-1][col-1].getPiece());
         board[row-1][col-1].addPiece(piece);
+        System.out.println("i: " + board[row-1][col-1].getPiece());
         piece.addToBoard();
     }
 

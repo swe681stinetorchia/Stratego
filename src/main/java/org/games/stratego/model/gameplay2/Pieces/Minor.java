@@ -12,4 +12,13 @@ public class Minor extends Piece {
     {
         this.owner = owner;
     }
+
+
+    @Override
+    public String getType()
+    {
+        if (isDead) throw new IllegalStateException("This piece is dead.");
+
+        return "minor";
+    }
 }

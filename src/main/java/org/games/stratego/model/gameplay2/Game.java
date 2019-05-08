@@ -29,7 +29,7 @@ public class Game {
         Player p2 = new Player(userTwo);
         this.playerOne = p1;
         this.playerTwo = p2;
-        board = new Board();
+        board = new Board(playerOne, playerTwo);
         instantiatePieces();
         gameOver = false;
     }
@@ -197,18 +197,26 @@ public class Game {
 
         String username = Sessions.checkSession(token);
 
+        System.out.println("a");
         if (username.equals(playerOne.getName()))
         {
+            System.out.println("b");
             for (Piece pieceToTry : playerOnePieces)
             {
+                System.out.println("c");
+                System.out.println("Compare " + pieceType + " to " + pieceToTry.getType());
                 if(pieceType.equals(pieceToTry.getType()))
                 {
+                    System.out.println("d");
                     if(pieceToTry.isOnBoard())
                     {
+                        System.out.println("e");
                         continue;
                     }
+                    System.out.println("f");
                     board.addPiece(row, col, pieceToTry);
                     playerOnePieces.remove(pieceToTry);
+                    System.out.println("g");
                     return;
                 }
             }

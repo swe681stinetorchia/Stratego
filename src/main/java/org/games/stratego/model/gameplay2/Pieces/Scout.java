@@ -11,5 +11,14 @@ public class Scout extends Piece {
     public Scout(Player owner)
     {
         this.owner = owner;
+        this.name = "scout";
+    }
+
+    @Override
+    public String getType()
+    {
+        if (isDead) throw new IllegalStateException("This piece is dead.");
+
+        return "scout";
     }
 }

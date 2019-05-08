@@ -10,6 +10,15 @@ public class Sergeant extends Piece {
 
     public Sergeant(Player owner)
     {
+        this.name = "sergeant";
         this.owner = owner;
+    }
+
+    @Override
+    public String getType()
+    {
+        if (isDead) throw new IllegalStateException("This piece is dead.");
+
+        return "sergeant";
     }
 }
