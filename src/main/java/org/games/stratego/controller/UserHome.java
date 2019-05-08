@@ -20,20 +20,33 @@ public class UserHome extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException
     {
-        HttpSession session = request.getSession(true);
+
+        String storedToken = "";
+        HttpSession session = request.getSession(false);
         System.out.println( "doGet" );
         RequestDispatcher dispatcher = request.getRequestDispatcher( "/WEB-INF/html/userHome.jsp" );
-        dispatcher.forward( request, response );
-        String username = "";
 
-        try {
-            username = (String) session.getAttribute("username");
-        } catch (Exception e) {
-            e.printStackTrace();
+        String token = request.getParameter("token");
+
+        //go ahead and process ... do business logic here
+        String sessionUserName = Sessions.checkSession(storedToken);
+
+        if (sessionUserName==null)
+        {
+            //session token is stale or invalid
+            session.setAttribute( "loggedIn", "false" );
+
+            dispatcher = request.getRequestDispatcher( "WEB-INF/html/loginError.jsp" );
+
+            dispatcher.forward( request, response );
+
+            return;
         }
+
         UserDBConnection db = new UserDBConnection();
-        List<String> listPlayers = db.getOpponent(username);
-        request.setAttribute("listPlayers", listPlayers);
+        //List<String> listPlayers = db.getOpponent(sessionUserName);
+        //request.setAttribute("listPlayers", listPlayers);
+        dispatcher.forward( request, response );
     }
 
     /*
