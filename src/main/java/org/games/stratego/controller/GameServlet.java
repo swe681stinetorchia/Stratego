@@ -76,7 +76,7 @@ public class GameServlet extends HttpServlet {
 
             session.setAttribute("game", game);
 
-            session.setAttribute("gameId", game);
+            session.setAttribute("gameId", uuid);
 
             BoardView boardView = new BoardView(game, storedToken);
 
@@ -173,7 +173,7 @@ public class GameServlet extends HttpServlet {
         }
     }*/
 
-    public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
 
         HttpSession session = request.getSession();
@@ -196,14 +196,11 @@ public class GameServlet extends HttpServlet {
             return;
         }
 
-        String token = request.getParameter("token");
-
         //go ahead and process ... do business logic here
         String sessionUserName = Sessions.checkSession(storedToken);
 
         if (sessionUserName==null)
         {
-            System.out.println("sessionUserName: " + sessionUserName);
             //session token is stale or invalid
             session.setAttribute( "loggedIn", "false" );
 
@@ -226,11 +223,26 @@ public class GameServlet extends HttpServlet {
             String toColumn = request.getParameter("toColumn");
             if (fromRow == null || fromColumn == null || toRow == null || toColumn == null)
             {
+                int id = Integer.valueOf(request.getParameter("id"));
+
+                Game game = new Game(id);
+
+                session.setAttribute("csrfToken", storedToken);
+
+                session.setAttribute("game", game);
+
+                BoardView boardView = new BoardView(game, storedToken);
+
+                session.setAttribute("board", boardView);
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+
+                dispatcher.forward( request, response );
                 //Not a meaningful request.
                 return;
             }
 
-            Game game = null;
+            Game game;
 
             String gameId = (String) session.getAttribute("gameId");
 
@@ -329,7 +341,7 @@ public class GameServlet extends HttpServlet {
     }
 
     @Override
-    public void doGet( HttpServletRequest request, HttpServletResponse response )
+    public void doPut( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException
     {
 

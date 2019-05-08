@@ -30,6 +30,7 @@ public class Game {
         this.playerOne = p1;
         this.playerTwo = p2;
         board = new Board();
+        instantiatePieces();
         gameOver = false;
     }
 
@@ -177,7 +178,7 @@ public class Game {
         {
             return playerOnePieces;
         }
-        else if (username.equals(playerOne.getName()))
+        else if (username.equals(playerTwo.getName()))
         {
             return playerTwoPieces;
         }
@@ -234,7 +235,7 @@ public class Game {
         }
     }
 
-    private void instaniatePieces()
+    private void instantiatePieces()
     {
         playerOnePieces = new ArrayList<Piece>();
 
@@ -339,6 +340,8 @@ public class Game {
             Bomb bomb = new Bomb(playerTwo);
             playerTwoPieces.add(bomb);
         }
+        System.out.println("player one pieces size: "+ playerOnePieces.size());
+        System.out.println("player two pieces size: "+ playerTwoPieces.size());
     }
 
 
