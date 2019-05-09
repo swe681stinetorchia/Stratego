@@ -11,10 +11,15 @@ import org.apache.logging.log4j.LogManager;
 import org.games.stratego.Services.AntiCSRF;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
+
 import org.apache.logging.log4j.Logger;
 import org.games.stratego.Services.RegexHelper;
 import org.games.stratego.Services.UserService;
+import org.games.stratego.model.admin.DashboardView;
+import org.games.stratego.model.admin.GameCache;
 import org.games.stratego.model.admin.Sessions;
+import org.games.stratego.model.gameplay2.Game;
 
 public class Login extends HttpServlet {
     private final Logger log = LogManager.getLogger(getClass());
@@ -55,27 +60,49 @@ public class Login extends HttpServlet {
             if(rx.isAlphaNumericRegex(request.getParameter("username"))) {
                 if (UserService.getInstance().validate(request.getParameter("username"),
                         request.getParameter("password"))) {
+
                     session.setAttribute("loggedIn", "true");
-                    //in authentication function
+
                     String username = request.getParameter("username");
+
                     String sessionToken = AntiCSRF.generateCSRFToken();
+
                     Sessions.addSession(sessionToken, username);
+
+                    Map<String, Game> assignedGames = GameCache.getAssignedGames(username);
+
+                    System.out.println("Assigned games: " + assignedGames.size());
+
+                    DashboardView view = new DashboardView(username, assignedGames);
+
+                    System.out.println("Ongoing games: " + view.getOngoingGames().size());
+
+                    request.setAttribute("assigned", assignedGames);
+
+                    request.setAttribute("view", view);
+
                     session.setAttribute("csrfToken", sessionToken);
+
                     session.setAttribute("username", username);
+
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/html/userHome.jsp");
+
                     dispatcher.forward(request, response);
                 } else {
 
                     log.warn("validation failed");
+
                     System.out.println("validation failed");
 
                     session.setAttribute("loggedIn", "false");
 
                     Integer attempts = (Integer) session.getAttribute("loginAttempts");
+
                     session.setAttribute("loginAttempts",
                             new Integer(attempts == null ? 1 : attempts.intValue() + 1));
 
                     RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/loginError.jsp");
+
                     dispatcher.forward(request, response);
                 }
             }

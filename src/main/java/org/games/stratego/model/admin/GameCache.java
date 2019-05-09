@@ -36,15 +36,19 @@ public class GameCache {
         games.remove(id);
     }
 
-    public Map<String, Game> getAssignedGames(User user)
+    public static Map<String, Game> getAssignedGames(String username)
     {
+        System.out.println("Looking for assigned games for " + username);
         Map<String, Game> assignedGames = new HashMap<String, Game>();
         for (String key: games.keySet())
         {
             Game game = games.get(key);
             User userOne = game.getPlayerOne().getUser();
             User userTwo = game.getPlayerTwo().getUser();
-            if (user==userOne||user==userTwo)
+            String userNameOne = userOne.getName();
+            String userNameTwo = userTwo.getName();
+            System.out.println("Compare " + username + " to " + userNameOne + " and " + userNameTwo + ".");
+            if (userNameOne.equals(username)||userNameTwo.equals(username))
             {
                 assignedGames.put(key, game);
             }

@@ -218,27 +218,29 @@ public class GameServlet extends HttpServlet {
 
         if (action.equals("open")) //request is used to open a new game
         {
-            int id = 0;
+            String gameId = request.getParameter("gameId");
 
-            try
-            {
-                id = Integer.valueOf(request.getParameter("id"));
+            Game game = null;
+
+            try {
+                game = GameCache.getGame(gameId);
             }
-            catch (ClassCastException cce)
+            catch(IllegalArgumentException iae)
             {
-                cce.printStackTrace();
+                session.setAttribute( "message", "game is stale" );
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+
+                dispatcher.forward( request, response );
+
                 return;
             }
-            catch (NullPointerException npe)
-            {
-                return;
-            }
-
-            Game game = new Game(id);
 
             session.setAttribute("csrfToken", storedToken);
 
             session.setAttribute("game", game);
+
+            session.setAttribute("gameId", gameId);
 
             BoardView boardView = new BoardView(game, storedToken);
 

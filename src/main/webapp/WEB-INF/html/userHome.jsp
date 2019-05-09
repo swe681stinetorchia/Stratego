@@ -32,12 +32,31 @@
 	<br>
 	<p>
 	
-	<form method="get" action="${initParam.siteURL}/game" class="openGame">
+	<%--<form method="get" action="${initParam.siteURL}/game" class="openGame">
 	    <label>Open existing game.</label>
         <input type="hidden" name="action" value="open" />
 		<p>Game Id: <input type="text" name="gameId" value="" style="width:150px"></p>
 		<p><input type="submit" name="openGame" value="Submit"></p>
-	</form>
+	</form>--%>
+
+
+	<p>Ongoing Games</p>
+
+	<c:forEach var="entry" items="${requestScope.view.ongoingGames}">
+      Key: <c:out value="${entry.key}"/>
+      Value: <c:out value="${entry.value}"/>
+    </c:forEach>
+
+
+    <p>Ongoing Games 2</p>
+
+	<c:forEach var="entry" items="${requestScope.view.ongoingGames}">
+      <form method="get" action="${initParam.siteURL}/game" class="openGame">
+        <input type="hidden" name="action" value="open" />
+        <input type="hidden" name="gameId" value="${entry.value}">
+        <p><input type="submit" name="openGame" value="${entry.key}"></p>
+      </form>
+    </c:forEach>
 
 	<form method="post" action="${initParam.siteURL}/game" class="newGame">
 	    <label>Start new game.</label>

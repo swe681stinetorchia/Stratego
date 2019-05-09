@@ -139,7 +139,7 @@ public class Game {
         {
             player = playerOne;
         }
-        else if (username.equals(playerOne.getName()))
+        else if (username.equals(playerTwo.getName()))
         {
             player = playerTwo;
         }
