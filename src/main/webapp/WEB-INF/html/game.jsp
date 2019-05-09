@@ -25,6 +25,7 @@
 </head>
 <body>
 
+<a href="${initParam.siteURL}/logout"> Logout </a>
 
 <table width="100%">
 <thead></thead>
