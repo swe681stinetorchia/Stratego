@@ -89,12 +89,12 @@ public class Board
     {
         if (Math.abs(fromRow-toRow)>1)
         {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Invalid move");
         }
 
         if (Math.abs(fromCol-toCol)>1)
         {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Invalid move");
         }
 
         Square fromSquare = board[fromRow-1][fromCol-1];

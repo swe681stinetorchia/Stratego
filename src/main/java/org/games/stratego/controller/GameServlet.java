@@ -50,7 +50,6 @@ public class GameServlet extends HttpServlet {
 
         if (sessionUserName==null)
         {
-            System.out.println("sessionUserName: " + sessionUserName);
             //session token is stale or invalid
             session.setAttribute( "loggedIn", "false" );
 
@@ -92,11 +91,13 @@ public class GameServlet extends HttpServlet {
         {
             session.setAttribute("csrfToken", storedToken);
 
-            session.setAttribute("message", iae.getMessage());
+            request.setAttribute("message", iae.getMessage());
 
             RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/userHome.jsp" );
 
             dispatcher.forward( request, response );
+
+            return;
         }
     }
 
@@ -220,7 +221,7 @@ public class GameServlet extends HttpServlet {
         {
             String gameId = request.getParameter("gameId");
 
-            Game game = null;
+            Game game;
 
             try {
                 game = GameCache.getGame(gameId);
@@ -271,9 +272,28 @@ public class GameServlet extends HttpServlet {
             }
             catch(IllegalArgumentException iae)
             {
-                session.setAttribute( "message", "game is stale" );
+                request.setAttribute( "message", "game is stale" );
 
-                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+                session.setAttribute("gameId", null);
+
+                session.setAttribute("csrfToken", storedToken);
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/userHome.jsp" );
+
+                dispatcher.forward( request, response );
+
+                return;
+            }
+
+            if (game==null)
+            {
+                request.setAttribute( "message", "game is stale" );
+
+                session.setAttribute("gameId", null);
+
+                session.setAttribute("csrfToken", storedToken);
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/userHome.jsp" );
 
                 dispatcher.forward( request, response );
 
@@ -355,11 +375,14 @@ public class GameServlet extends HttpServlet {
             try {
                 game = GameCache.getGame(gameId);
             } catch (IllegalArgumentException iae) {
-                session.setAttribute("message", "game is stale");
+                session.setAttribute("csrfToken", storedToken);
+
+                request.setAttribute("message", "game is stale");
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/userHome.jsp");
 
                 dispatcher.forward(request, response);
+
                 System.out.println("b");
 
                 return;
@@ -367,13 +390,13 @@ public class GameServlet extends HttpServlet {
 
             if (game==null)
             {
-                log.warn("Game is stale");
-                session.setAttribute("message", "game is stale");
+                session.setAttribute("csrfToken", storedToken);
+
+                request.setAttribute("message", "game is stale");
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/userHome.jsp");
 
                 dispatcher.forward(request, response);
-                System.out.println("c");
 
                 return;
             }
@@ -411,13 +434,33 @@ public class GameServlet extends HttpServlet {
 
                     RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
 
-                    dispatcher.forward(request, response);
-
-                    System.out.println("d");
+                    dispatcher.forward(request, response);;
 
                     return;
                 } catch (IllegalAccessException iae2) {
 
+                }
+                catch (IllegalStateException ise)
+                {
+                    GameCache.addGame(gameId, game);
+
+                    session.setAttribute("csrfToken", storedToken);
+
+                    session.setAttribute("game", game);
+
+                    session.setAttribute("gameId", gameId);
+
+                    BoardView boardView = new BoardView(game, storedToken);
+
+                    session.setAttribute("board", boardView);
+
+                    request.setAttribute("message", ise.getMessage());
+
+                    RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+
+                    dispatcher.forward( request, response );
+
+                    return;
                 }
 
                 GameCache.addGame(gameId, game);
