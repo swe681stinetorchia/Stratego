@@ -15,6 +15,26 @@
         <param-value>http://localhost:8080/Stratego-1.0</param-value>
     </context-param>
 
+    <!-- ENABLE ME FOR SSL/TLS!!!!!!!-->
+    <!-- Enable HTTPS for java servlets -->
+
+    <!-- The base URL for the application. This is read by servlets and JSPs in order
+             to set correct URLs for the app
+    <param-name>siteURL</param-name>
+    <param-value>https://localhost:443/Stratego-1.0</param-value>
+</context-param>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Stratego-1.0</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+
+    </security-constraint> -->
+
     <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>org.games.stratego.controller.Login</servlet-class>
@@ -58,19 +78,7 @@
         <session-timeout>15</session-timeout>
     </session-config>
 
-    <!-- Enable HTTPS for java servlets -->
-    <!--
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Servlet4Push</web-resource-name>
-            <url-pattern>/*</url-pattern>
-        </web-resource-collection>
 
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-
-    </security-constraint> -->
 
    <!-- Set the DefaultServlet to handle static HTML content -->
     <!--
