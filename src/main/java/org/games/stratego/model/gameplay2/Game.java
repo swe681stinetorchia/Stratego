@@ -88,6 +88,17 @@ public class Game {
             throw new IllegalStateException("This game has not finished setting up.");
         }*/
 
+
+        if (fromRow>10||fromRow<1||fromCol>10||fromCol<1)
+        {
+            throw new IllegalArgumentException("Invalid coordinates.");
+        }
+
+        if (toRow>10||toRow<1||toCol>10||toCol<1)
+        {
+            throw new IllegalArgumentException("Invalid coordinates.");
+        }
+
         String username = Sessions.checkSession(token);
 
         Player player = null;
@@ -129,6 +140,11 @@ public class Game {
         if (gameOver)
         {
             throw new IllegalArgumentException("This game is over");
+        }
+
+        if (row>10||row<1||col>10||col<1)
+        {
+            throw new IllegalArgumentException("Invalid coordinates.");
         }
 
         String username = Sessions.checkSession(token);
@@ -217,6 +233,12 @@ public class Game {
         if (gameStart)
         {
             throw new IllegalStateException("This game has already started");
+        }
+
+
+        if (row>10||row<1||col>10||col<1)
+        {
+            throw new IllegalArgumentException("Invalid coordinates.");
         }
 
         String username = Sessions.checkSession(token);
