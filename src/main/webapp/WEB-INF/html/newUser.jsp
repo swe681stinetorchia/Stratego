@@ -22,7 +22,7 @@
 	
 			<section>
 				<p class="explanation">
-					Some explanation stuff.
+					Please enter a username(Alphanumeric) and password.
 		   	</p>
 		   	
 		   	<%--

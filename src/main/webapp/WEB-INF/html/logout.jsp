@@ -16,13 +16,13 @@
 			</style>
 	</head>
 	<body>
-	   <h1>Stratego
+	   <h1>Logout
 			</h1>
 			<hr style="margin:auto; height:1px"/>
 	
 			<section>
 				<p class="explanation">
-					Logout successful
+					Logout successful, please clink the link below to login again.
 				</p>
 			<p>
 				<a href="${initParam.siteURL}/login"> Login </a>

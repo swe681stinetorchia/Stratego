@@ -7,7 +7,7 @@
 			<meta name="description" content="">
 			<meta name="keywords" content="">
 			
-			<title>eApp Login</title>
+			<title>Login</title>
 		
 			<link rel="stylesheet" type="text/css" href="${initParam.siteURL}/styles.css">
 			<link rel="stylesheet" type="text/css" href="styles.css">

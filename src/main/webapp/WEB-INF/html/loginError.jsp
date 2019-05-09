@@ -16,8 +16,7 @@
 			</style>
 
 	<body>
-			<h1>eApp
-				<img src="${initParam.siteURL}/NBIB-logo.png" width="79" height="79" style="vertical-align:middle; margin-right:10px; float:right;">
+			<h1>Error
 			</h1>
 			<hr style="margin:auto; height:1px"/>
 	
