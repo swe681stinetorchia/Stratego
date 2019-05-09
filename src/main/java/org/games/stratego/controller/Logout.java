@@ -1,5 +1,7 @@
 package org.games.stratego.controller;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -9,21 +11,17 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+
 @SuppressWarnings("serial")
 @WebServlet("/Logout")
 public class Logout extends HttpServlet {
     private final Logger log = LogManager.getLogger(getClass());
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    {
-        doGet(request, response);
-    }
 
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         /*
          * First step : Invalidate user session
          */
@@ -44,6 +42,9 @@ public class Logout extends HttpServlet {
                 response.addCookie(cookie);
             }
         }
+        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/logout.jsp");
+
+        dispatcher.forward(request, response);
 
     }
 
