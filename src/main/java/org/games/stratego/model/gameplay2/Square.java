@@ -28,35 +28,16 @@ public class Square {
 
     protected void addPiece(Piece pieceToAdd)
     {
-        System.out.println("j");
         if (piece != null)
         {
-            System.out.println("k");
             if (!piece.isOnBoard())
             {
-                System.out.println("l");
                 throw new RuntimeException("Piece is listed in the square (" + row + "," + column + ") doesn't have the 'isOnBoard' attribute.");
             }
-            System.out.println("m");
             piece.removeFromBoard();
-            System.out.println("n");
         }
-        System.out.println("o: " + owner);
-
-        Player pieceOwner = pieceToAdd.getOwner();
-        System.out.println("p: " + pieceOwner);
-
-        System.out.println("Compare " + owner.getName() + " to " + pieceOwner.getName());
-        if (owner != null && owner.equals(pieceOwner))
-        {
-            System.out.println("q");
-            piece = pieceToAdd;
-        }
-        else
-        {
-            System.out.println("r");
-            throw new IllegalArgumentException("The player " + pieceOwner.getName() + " is not allowed to add pieces to the cell (" + row + "," + column +").");
-        }
+        piece = pieceToAdd;
+        piece.addToBoard();
     }
 
     protected Piece getPiece()

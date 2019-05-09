@@ -58,10 +58,18 @@ public class Board
 
     protected void addPiece(int row, int col, Piece piece)
     {
-        System.out.println("h: " + board[row-1][col-1].getPiece());
-        board[row-1][col-1].addPiece(piece);
-        System.out.println("i: " + board[row-1][col-1].getPiece());
-        piece.addToBoard();
+        Player boardOwner =  board[row-1][col-1].getOwner();
+        Player pieceOwner = piece.getOwner();
+
+
+        if (boardOwner != null && boardOwner.equals(pieceOwner))
+        {
+            board[row-1][col-1].addPiece(piece);
+        }
+        else
+        {
+            throw new IllegalArgumentException("The player " + pieceOwner.getName() + " is not allowed to add pieces to the cell (" + row + "," + col +").");
+        }
     }
 
     protected void removePiece(int row, int col)

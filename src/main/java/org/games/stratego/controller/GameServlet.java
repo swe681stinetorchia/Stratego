@@ -341,6 +341,7 @@ public class GameServlet extends HttpServlet {
             String toRow = request.getParameter("toRow");
             String toColumn = request.getParameter("toColumn");
             if (fromRow == null || fromColumn == null || toRow == null || toColumn == null) {
+                System.out.println("a");
                 //invalid request
                 return;
             }
@@ -354,9 +355,22 @@ public class GameServlet extends HttpServlet {
             } catch (IllegalArgumentException iae) {
                 session.setAttribute("message", "game is stale");
 
-                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/userHome.jsp");
 
                 dispatcher.forward(request, response);
+                System.out.println("b");
+
+                return;
+            }
+
+            if (game==null)
+            {
+                session.setAttribute("message", "game is stale");
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/userHome.jsp");
+
+                dispatcher.forward(request, response);
+                System.out.println("c");
 
                 return;
             }
@@ -395,38 +409,50 @@ public class GameServlet extends HttpServlet {
                     RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
 
                     dispatcher.forward(request, response);
+
+                    System.out.println("d");
+
+                    return;
                 } catch (IllegalAccessException iae2) {
 
                 }
 
-            GameCache.addGame(gameId, game);
+                GameCache.addGame(gameId, game);
 
-            session.setAttribute("csrfToken", storedToken);
+                session.setAttribute("csrfToken", storedToken);
 
-            session.setAttribute("game", game);
+                session.setAttribute("game", game);
 
-            session.setAttribute("gameId", gameId);
+                session.setAttribute("gameId", gameId);
 
-            BoardView boardView = new BoardView(game, storedToken);
+                BoardView boardView = new BoardView(game, storedToken);
 
-            session.setAttribute("board", boardView);
+                session.setAttribute("board", boardView);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
 
-            dispatcher.forward(request, response);
-        }
-        else{
-            log.warn("Move is not legitimate");
+                dispatcher.forward(request, response);
+
+                System.out.println("e");
+
+                return;
+            }
+
+            else{
+                log.warn("Move is not legitimate");
                 GameCache.addGame(gameId, game);
                 session.setAttribute("csrfToken", storedToken);
                 session.setAttribute("game", game);
-                session.setAttribute("gameId", game);
+                session.setAttribute("gameId", gameId);
                 BoardView boardView = new BoardView(game, storedToken);
                 session.setAttribute("board", boardView);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
                 dispatcher.forward(request, response);
+                System.out.println("f");
+                return;
             }
         }
+
         else
         {
             //invalid action

@@ -79,11 +79,12 @@ public class Login extends HttpServlet {
                     dispatcher.forward(request, response);
                 }
             }
-                        else {
+            else
+                {
                 log.warn("Please enter alpha numeric for username");
                 RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/loginError.jsp");
                 dispatcher.forward(request, response);
-        }
+            }
         }
     }
 
