@@ -21,4 +21,9 @@ public class Scout extends Piece {
 
         return "scout";
     }
+
+    public String toString()
+    {
+        return owner.getName() + ":scout";
+    }
 }

@@ -21,4 +21,9 @@ public class Minor extends Piece {
 
         return "minor";
     }
+
+    public String toString()
+    {
+        return owner.getName() + ":minor";
+    }
 }

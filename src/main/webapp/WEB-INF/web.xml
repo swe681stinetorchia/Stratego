@@ -10,18 +10,18 @@
 
     <context-param>
         <!-- The base URL for the application. This is read by servlets and JSPs in order
-             to set correct URLs for the app -->
+             to set correct URLs for the app
         <param-name>siteURL</param-name>
         <param-value>http://localhost:8080/Stratego-1.0</param-value>
-    </context-param>
+    </context-param> -->
 
     <!-- ENABLE ME FOR SSL/TLS!!!!!!!-->
     <!-- Enable HTTPS for java servlets -->
 
     <!-- The base URL for the application. This is read by servlets and JSPs in order
-             to set correct URLs for the app
+             to set correct URLs for the app -->
     <param-name>siteURL</param-name>
-    <param-value>https://localhost:443/Stratego-1.0</param-value>
+    <param-value>https://localhost:8443/Stratego-1.0</param-value>
 </context-param>
     <security-constraint>
         <web-resource-collection>
@@ -33,7 +33,7 @@
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
 
-    </security-constraint> -->
+    </security-constraint>
 
     <servlet>
         <servlet-name>Login</servlet-name>

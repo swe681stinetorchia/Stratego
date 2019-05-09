@@ -54,4 +54,9 @@ public class Bomb extends Piece {
 
         return "bomb";
     }
+
+    public String toString()
+    {
+        return owner.getName() + ":bomb";
+    }
 }

@@ -21,4 +21,9 @@ public class Sergeant extends Piece {
 
         return "sergeant";
     }
+
+    public String toString()
+    {
+        return owner.getName() + ":sergeant";
+    }
 }

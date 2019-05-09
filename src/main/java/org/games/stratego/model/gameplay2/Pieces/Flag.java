@@ -50,4 +50,9 @@ public class Flag extends Piece {
 
         return "flag";
     }
+
+    public String toString()
+    {
+        return owner.getName() + ":flag";
+    }
 }

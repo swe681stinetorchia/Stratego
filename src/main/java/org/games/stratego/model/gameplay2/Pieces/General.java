@@ -21,4 +21,9 @@ public class General extends Piece {
 
         return "general";
     }
+
+    public String toString()
+    {
+        return owner.getName() + ":general";
+    }
 }

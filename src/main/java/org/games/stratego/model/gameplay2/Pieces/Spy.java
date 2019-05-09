@@ -21,4 +21,9 @@ public class Spy extends Piece {
 
         return "spy";
     }
+
+    public String toString()
+    {
+        return owner.getName() + ":spy";
+    }
 }

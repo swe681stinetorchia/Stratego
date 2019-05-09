@@ -208,6 +208,7 @@ public class Game {
 
     public void addPiece(int row, int col, String pieceType, String token)
     {
+        System.out.println("A");
         if (gameOver)
         {
             throw new IllegalStateException("This game is over");
@@ -219,9 +220,11 @@ public class Game {
         }
 
         String username = Sessions.checkSession(token);
+        System.out.println("B");
 
         if (username.equals(playerOne.getName()))
         {
+            System.out.println("C: " + username + " : " + pieceType);
             Piece pieceToReturn = null;
             Iterator iterator = playerOnePieces.iterator();
             while(iterator.hasNext())
@@ -243,6 +246,7 @@ public class Game {
 
                     board.addPiece(row, col, pieceToTry);
                     iterator.remove();
+                    break;
                     //playerOnePieces.remove(pieceToTry);
                 }
             }
@@ -253,33 +257,46 @@ public class Game {
         }
         else if (username.equals(playerTwo.getName()))
         {
+            System.out.println("D: " + username + " : " + pieceType);
             Piece pieceToReturn = null;
             Iterator iterator = playerTwoPieces.iterator();
+            System.out.println("E: ");
             while(iterator.hasNext())
             {
                 Piece pieceToTry = (Piece) iterator.next();
+                System.out.println("F pieceToTry: " + pieceType + " : " + pieceToTry.getType());
                 if(pieceType.equals(pieceToTry.getType()))
                 {
+                    System.out.println("G ");
                     if(pieceToTry.isOnBoard())
                     {
+                        System.out.println("H: ");
                         continue;
                     }
+                    System.out.println("I: ");
 
                     if (board.hasPiece(row, col))
                     {
+                        System.out.println("J: ");
                         pieceToReturn = board.getPieceAt(row, col);
+                        System.out.println("K: " + pieceToReturn.getType());
                         //playerTwoPieces.add(board.getPieceAt(row, col));
                         board.removePiece(row, col);
                     }
+                    System.out.println("L: " + board.getPieceAt(row, col));
 
                     board.addPiece(row, col, pieceToTry);
+                    System.out.println("M: " + board.getPieceAt(row, col));
                     iterator.remove();
+                    break;
                     //playerTwoPieces.remove(pieceToTry);
                 }
             }
             if (pieceToReturn!=null)
             {
+                System.out.println("N: " + playerTwoPieces);
                 playerTwoPieces.add(pieceToReturn);
+                System.out.println("O: " + playerTwoPieces);
             }
         }
         else

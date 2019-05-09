@@ -109,111 +109,269 @@ public class BoardView {
     private String sq109 = "empty";
     private String sq1010 = "empty";
 
+    private String col1 = "1";
+    private String col2 = "2";
+    private String col3 = "3";
+    private String col4 = "4";
+    private String col5 = "5";
+    private String col6 = "6";
+    private String col7 = "7";
+    private String col8 = "8";
+    private String col9 = "9";
+    private String col10 = "10";
+
+    private String row1 = "1";
+    private String row2 = "2";
+    private String row3 = "3";
+    private String row4 = "4";
+    private String row5 = "5";
+    private String row6 = "6";
+    private String row7 = "7";
+    private String row8 = "8";
+    private String row9 = "9";
+    private String row10 = "10";
+
     private List<String> availablePieces;
     private int piecesLength;
 
     public BoardView(Game game, String token)
     {
-        sq11 = "" + game.getPieceAt(1,1,token) + ".png";
-        sq12 = "" + game.getPieceAt(1,2,token) + ".png";
-        sq13 =  "" + game.getPieceAt(1,3,token) + ".png";
-        sq14 =  "" + game.getPieceAt(1,4,token) + ".png";
-        sq15 =  "" + game.getPieceAt(1,5,token) + ".png";
-        sq16 =  "" + game.getPieceAt(1,6,token) + ".png";
-        sq17 =  "" + game.getPieceAt(1,7,token) + ".png";
-        sq18 =  "" + game.getPieceAt(1,8,token) + ".png";
-        sq19 =  "" + game.getPieceAt(1,9,token) + ".png";
-        sq110 =  "" + game.getPieceAt(1,10,token) + ".png";
-        sq21 =  "" + game.getPieceAt(2,1,token) + ".png";
-        sq22 =  "" + game.getPieceAt(2,2,token) + ".png";
-        sq23 =  "" + game.getPieceAt(2,3,token) + ".png";
-        sq24 =  "" + game.getPieceAt(2,4,token) + ".png";
-        sq25 =  "" + game.getPieceAt(2,5,token) + ".png";
-        sq26 =  "" + game.getPieceAt(2,6,token) + ".png";
-        sq27 =  "" + game.getPieceAt(2,7,token) + ".png";
-        sq28 =  "" + game.getPieceAt(2,8,token) + ".png";
-        sq29 =  "" + game.getPieceAt(2,9,token) + ".png";
-        sq210 =  "" + game.getPieceAt(2,10,token) + ".png";
-        sq31 =  "" + game.getPieceAt(3,1,token) + ".png";
-        sq32 =  "" + game.getPieceAt(3,2,token) + ".png";
-        sq33 =  "" + game.getPieceAt(3,3,token) + ".png";
-        sq34 =  "" + game.getPieceAt(3,4,token) + ".png";
-        sq35 =  "" + game.getPieceAt(3,5,token) + ".png";
-        sq36 =  "" + game.getPieceAt(3,6,token) + ".png";
-        sq37 =  "" + game.getPieceAt(3,7,token) + ".png";
-        sq38 =  "" + game.getPieceAt(3,8,token) + ".png";
-        sq39 =  "" + game.getPieceAt(3,9,token) + ".png";
-        sq310 =  "" + game.getPieceAt(3,10,token) + ".png";
-        sq41 =  "" + game.getPieceAt(4,1,token) + ".png";
-        sq42 =  "" + game.getPieceAt(4,2,token) + ".png";
-        sq43 =  "" + game.getPieceAt(4,3,token) + ".png";
-        sq44 =  "" + game.getPieceAt(4,4,token) + ".png";
-        sq45 =  "" + game.getPieceAt(4,5,token) + ".png";
-        sq46 =  "" + game.getPieceAt(4,6,token) + ".png";
-        sq47 =  "" + game.getPieceAt(4,7,token) + ".png";
-        sq48 =  "" + game.getPieceAt(4,8,token) + ".png";
-        sq49 =  "" + game.getPieceAt(4,9,token) + ".png";
-        sq410 =  "" + game.getPieceAt(4,10,token) + ".png";
-        sq51 =  "" + game.getPieceAt(5,1,token) + ".png";
-        sq52 =  "" + game.getPieceAt(5,2,token) + ".png";
-        sq53 =  "" + game.getPieceAt(5,3,token) + ".png";
-        sq54 =  "" + game.getPieceAt(5,4,token) + ".png";
-        sq55 =  "" + game.getPieceAt(5,5,token) + ".png";
-        sq56 =  "" + game.getPieceAt(5,6,token) + ".png";
-        sq57 =  "" + game.getPieceAt(5,7,token) + ".png";
-        sq58 =  "" + game.getPieceAt(5,8,token) + ".png";
-        sq59 =  "" + game.getPieceAt(5,9,token) + ".png";
-        sq510 =  "" + game.getPieceAt(5,10,token) + ".png";
-        sq61 =  "" + game.getPieceAt(6,1,token) + ".png";
-        sq62 =  "" + game.getPieceAt(6,2,token) + ".png";
-        sq63 =  "" + game.getPieceAt(6,3,token) + ".png";
-        sq64 =  "" + game.getPieceAt(6,4,token) + ".png";
-        sq65 =  "" + game.getPieceAt(6,5,token) + ".png";
-        sq66 =  "" + game.getPieceAt(6,6,token) + ".png";
-        sq67 =  "" + game.getPieceAt(6,7,token) + ".png";
-        sq68 =  "" + game.getPieceAt(6,8,token) + ".png";
-        sq69 =  "" + game.getPieceAt(6,9,token) + ".png";
-        sq610 =  "" + game.getPieceAt(6,10,token) + ".png";
-        sq71 =  "" + game.getPieceAt(7,1,token) + ".png";
-        sq72 =  "" + game.getPieceAt(7,2,token) + ".png";
-        sq73 =  "" + game.getPieceAt(7,3,token) + ".png";
-        sq74 =  "" + game.getPieceAt(7,4,token) + ".png";
-        sq75 =  "" + game.getPieceAt(7,5,token) + ".png";
-        sq76 =  "" + game.getPieceAt(7,6,token) + ".png";
-        sq77 =  "" + game.getPieceAt(7,7,token) + ".png";
-        sq78 =  "" + game.getPieceAt(7,8,token) + ".png";
-        sq79 =  "" + game.getPieceAt(7,9,token) + ".png";
-        sq710 =  "" + game.getPieceAt(7,10,token) + ".png";
-        sq81 =  "" + game.getPieceAt(8,1,token) + ".png";
-        sq82 =  "" + game.getPieceAt(8,2,token) + ".png";
-        sq83 =  "" + game.getPieceAt(8,3,token) + ".png";
-        sq84 =  "" + game.getPieceAt(8,4,token) + ".png";
-        sq85 =  "" + game.getPieceAt(8,5,token) + ".png";
-        sq86 =  "" + game.getPieceAt(8,6,token) + ".png";
-        sq87 =  "" + game.getPieceAt(8,7,token) + ".png";
-        sq88 =  "" + game.getPieceAt(8,8,token) + ".png";
-        sq89 =  "" + game.getPieceAt(8,9,token) + ".png";
-        sq810 =  "" + game.getPieceAt(8,10,token) + ".png";
-        sq91 =  "" + game.getPieceAt(9,1,token) + ".png";
-        sq92 =  "" + game.getPieceAt(9,2,token) + ".png";
-        sq93 =  "" + game.getPieceAt(9,3,token) + ".png";
-        sq94 =  "" + game.getPieceAt(9,4,token) + ".png";
-        sq95 =  "" + game.getPieceAt(9,5,token) + ".png";
-        sq96 =  "" + game.getPieceAt(9,6,token) + ".png";
-        sq97 =  "" + game.getPieceAt(9,7,token) + ".png";
-        sq98 =  "" + game.getPieceAt(9,8,token) + ".png";
-        sq99 =  "" + game.getPieceAt(9,9,token) + ".png";
-        sq910 =  "" + game.getPieceAt(9,10,token) + ".png";
-        sq101 =  "" + game.getPieceAt(10,1,token) + ".png";
-        sq102 =  "" + game.getPieceAt(10,2,token) + ".png";
-        sq103 =  "" + game.getPieceAt(10,3,token) + ".png";
-        sq104 =  "" + game.getPieceAt(10,4,token) + ".png";
-        sq105 =  "" + game.getPieceAt(10,5,token) + ".png";
-        sq106 =  "" + game.getPieceAt(10,6,token) + ".png";
-        sq107 =  "" + game.getPieceAt(10,7,token) + ".png";
-        sq108 =  "" + game.getPieceAt(10,8,token) + ".png";
-        sq109 =  "" + game.getPieceAt(10,9,token) + ".png";
-        sq1010 =  "" + game.getPieceAt(10,10,token) + ".png";
+        Player playerOne = game.getPlayerOne();
+        Player playerTwo = game.getPlayerTwo();
+        String nameOne = playerOne.getName();
+        String nameTwo = playerTwo.getName();
+        String username = Sessions.checkSession(token);
+
+        if (username.equals(nameOne))
+        {
+            sq11 = "" + game.getPieceAt(1,1,token) + ".png";
+            sq12 = "" + game.getPieceAt(1,2,token) + ".png";
+            sq13 =  "" + game.getPieceAt(1,3,token) + ".png";
+            sq14 =  "" + game.getPieceAt(1,4,token) + ".png";
+            sq15 =  "" + game.getPieceAt(1,5,token) + ".png";
+            sq16 =  "" + game.getPieceAt(1,6,token) + ".png";
+            sq17 =  "" + game.getPieceAt(1,7,token) + ".png";
+            sq18 =  "" + game.getPieceAt(1,8,token) + ".png";
+            sq19 =  "" + game.getPieceAt(1,9,token) + ".png";
+            sq110 =  "" + game.getPieceAt(1,10,token) + ".png";
+            sq21 =  "" + game.getPieceAt(2,1,token) + ".png";
+            sq22 =  "" + game.getPieceAt(2,2,token) + ".png";
+            sq23 =  "" + game.getPieceAt(2,3,token) + ".png";
+            sq24 =  "" + game.getPieceAt(2,4,token) + ".png";
+            sq25 =  "" + game.getPieceAt(2,5,token) + ".png";
+            sq26 =  "" + game.getPieceAt(2,6,token) + ".png";
+            sq27 =  "" + game.getPieceAt(2,7,token) + ".png";
+            sq28 =  "" + game.getPieceAt(2,8,token) + ".png";
+            sq29 =  "" + game.getPieceAt(2,9,token) + ".png";
+            sq210 =  "" + game.getPieceAt(2,10,token) + ".png";
+            sq31 =  "" + game.getPieceAt(3,1,token) + ".png";
+            sq32 =  "" + game.getPieceAt(3,2,token) + ".png";
+            sq33 =  "" + game.getPieceAt(3,3,token) + ".png";
+            sq34 =  "" + game.getPieceAt(3,4,token) + ".png";
+            sq35 =  "" + game.getPieceAt(3,5,token) + ".png";
+            sq36 =  "" + game.getPieceAt(3,6,token) + ".png";
+            sq37 =  "" + game.getPieceAt(3,7,token) + ".png";
+            sq38 =  "" + game.getPieceAt(3,8,token) + ".png";
+            sq39 =  "" + game.getPieceAt(3,9,token) + ".png";
+            sq310 =  "" + game.getPieceAt(3,10,token) + ".png";
+            sq41 =  "" + game.getPieceAt(4,1,token) + ".png";
+            sq42 =  "" + game.getPieceAt(4,2,token) + ".png";
+            sq43 =  "" + game.getPieceAt(4,3,token) + ".png";
+            sq44 =  "" + game.getPieceAt(4,4,token) + ".png";
+            sq45 =  "" + game.getPieceAt(4,5,token) + ".png";
+            sq46 =  "" + game.getPieceAt(4,6,token) + ".png";
+            sq47 =  "" + game.getPieceAt(4,7,token) + ".png";
+            sq48 =  "" + game.getPieceAt(4,8,token) + ".png";
+            sq49 =  "" + game.getPieceAt(4,9,token) + ".png";
+            sq410 =  "" + game.getPieceAt(4,10,token) + ".png";
+            sq51 =  "" + game.getPieceAt(5,1,token) + ".png";
+            sq52 =  "" + game.getPieceAt(5,2,token) + ".png";
+            sq53 =  "" + game.getPieceAt(5,3,token) + ".png";
+            sq54 =  "" + game.getPieceAt(5,4,token) + ".png";
+            sq55 =  "" + game.getPieceAt(5,5,token) + ".png";
+            sq56 =  "" + game.getPieceAt(5,6,token) + ".png";
+            sq57 =  "" + game.getPieceAt(5,7,token) + ".png";
+            sq58 =  "" + game.getPieceAt(5,8,token) + ".png";
+            sq59 =  "" + game.getPieceAt(5,9,token) + ".png";
+            sq510 =  "" + game.getPieceAt(5,10,token) + ".png";
+            sq61 =  "" + game.getPieceAt(6,1,token) + ".png";
+            sq62 =  "" + game.getPieceAt(6,2,token) + ".png";
+            sq63 =  "" + game.getPieceAt(6,3,token) + ".png";
+            sq64 =  "" + game.getPieceAt(6,4,token) + ".png";
+            sq65 =  "" + game.getPieceAt(6,5,token) + ".png";
+            sq66 =  "" + game.getPieceAt(6,6,token) + ".png";
+            sq67 =  "" + game.getPieceAt(6,7,token) + ".png";
+            sq68 =  "" + game.getPieceAt(6,8,token) + ".png";
+            sq69 =  "" + game.getPieceAt(6,9,token) + ".png";
+            sq610 =  "" + game.getPieceAt(6,10,token) + ".png";
+            sq71 =  "" + game.getPieceAt(7,1,token) + ".png";
+            sq72 =  "" + game.getPieceAt(7,2,token) + ".png";
+            sq73 =  "" + game.getPieceAt(7,3,token) + ".png";
+            sq74 =  "" + game.getPieceAt(7,4,token) + ".png";
+            sq75 =  "" + game.getPieceAt(7,5,token) + ".png";
+            sq76 =  "" + game.getPieceAt(7,6,token) + ".png";
+            sq77 =  "" + game.getPieceAt(7,7,token) + ".png";
+            sq78 =  "" + game.getPieceAt(7,8,token) + ".png";
+            sq79 =  "" + game.getPieceAt(7,9,token) + ".png";
+            sq710 =  "" + game.getPieceAt(7,10,token) + ".png";
+            sq81 =  "" + game.getPieceAt(8,1,token) + ".png";
+            sq82 =  "" + game.getPieceAt(8,2,token) + ".png";
+            sq83 =  "" + game.getPieceAt(8,3,token) + ".png";
+            sq84 =  "" + game.getPieceAt(8,4,token) + ".png";
+            sq85 =  "" + game.getPieceAt(8,5,token) + ".png";
+            sq86 =  "" + game.getPieceAt(8,6,token) + ".png";
+            sq87 =  "" + game.getPieceAt(8,7,token) + ".png";
+            sq88 =  "" + game.getPieceAt(8,8,token) + ".png";
+            sq89 =  "" + game.getPieceAt(8,9,token) + ".png";
+            sq810 =  "" + game.getPieceAt(8,10,token) + ".png";
+            sq91 =  "" + game.getPieceAt(9,1,token) + ".png";
+            sq92 =  "" + game.getPieceAt(9,2,token) + ".png";
+            sq93 =  "" + game.getPieceAt(9,3,token) + ".png";
+            sq94 =  "" + game.getPieceAt(9,4,token) + ".png";
+            sq95 =  "" + game.getPieceAt(9,5,token) + ".png";
+            sq96 =  "" + game.getPieceAt(9,6,token) + ".png";
+            sq97 =  "" + game.getPieceAt(9,7,token) + ".png";
+            sq98 =  "" + game.getPieceAt(9,8,token) + ".png";
+            sq99 =  "" + game.getPieceAt(9,9,token) + ".png";
+            sq910 =  "" + game.getPieceAt(9,10,token) + ".png";
+            sq101 =  "" + game.getPieceAt(10,1,token) + ".png";
+            sq102 =  "" + game.getPieceAt(10,2,token) + ".png";
+            sq103 =  "" + game.getPieceAt(10,3,token) + ".png";
+            sq104 =  "" + game.getPieceAt(10,4,token) + ".png";
+            sq105 =  "" + game.getPieceAt(10,5,token) + ".png";
+            sq106 =  "" + game.getPieceAt(10,6,token) + ".png";
+            sq107 =  "" + game.getPieceAt(10,7,token) + ".png";
+            sq108 =  "" + game.getPieceAt(10,8,token) + ".png";
+            sq109 =  "" + game.getPieceAt(10,9,token) + ".png";
+            sq1010 =  "" + game.getPieceAt(10,10,token) + ".png";
+        }
+        else if (username.equals(nameTwo))
+        {
+            col1 = "10";
+            col2 = "9";
+            col3 = "8";
+            col4 = "7";
+            col5 = "6";
+            col6 = "5";
+            col7 = "4";
+            col8 = "3";
+            col9 = "2";
+            col10 = "1";
+
+
+            row1 = "10";
+            row2 = "9";
+            row3 = "8";
+            row4 = "7";
+            row5 = "6";
+            row6 = "5";
+            row7 = "4";
+            row8 = "3";
+            row9 = "2";
+            row10 = "1";
+
+
+            sq1010 = "" + game.getPieceAt(1,1,token) + ".png";
+            sq109 = "" + game.getPieceAt(1,2,token) + ".png";
+            sq108 =  "" + game.getPieceAt(1,3,token) + ".png";
+            sq107 =  "" + game.getPieceAt(1,4,token) + ".png";
+            sq106 =  "" + game.getPieceAt(1,5,token) + ".png";
+            sq105 =  "" + game.getPieceAt(1,6,token) + ".png";
+            sq104 =  "" + game.getPieceAt(1,7,token) + ".png";
+            sq103 =  "" + game.getPieceAt(1,8,token) + ".png";
+            sq102 =  "" + game.getPieceAt(1,9,token) + ".png";
+            sq101 =  "" + game.getPieceAt(1,10,token) + ".png";
+            sq910 =  "" + game.getPieceAt(2,1,token) + ".png";
+            sq99 =  "" + game.getPieceAt(2,2,token) + ".png";
+            sq98 =  "" + game.getPieceAt(2,3,token) + ".png";
+            sq97 =  "" + game.getPieceAt(2,4,token) + ".png";
+            sq96 =  "" + game.getPieceAt(2,5,token) + ".png";
+            sq95 =  "" + game.getPieceAt(2,6,token) + ".png";
+            sq94 =  "" + game.getPieceAt(2,7,token) + ".png";
+            sq93 =  "" + game.getPieceAt(2,8,token) + ".png";
+            sq92 =  "" + game.getPieceAt(2,9,token) + ".png";
+            sq91 =  "" + game.getPieceAt(2,10,token) + ".png";
+            sq810 =  "" + game.getPieceAt(3,1,token) + ".png";
+            sq89 =  "" + game.getPieceAt(3,2,token) + ".png";
+            sq88 =  "" + game.getPieceAt(3,3,token) + ".png";
+            sq87 =  "" + game.getPieceAt(3,4,token) + ".png";
+            sq86 =  "" + game.getPieceAt(3,5,token) + ".png";
+            sq85 =  "" + game.getPieceAt(3,6,token) + ".png";
+            sq84 =  "" + game.getPieceAt(3,7,token) + ".png";
+            sq83 =  "" + game.getPieceAt(3,8,token) + ".png";
+            sq82 =  "" + game.getPieceAt(3,9,token) + ".png";
+            sq81 =  "" + game.getPieceAt(3,10,token) + ".png";
+            sq710 =  "" + game.getPieceAt(4,1,token) + ".png";
+            sq79 =  "" + game.getPieceAt(4,2,token) + ".png";
+            sq78 =  "" + game.getPieceAt(4,3,token) + ".png";
+            sq77 =  "" + game.getPieceAt(4,4,token) + ".png";
+            sq76 =  "" + game.getPieceAt(4,5,token) + ".png";
+            sq75 =  "" + game.getPieceAt(4,6,token) + ".png";
+            sq74 =  "" + game.getPieceAt(4,7,token) + ".png";
+            sq73 =  "" + game.getPieceAt(4,8,token) + ".png";
+            sq72 =  "" + game.getPieceAt(4,9,token) + ".png";
+            sq71 =  "" + game.getPieceAt(4,10,token) + ".png";
+            sq610 =  "" + game.getPieceAt(5,1,token) + ".png";
+            sq69 =  "" + game.getPieceAt(5,2,token) + ".png";
+            sq68 =  "" + game.getPieceAt(5,3,token) + ".png";
+            sq67 =  "" + game.getPieceAt(5,4,token) + ".png";
+            sq66 =  "" + game.getPieceAt(5,5,token) + ".png";
+            sq65 =  "" + game.getPieceAt(5,6,token) + ".png";
+            sq64 =  "" + game.getPieceAt(5,7,token) + ".png";
+            sq63 =  "" + game.getPieceAt(5,8,token) + ".png";
+            sq62 =  "" + game.getPieceAt(5,9,token) + ".png";
+            sq61 =  "" + game.getPieceAt(5,10,token) + ".png";
+            sq510 =  "" + game.getPieceAt(6,1,token) + ".png";
+            sq59 =  "" + game.getPieceAt(6,2,token) + ".png";
+            sq58 =  "" + game.getPieceAt(6,3,token) + ".png";
+            sq57 =  "" + game.getPieceAt(6,4,token) + ".png";
+            sq56 =  "" + game.getPieceAt(6,5,token) + ".png";
+            sq55 =  "" + game.getPieceAt(6,6,token) + ".png";
+            sq54 =  "" + game.getPieceAt(6,7,token) + ".png";
+            sq53 =  "" + game.getPieceAt(6,8,token) + ".png";
+            sq52 =  "" + game.getPieceAt(6,9,token) + ".png";
+            sq51 =  "" + game.getPieceAt(6,10,token) + ".png";
+            sq410 =  "" + game.getPieceAt(7,1,token) + ".png";
+            sq49 =  "" + game.getPieceAt(7,2,token) + ".png";
+            sq48 =  "" + game.getPieceAt(7,3,token) + ".png";
+            sq47 =  "" + game.getPieceAt(7,4,token) + ".png";
+            sq46 =  "" + game.getPieceAt(7,5,token) + ".png";
+            sq45 =  "" + game.getPieceAt(7,6,token) + ".png";
+            sq44 =  "" + game.getPieceAt(7,7,token) + ".png";
+            sq43 =  "" + game.getPieceAt(7,8,token) + ".png";
+            sq42 =  "" + game.getPieceAt(7,9,token) + ".png";
+            sq41 =  "" + game.getPieceAt(7,10,token) + ".png";
+            sq310 =  "" + game.getPieceAt(8,1,token) + ".png";
+            sq39 =  "" + game.getPieceAt(8,2,token) + ".png";
+            sq38 =  "" + game.getPieceAt(8,3,token) + ".png";
+            sq37 =  "" + game.getPieceAt(8,4,token) + ".png";
+            sq36 =  "" + game.getPieceAt(8,5,token) + ".png";
+            sq35 =  "" + game.getPieceAt(8,6,token) + ".png";
+            sq34 =  "" + game.getPieceAt(8,7,token) + ".png";
+            sq33 =  "" + game.getPieceAt(8,8,token) + ".png";
+            sq32 =  "" + game.getPieceAt(8,9,token) + ".png";
+            sq31 =  "" + game.getPieceAt(8,10,token) + ".png";
+            sq210 =  "" + game.getPieceAt(9,1,token) + ".png";
+            sq29 =  "" + game.getPieceAt(9,2,token) + ".png";
+            sq28 =  "" + game.getPieceAt(9,3,token) + ".png";
+            sq27 =  "" + game.getPieceAt(9,4,token) + ".png";
+            sq26 =  "" + game.getPieceAt(9,5,token) + ".png";
+            sq25 =  "" + game.getPieceAt(9,6,token) + ".png";
+            sq24 =  "" + game.getPieceAt(9,7,token) + ".png";
+            sq23 =  "" + game.getPieceAt(9,8,token) + ".png";
+            sq22 =  "" + game.getPieceAt(9,9,token) + ".png";
+            sq21 =  "" + game.getPieceAt(9,10,token) + ".png";
+            sq110 =  "" + game.getPieceAt(10,1,token) + ".png";
+            sq19 =  "" + game.getPieceAt(10,2,token) + ".png";
+            sq18 =  "" + game.getPieceAt(10,3,token) + ".png";
+            sq17 =  "" + game.getPieceAt(10,4,token) + ".png";
+            sq16 =  "" + game.getPieceAt(10,5,token) + ".png";
+            sq15 =  "" + game.getPieceAt(10,6,token) + ".png";
+            sq14 =  "" + game.getPieceAt(10,7,token) + ".png";
+            sq13 =  "" + game.getPieceAt(10,8,token) + ".png";
+            sq12 =  "" + game.getPieceAt(10,9,token) + ".png";
+            sq11 =  "" + game.getPieceAt(10,10,token) + ".png";
+        }
 
         availablePieces = new ArrayList<String>();
 
@@ -236,6 +394,28 @@ public class BoardView {
     {
         return piecesLength;
     }
+
+    public String getRow1() { return row1; }
+    public String getRow2() { return row2; }
+    public String getRow3() { return row3; }
+    public String getRow4() { return row4; }
+    public String getRow5() { return row5; }
+    public String getRow6() { return row6; }
+    public String getRow7() { return row7; }
+    public String getRow8() { return row8; }
+    public String getRow9() { return row9; }
+    public String getRow10() { return row10; }
+
+    public String getCol1() { return col1; }
+    public String getCol2() { return col2; }
+    public String getCol3() { return col3; }
+    public String getCol4() { return col4; }
+    public String getCol5() { return col5; }
+    public String getCol6() { return col6; }
+    public String getCol7() { return col7; }
+    public String getCol8() { return col8; }
+    public String getCol9() { return col9; }
+    public String getCol10() { return col10; }
 
 
     public String getSq11()

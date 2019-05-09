@@ -53,6 +53,11 @@ public class Piece {
         return "Piece";
     }
 
+    public String toString()
+    {
+        return owner.getName() + ":" + name;
+    }
+
     public void kill()
     {
         if (isDead) throw new IllegalStateException("This piece is dead.");

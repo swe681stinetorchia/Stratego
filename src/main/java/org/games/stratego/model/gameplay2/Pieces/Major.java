@@ -21,4 +21,9 @@ public class Major extends Piece {
 
         return "major";
     }
+
+    public String toString()
+    {
+        return owner.getName() + ":major";
+    }
 }
