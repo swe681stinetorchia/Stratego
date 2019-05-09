@@ -367,6 +367,7 @@ public class GameServlet extends HttpServlet {
 
             if (game==null)
             {
+                log.warn("Game is stale");
                 session.setAttribute("message", "game is stale");
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/userHome.jsp");
@@ -662,6 +663,7 @@ public class GameServlet extends HttpServlet {
         }
         catch (ClassCastException cce)
         {
+            log.error("Session Error");
             session.setAttribute( "loggedIn", "false" );
 
             RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/loginError.jsp" );
