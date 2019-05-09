@@ -100,7 +100,7 @@ public class Login extends HttpServlet {
 
                     session.setAttribute("loginAttempts",
                             new Integer(attempts == null ? 1 : attempts.intValue() + 1));
-
+                    log.warn("Login attempts:" + attempts);
                     RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/loginError.jsp");
 
                     dispatcher.forward(request, response);
