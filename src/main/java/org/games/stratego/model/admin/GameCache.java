@@ -12,7 +12,7 @@ public class GameCache {
     public static Game getGame(String id) {
         Game game = games.get(id);
         if (game == null) {
-            return null;
+            throw new IllegalArgumentException("Game does not exist.");
         }
         return game;
     }

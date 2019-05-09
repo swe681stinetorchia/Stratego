@@ -76,7 +76,7 @@ public class Game {
         gameOver = false;
     }
 
-    public void move(int fromRow, int fromCol, int toRow, int toCol, String token) throws IllegalAccessException
+    public void move(int fromRow, int fromCol, int toRow, int toCol, String token)
     {
         if (gameOver)
         {
@@ -145,7 +145,7 @@ public class Game {
         }
         else
         {
-            return "Unauthorized";
+            return "unauthorized";
         }
 
         Piece piece = board.getPieceAt(row, col);
