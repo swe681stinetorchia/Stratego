@@ -24,7 +24,9 @@
 				<p class="explanation">
 					Logout successful
 				</p>
-
+			<p>
+				<a href="${initParam.siteURL}/login"> Login </a>
+			</p>
 
 		   </section>
 	
