@@ -9,8 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UserHome extends HttpServlet {
+
+    private final Logger log = LogManager.getLogger(getClass());
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response )
@@ -29,7 +33,7 @@ public class UserHome extends HttpServlet {
         {
             //session token is stale or invalid
             session.setAttribute( "loggedIn", "false" );
-
+            log.error("Session token is stale or invalid");
             dispatcher = request.getRequestDispatcher( "WEB-INF/html/loginError.jsp" );
 
         }
@@ -41,12 +45,6 @@ public class UserHome extends HttpServlet {
     }
 
     /*
-    //sudo code
-    public void startDefaultGame(String player_one, String player_two)
-    {
-
-
-    }
 
     public String[][] setDefaultBoard()
     {
