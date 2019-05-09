@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,8 +41,8 @@ public class UserHome extends HttpServlet {
         }
 
         UserDBConnection db = new UserDBConnection();
-        //List<String> listPlayers = db.getOpponent(sessionUserName);
-        //request.setAttribute("listPlayers", listPlayers);
+        List<String> moveHistory = db.getMoves(sessionUserName);
+        request.setAttribute("moveHistory", moveHistory);
         dispatcher.forward( request, response );
     }
 

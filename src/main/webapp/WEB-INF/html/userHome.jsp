@@ -64,5 +64,11 @@
 		<p><input type="submit" name="newGame" value="Submit"></p>
 	</form>
 
+<p>Moves History for Completed Games:</p>
+<c:forEach var="moveHistory" items="${moveHistory}">
+    <td>
+        <c:out value="${moveHistory}" />
+    </td>
+</c:forEach>
 </body>
 </html>
