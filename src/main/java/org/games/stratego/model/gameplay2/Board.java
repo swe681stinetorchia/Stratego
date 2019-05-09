@@ -108,6 +108,11 @@ public class Board
 
         Piece piece = fromSquare.getPiece();
 
+        if (piece.canMove())
+        {
+            throw new IllegalArgumentException("Invalid move");
+        }
+
         if (!toSquare.hasPiece())
         {
             fromSquare.removePiece();
