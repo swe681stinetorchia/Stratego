@@ -384,7 +384,7 @@ public class GameServlet extends HttpServlet {
 
                     session.setAttribute("game", game);
 
-                    session.setAttribute("gameId", game);
+                    session.setAttribute("gameId", gameId);
 
                     BoardView boardView = new BoardView(game, storedToken);
 
@@ -405,7 +405,7 @@ public class GameServlet extends HttpServlet {
 
             session.setAttribute("game", game);
 
-            session.setAttribute("gameId", game);
+            session.setAttribute("gameId", gameId);
 
             BoardView boardView = new BoardView(game, storedToken);
 

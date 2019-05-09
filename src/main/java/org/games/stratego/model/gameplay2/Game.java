@@ -7,6 +7,7 @@ import org.games.stratego.model.admin.User;
 import org.games.stratego.model.gameplay2.Pieces.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Game {
@@ -82,10 +83,10 @@ public class Game {
             throw new IllegalStateException("This game is over");
         }
 
-        if (!gameStart)
+        /*if (!gameStart)
         {
             throw new IllegalStateException("This game has not finished setting up.");
-        }
+        }*/
 
         String username = Sessions.checkSession(token);
 
@@ -221,8 +222,11 @@ public class Game {
 
         if (username.equals(playerOne.getName()))
         {
-            for (Piece pieceToTry : playerOnePieces)
+            Piece pieceToReturn = null;
+            Iterator iterator = playerOnePieces.iterator();
+            while(iterator.hasNext())
             {
+                Piece pieceToTry = (Piece) iterator.next();
                 if(pieceType.equals(pieceToTry.getType()))
                 {
                     if(pieceToTry.isOnBoard())
@@ -232,20 +236,28 @@ public class Game {
 
                     if (board.hasPiece(row, col))
                     {
-                        playerOnePieces.add(board.getPieceAt(row, col));
+                        pieceToReturn = board.getPieceAt(row, col);
+                        //playerOnePieces.add(board.getPieceAt(row, col));
                         board.removePiece(row, col);
                     }
 
                     board.addPiece(row, col, pieceToTry);
-
-                    playerOnePieces.remove(pieceToTry);
+                    iterator.remove();
+                    //playerOnePieces.remove(pieceToTry);
                 }
+            }
+            if (pieceToReturn!=null)
+            {
+                playerOnePieces.add(pieceToReturn);
             }
         }
         else if (username.equals(playerTwo.getName()))
         {
-            for (Piece pieceToTry : playerTwoPieces)
+            Piece pieceToReturn = null;
+            Iterator iterator = playerTwoPieces.iterator();
+            while(iterator.hasNext())
             {
+                Piece pieceToTry = (Piece) iterator.next();
                 if(pieceType.equals(pieceToTry.getType()))
                 {
                     if(pieceToTry.isOnBoard())
@@ -255,13 +267,19 @@ public class Game {
 
                     if (board.hasPiece(row, col))
                     {
-                        playerTwoPieces.add(board.getPieceAt(row, col));
+                        pieceToReturn = board.getPieceAt(row, col);
+                        //playerTwoPieces.add(board.getPieceAt(row, col));
                         board.removePiece(row, col);
                     }
 
                     board.addPiece(row, col, pieceToTry);
-                    playerTwoPieces.remove(pieceToTry);
+                    iterator.remove();
+                    //playerTwoPieces.remove(pieceToTry);
                 }
+            }
+            if (pieceToReturn!=null)
+            {
+                playerTwoPieces.add(pieceToReturn);
             }
         }
         else

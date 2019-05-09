@@ -79,7 +79,18 @@ public class Board
 
     protected FightResult move(int fromRow, int fromCol, int toRow, int toCol)
     {
+        if (Math.abs(fromRow-toRow)>1)
+        {
+            throw new IllegalArgumentException();
+        }
+
+        if (Math.abs(fromCol-toCol)>1)
+        {
+            throw new IllegalArgumentException();
+        }
+
         Square fromSquare = board[fromRow-1][fromCol-1];
+
         Square toSquare = board[toRow-1][toCol-1];
 
         if (!fromSquare.hasPiece())
