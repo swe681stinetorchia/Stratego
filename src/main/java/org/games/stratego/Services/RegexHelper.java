@@ -16,7 +16,7 @@ public class RegexHelper {
     //Move format is currRow:currCol moveRow:move:Col
     public Boolean isMoveRegex (String input)
     {
-        String regex = "^([1-9]|10){1}$";
+        String regex = "^([1-9]|10)$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
         return matcher.matches();
@@ -30,5 +30,5 @@ public class RegexHelper {
         Matcher matcher = pattern.matcher(input);
         return matcher.matches();
     }
-    
+
 }
