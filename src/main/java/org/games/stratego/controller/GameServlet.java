@@ -102,7 +102,7 @@ public class GameServlet extends HttpServlet {
 
             session.setAttribute("board", boardView);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/setupgame.jsp" );
 
             dispatcher.forward( request, response );
 
@@ -292,27 +292,30 @@ public class GameServlet extends HttpServlet {
 
             session.setAttribute("board", boardView);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+            if (game.isGameStart())
+            {
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/playgame.jsp");
 
-            dispatcher.forward( request, response );
+                dispatcher.forward( request, response );
+            }
+            else
+            {
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/setupgame.jsp");
+
+                dispatcher.forward( request, response );
+            }
 
             return;
         }
         else if (action.equals("add")) //request is used to add a piece
         {
-            String pieceType = request.getParameter("pieceType");
-            String row = request.getParameter("row");
-            String column = request.getParameter("column");
-            if (row == null || column == null || pieceType ==null)
-            {
-                //Not a meaningful request.
-                return;
-            }
             Game game = null;
 
-            String gameId = (String) session.getAttribute("gameId");
+            String gameId = "";
 
             try {
+                gameId = (String) session.getAttribute("gameId");
+
                 game = GameCache.getGame(gameId);
             }
             catch(IllegalArgumentException iae)
@@ -333,6 +336,26 @@ public class GameServlet extends HttpServlet {
 
                 return;
             }
+            catch (ClassCastException cce)
+            {
+                request.setAttribute( "message", "No game available." );
+
+                session.removeAttribute("gameId");
+
+                session.removeAttribute("board");
+
+                session.removeAttribute("game");
+
+                session.setAttribute("csrfToken", storedToken);
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/userHome.jsp" );
+
+                dispatcher.forward( request, response );
+
+                return;
+            }
+
+
 
             if (game==null)
             {
@@ -353,9 +376,73 @@ public class GameServlet extends HttpServlet {
                 return;
             }
 
+
+            String pieceType = request.getParameter("pieceType");
+
+            String row = request.getParameter("row");
+
+            String column = request.getParameter("column");
+
+            if (row == null || column == null || pieceType ==null
+                    || row == "" || column == "" || pieceType =="")
+            {
+                //Not a meaningful request.
+
+                session.setAttribute("csrfToken", storedToken);
+
+                session.setAttribute("game", game);
+
+                session.setAttribute("gameId", gameId);
+
+                BoardView boardView = new BoardView(game, storedToken);
+
+                session.setAttribute("board", boardView);
+
+                if (game.isGameStart())
+                {
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/playgame.jsp");
+
+                    dispatcher.forward( request, response );
+                }
+                else
+                {
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/setupgame.jsp");
+
+                    dispatcher.forward( request, response );
+                }
+
+                return;
+            }
+
             if (game.isGameStart())
             {
                 //cannot add pieces during the game
+                GameCache.addGame(gameId, game);
+
+                session.setAttribute("csrfToken", storedToken);
+
+                session.setAttribute("game", game);
+
+                session.setAttribute("gameId", gameId);
+
+                request.setAttribute("message", "Invalid Add");
+
+                BoardView boardView = new BoardView(game, storedToken);
+
+                session.setAttribute("board", boardView);
+
+                if (game.isGameStart())
+                {
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/playgame.jsp");
+
+                    dispatcher.forward( request, response );
+                }
+                else
+                {
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/setupgame.jsp");
+
+                    dispatcher.forward( request, response );
+                }
                 return;
             }
 
@@ -384,9 +471,20 @@ public class GameServlet extends HttpServlet {
 
                 session.setAttribute("board", boardView);
 
-                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+                if (game.isGameStart())
+                {
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/playgame.jsp");
 
-                dispatcher.forward( request, response );
+                    dispatcher.forward( request, response );
+                }
+                else
+                {
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/setupgame.jsp");
+
+                    dispatcher.forward( request, response );
+                }
+
+                return;
 
             }
 
@@ -404,30 +502,35 @@ public class GameServlet extends HttpServlet {
 
             session.setAttribute("board", boardView);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+            if (game.isGameStart())
+            {
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/playgame.jsp");
 
-            dispatcher.forward( request, response );
+                dispatcher.forward( request, response );
+            }
+            else
+            {
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/setupgame.jsp");
+
+                dispatcher.forward( request, response );
+            }
+
+            return;
 
         }
         else if (action.equals("move")) //request is used to move a piece
         {
-            String fromRow = request.getParameter("fromRow");
-            String fromColumn = request.getParameter("fromColumn");
-            String toRow = request.getParameter("toRow");
-            String toColumn = request.getParameter("toColumn");
-            if (fromRow == null || fromColumn == null || toRow == null || toColumn == null) {
-                System.out.println("a");
-                //invalid request
-                return;
-            }
 
             Game game;
 
-            String gameId = (String) session.getAttribute("gameId");
+            String gameId = "";
 
             try {
+                gameId = (String) session.getAttribute("gameId");
+
                 game = GameCache.getGame(gameId);
-            } catch (IllegalArgumentException iae) {
+            } catch (IllegalArgumentException iae)
+            {
                 session.setAttribute("csrfToken", storedToken);
 
                 session.removeAttribute("gameId");
@@ -442,6 +545,23 @@ public class GameServlet extends HttpServlet {
 
                 return;
             }
+            catch (ClassCastException cce)
+            {
+                session.setAttribute("csrfToken", storedToken);
+
+                session.removeAttribute("gameId");
+
+                request.setAttribute("message", "Game not available.");
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/userHome.jsp");
+
+                dispatcher.forward(request, response);
+
+                System.out.println("b");
+
+                return;
+            }
+
 
             if (game==null)
             {
@@ -454,6 +574,45 @@ public class GameServlet extends HttpServlet {
                 RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/userHome.jsp");
 
                 dispatcher.forward(request, response);
+
+                return;
+            }
+
+            String fromRow = request.getParameter("fromRow");
+
+            String fromColumn = request.getParameter("fromColumn");
+
+            String toRow = request.getParameter("toRow");
+
+            String toColumn = request.getParameter("toColumn");
+
+            if (fromRow == null || fromColumn == null || toRow == null || toColumn == null
+                    || fromRow == "" || fromColumn == "" || toRow == "" || toColumn == "")
+            {
+                //invalid request
+
+                session.setAttribute("csrfToken", storedToken);
+
+                session.setAttribute("game", game);
+
+                session.setAttribute("gameId", gameId);
+
+                BoardView boardView = new BoardView(game, storedToken);
+
+                session.setAttribute("board", boardView);
+
+                if (game.isGameStart())
+                {
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/playgame.jsp");
+
+                    dispatcher.forward( request, response );
+                }
+                else
+                {
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/setupgame.jsp");
+
+                    dispatcher.forward( request, response );
+                }
 
                 return;
             }
@@ -489,7 +648,7 @@ public class GameServlet extends HttpServlet {
 
                     request.setAttribute("message", "Invalid move.");
 
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/playgame.jsp");
 
                     dispatcher.forward(request, response);;
 
@@ -511,7 +670,7 @@ public class GameServlet extends HttpServlet {
 
                     request.setAttribute("message", ise.getMessage());
 
-                    RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+                    RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/playgame.jsp" );
 
                     dispatcher.forward( request, response );
 
@@ -530,7 +689,7 @@ public class GameServlet extends HttpServlet {
 
                 session.setAttribute("board", boardView);
 
-                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/playgame.jsp");
 
                 dispatcher.forward(request, response);
 
@@ -556,7 +715,7 @@ public class GameServlet extends HttpServlet {
 
                 request.setAttribute("message", "Move is invalid.");
 
-                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/playgame.jsp");
 
                 dispatcher.forward(request, response);
 
@@ -569,189 +728,6 @@ public class GameServlet extends HttpServlet {
             //invalid action
             return;
         }
-
-
-        /*
-        String pieceType = request.getParameter("pieceType");
-
-        if (pieceType==null) {
-            //No pieceType. This is not a add piece request.
-            String fromRow = request.getParameter("fromRow");
-            String fromColumn = request.getParameter("fromColumn");
-            String toRow = request.getParameter("toRow");
-            String toColumn = request.getParameter("toColumn");
-            RegexHelper rx = new RegexHelper();
-            if (rx.isAlphaNumericRegex(fromRow) && rx.isAlphaNumericRegex(fromColumn) && rx.isAlphaNumericRegex(toRow)
-                    && rx.isAlphaNumericRegex(toColumn))
-            {
-                if (fromRow == null || fromColumn == null || toRow == null || toColumn == null) {
-                    int id = Integer.valueOf(request.getParameter("id"));
-
-                    Game game = new Game(id);
-
-                    session.setAttribute("csrfToken", storedToken);
-
-                    session.setAttribute("game", game);
-
-                    BoardView boardView = new BoardView(game, storedToken);
-
-                    session.setAttribute("board", boardView);
-
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
-
-<<<<<<< HEAD
-                dispatcher.forward( request, response );
-
-                return;
-            }
-=======
-                    dispatcher.forward(request, response);
-                    //Not a meaningful request.
-                    return;
-                }
->>>>>>> b0b64404f3134aae083416f21523b1a0f334c0cf
-
-            Game game;
-
-            String gameId = (String) session.getAttribute("gameId");
-
-            try {
-                game = GameCache.getGame(gameId);
-            } catch (IllegalArgumentException iae) {
-                session.setAttribute("message", "game is stale");
-
-                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
-
-                dispatcher.forward(request, response);
-
-                return;
-            }
-            int fr = Integer.valueOf(fromRow);
-            int fc = Integer.valueOf(fromColumn);
-            int tr = Integer.valueOf(toRow);
-            int tc = Integer.valueOf(toColumn);
-            try {
-                    game.move(fr, fc, tr, tc, storedToken);
-            } catch (IllegalArgumentException iae) {
-
-                GameCache.addGame(gameId, game);
-
-                session.setAttribute("csrfToken", storedToken);
-
-                session.setAttribute("game", game);
-
-                session.setAttribute("gameId", game);
-
-                BoardView boardView = new BoardView(game, storedToken);
-
-                session.setAttribute("board", boardView);
-
-                request.setAttribute("message", "Invalid move.");
-
-                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
-
-                dispatcher.forward(request, response);
-            } catch (IllegalAccessException iae2) {
-
-            }
-
-            GameCache.addGame(gameId, game);
-
-            session.setAttribute("csrfToken", storedToken);
-
-            session.setAttribute("game", game);
-
-            session.setAttribute("gameId", game);
-
-            BoardView boardView = new BoardView(game, storedToken);
-
-            session.setAttribute("board", boardView);
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
-
-            dispatcher.forward(request, response);
-            }
-            else {
-                log.warn("Move is not legitimate");
-                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
-                dispatcher.forward(request, response);
-            }
-        }
-        else
-        {
-            String row = request.getParameter("row");
-            String column = request.getParameter("column");
-            if (row == null || column == null)
-            {
-                //Not a meaningful request.
-                return;
-            }
-            Game game = null;
-
-            String gameId = (String) session.getAttribute("gameId");
-
-            try {
-                game = GameCache.getGame(gameId);
-            }
-            catch(IllegalArgumentException iae)
-            {
-                session.setAttribute( "message", "game is stale" );
-
-                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
-
-                dispatcher.forward( request, response );
-
-                return;
-            }
-            int r = Integer.valueOf(row);
-            int c = Integer.valueOf(column);
-
-            System.out.println("Before: Piece at (" + r + ", " + c + "): " + game.getPieceAt(r, c, storedToken) );
-
-            try {
-                game.addPiece(r, c, pieceType, storedToken);
-            }
-            catch(IllegalArgumentException iae)
-            {
-                GameCache.addGame(gameId, game);
-
-                session.setAttribute("csrfToken", storedToken);
-
-                session.setAttribute("game", game);
-
-                session.setAttribute("gameId", gameId);
-
-                request.setAttribute("message", "Invalid Add");
-
-                BoardView boardView = new BoardView(game, storedToken);
-
-                session.setAttribute("board", boardView);
-
-                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
-
-                dispatcher.forward( request, response );
-
-            }
-
-            System.out.println("After: Piece at (" + r + ", " + c + "): " + game.getPieceAt(r, c, storedToken) );
-
-            GameCache.addGame(gameId, game);
-
-            session.setAttribute("csrfToken", storedToken);
-
-            session.setAttribute("game", game);
-
-            session.setAttribute("gameId", gameId);
-
-            BoardView boardView = new BoardView(game, storedToken);
-
-            session.setAttribute("board", boardView);
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
-
-            dispatcher.forward( request, response );
-
-        }*/
 
     }
 
@@ -833,73 +809,6 @@ public class GameServlet extends HttpServlet {
     //need to finish writing out
     private void collision()
     {}
-
-    /*
-    public void getBoard(HttpServletRequest request) throws MalformedURLException {
-        String col_name;
-        String piece_id;
-        String id_name;
-        String piece_name;
-        String src = "";
-        String token = (String) request.getAttribute("csrfToken");
-        String gameID= "97f2c246-6e87-11e9-b4e5-025041000001";
-        for (int row = 1; row < 11; row++) {
-            for (int col = 1; col < 11; col++) {
-                col_name = "position_" + row + "_" + col;
-                id_name = "sq" + row + col;
-                //Need to bring in game_id
-                BoardDBConnection db = new BoardDBConnection();
-                piece_id = db.getPiece(col_name, gameID);
-                ServletContext context = getServletContext(); // Inherited from HttpServlet.
-                //check if the piece is the owner
-                //if(db.getOwner())
-                if (true) {
-                    piece_name = db.getPieceRank(Integer.parseInt(piece_id));
-                    String picture = "";
-                    if (piece_name.equals("Flag")) {
-                        //picture = context.getRealPath("/html/images/flag.PNG");
-                        src = context.getResource("/html/images/flag.PNG").getPath();
-                    } else if (piece_name.equals("Bomb")) {
-                        //picture = context.getRealPath("/html/images/flag.PNG");
-                        src = context.getResource("/html/images/bomb.PNG").getPath();
-                    }
-                    if (piece_name.equals("Marshall")) {
-                        //picture = context.getRealPath("/html/images/flag.PNG");
-                        src = context.getResource("/html/images/marshall.PNG").getPath();
-                    } else if (piece_name.equals("General")) {
-                        //picture = context.getRealPath("/html/images/flag.PNG");
-                        src = context.getResource("/html/images/general.PNG").getPath();
-                    } else if (piece_name.equals("Major")) {
-                        //picture = context.getRealPath("/html/images/flag.PNG");
-                        src = context.getResource("/html/images/major.PNG").getPath();
-                    } else if (piece_name.equals("Captain")) {
-                        //picture = context.getRealPath("/html/images/flag.PNG");
-                        src = context.getResource("/html/images/captain.PNG").getPath();
-                    } else if (piece_name.equals("Lieutenant")) {
-                        //picture = context.getRealPath("/html/images/flag.PNG");
-                        src = context.getResource("/html/images/lieutenant.PNG").getPath();
-                    } else if (piece_name.equals("Sergeant")) {
-                        //picture = context.getRealPath("/html/images/flag.PNG");
-                        src = context.getResource("/html/images/sergeant.PNG").getPath();
-                    } else if (piece_name.equals("Miner")) {
-                        //picture = context.getRealPath("/html/images/flag.PNG");
-                        src = context.getResource("/html/images/miner.PNG").getPath();
-                    } else if (piece_name.equals("Scout")) {
-                        //picture = context.getRealPath("/html/images/flag.PNG");
-                        src = context.getResource("/html/images/scout.PNG").getPath();
-                    } else if (piece_name.equals("Spy")) {
-                        //picture = context.getRealPath("/html/images/flag.PNG");
-                        src = context.getResource("/html/images/spy.PNG").getPath();
-                    } else
-                        src = context.getResource("/html/images/blank.PNG").getPath();
-                }
-                else
-                    //opponents piece
-                src = context.getResource("/html/images/mystery.PNG").getPath();
-                request.setAttribute(id_name, src);
-            }
-        }
-    }**/
 
 
 }
