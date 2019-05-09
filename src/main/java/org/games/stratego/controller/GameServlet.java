@@ -340,8 +340,7 @@ public class GameServlet extends HttpServlet {
             String fromColumn = request.getParameter("fromColumn");
             String toRow = request.getParameter("toRow");
             String toColumn = request.getParameter("toColumn");
-            if (fromRow == null || fromColumn == null || toRow == null || toColumn == null)
-            {
+            if (fromRow == null || fromColumn == null || toRow == null || toColumn == null) {
                 //invalid request
                 return;
             }
@@ -352,20 +351,17 @@ public class GameServlet extends HttpServlet {
 
             try {
                 game = GameCache.getGame(gameId);
-            }
-            catch(IllegalArgumentException iae)
-            {
-                session.setAttribute( "message", "game is stale" );
+            } catch (IllegalArgumentException iae) {
+                session.setAttribute("message", "game is stale");
 
-                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
 
-                dispatcher.forward( request, response );
+                dispatcher.forward(request, response);
 
                 return;
             }
 
-            if (!game.isGameStart())
-            {
+            if (!game.isGameStart()) {
                 //cannot move pieces until game has started
                 //return;
             }
@@ -375,35 +371,33 @@ public class GameServlet extends HttpServlet {
             int tr = Integer.valueOf(toRow);
             int tc = Integer.valueOf(toColumn);
 
-            try
-            {
-                game.move(fr, fc, tr, tc, storedToken);
-            }
-            catch(IllegalArgumentException iae)
+            if (legitMove(fr, fc, tr, tc))
             {
 
-                GameCache.addGame(gameId, game);
+                try {
+                    game.move(fr, fc, tr, tc, storedToken);
+                } catch (IllegalArgumentException iae) {
 
-                session.setAttribute("csrfToken", storedToken);
+                    GameCache.addGame(gameId, game);
 
-                session.setAttribute("game", game);
+                    session.setAttribute("csrfToken", storedToken);
 
-                session.setAttribute("gameId", game);
+                    session.setAttribute("game", game);
 
-                BoardView boardView = new BoardView(game, storedToken);
+                    session.setAttribute("gameId", game);
 
-                session.setAttribute("board", boardView);
+                    BoardView boardView = new BoardView(game, storedToken);
 
-                request.setAttribute("message", "Invalid move.");
+                    session.setAttribute("board", boardView);
 
-                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+                    request.setAttribute("message", "Invalid move.");
 
-                dispatcher.forward( request, response );
-            }
-            catch(IllegalAccessException iae2)
-            {
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
 
-            }
+                    dispatcher.forward(request, response);
+                } catch (IllegalAccessException iae2) {
+
+                }
 
             GameCache.addGame(gameId, game);
 
@@ -417,9 +411,21 @@ public class GameServlet extends HttpServlet {
 
             session.setAttribute("board", boardView);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
 
-            dispatcher.forward( request, response );
+            dispatcher.forward(request, response);
+        }
+        else{
+            log.warn("Move is not legitimate");
+                GameCache.addGame(gameId, game);
+                session.setAttribute("csrfToken", storedToken);
+                session.setAttribute("game", game);
+                session.setAttribute("gameId", game);
+                BoardView boardView = new BoardView(game, storedToken);
+                session.setAttribute("board", boardView);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
+                dispatcher.forward(request, response);
+            }
         }
         else
         {
