@@ -1,5 +1,6 @@
 package org.games.stratego.controller;
 
+import org.apache.logging.log4j.Logger;
 import org.games.stratego.Services.RegexHelper;
 import org.games.stratego.database.BoardDBConnection;
 import org.games.stratego.model.admin.GameCache;
@@ -7,7 +8,7 @@ import org.games.stratego.model.admin.Sessions;
 import org.games.stratego.model.admin.User;
 import org.games.stratego.model.gameplay2.BoardView;
 import org.games.stratego.model.gameplay2.Game;
-
+import org.apache.logging.log4j.LogManager;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 public class GameServlet extends HttpServlet {
+    private final Logger log = LogManager.getLogger(getClass());
     //in your servlet or other web request handling code
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -214,33 +216,35 @@ public class GameServlet extends HttpServlet {
 
         String pieceType = request.getParameter("pieceType");
 
-        if (pieceType==null)
-        {
+        if (pieceType==null) {
             //No pieceType. This is not a add piece request.
             String fromRow = request.getParameter("fromRow");
             String fromColumn = request.getParameter("fromColumn");
             String toRow = request.getParameter("toRow");
             String toColumn = request.getParameter("toColumn");
-            if (fromRow == null || fromColumn == null || toRow == null || toColumn == null)
+            RegexHelper rx = new RegexHelper();
+            if (rx.isAlphaNumericRegex(fromRow) && rx.isAlphaNumericRegex(fromColumn) && rx.isAlphaNumericRegex(toRow)
+                    && rx.isAlphaNumericRegex(toColumn))
             {
-                int id = Integer.valueOf(request.getParameter("id"));
+                if (fromRow == null || fromColumn == null || toRow == null || toColumn == null) {
+                    int id = Integer.valueOf(request.getParameter("id"));
 
-                Game game = new Game(id);
+                    Game game = new Game(id);
 
-                session.setAttribute("csrfToken", storedToken);
+                    session.setAttribute("csrfToken", storedToken);
 
-                session.setAttribute("game", game);
+                    session.setAttribute("game", game);
 
-                BoardView boardView = new BoardView(game, storedToken);
+                    BoardView boardView = new BoardView(game, storedToken);
 
-                session.setAttribute("board", boardView);
+                    session.setAttribute("board", boardView);
 
-                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
 
-                dispatcher.forward( request, response );
-                //Not a meaningful request.
-                return;
-            }
+                    dispatcher.forward(request, response);
+                    //Not a meaningful request.
+                    return;
+                }
 
             Game game;
 
@@ -248,14 +252,12 @@ public class GameServlet extends HttpServlet {
 
             try {
                 game = GameCache.getGame(gameId);
-            }
-            catch(IllegalArgumentException iae)
-            {
-                session.setAttribute( "message", "game is stale" );
+            } catch (IllegalArgumentException iae) {
+                session.setAttribute("message", "game is stale");
 
-                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
 
-                dispatcher.forward( request, response );
+                dispatcher.forward(request, response);
 
                 return;
             }
@@ -263,13 +265,9 @@ public class GameServlet extends HttpServlet {
             int fc = Integer.valueOf(fromColumn);
             int tr = Integer.valueOf(toRow);
             int tc = Integer.valueOf(toColumn);
-
-            try
-            {
-                game.move(fr, fc, tr, tc, storedToken);
-            }
-            catch(IllegalArgumentException iae)
-            {
+            try {
+                    game.move(fr, fc, tr, tc, storedToken);
+            } catch (IllegalArgumentException iae) {
 
                 GameCache.addGame(gameId, game);
 
@@ -285,12 +283,10 @@ public class GameServlet extends HttpServlet {
 
                 request.setAttribute("message", "Invalid move.");
 
-                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
 
-                dispatcher.forward( request, response );
-            }
-            catch(IllegalAccessException iae2)
-            {
+                dispatcher.forward(request, response);
+            } catch (IllegalAccessException iae2) {
 
             }
 
@@ -306,9 +302,15 @@ public class GameServlet extends HttpServlet {
 
             session.setAttribute("board", boardView);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
 
-            dispatcher.forward( request, response );
+            dispatcher.forward(request, response);
+            }
+            else {
+                log.warn("Move is not legitimate");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/game.jsp");
+                dispatcher.forward(request, response);
+            }
         }
         else
         {
