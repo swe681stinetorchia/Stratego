@@ -279,6 +279,33 @@ public class UserDBConnection {
         return null;
     }
 
+    public String getUserID(String userName)
+    {
+        try {
+            // Setup the connection with the DB
+            connect = DriverManager
+                    .getConnection(url, username, password);
+            preparedStatement = connect
+                    .prepareStatement("select id from stratego.users WHERE username = ?");
+            preparedStatement.setString(1, userName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next())
+            {
+                String id = resultSet.getString("id");
+
+                connect.close();
+
+                return id;
+            }
+            connect.close();
+        }
+        catch (SQLException e) {
+            log.fatal(e.getMessage());
+
+        }
+        return null;
+    }
+
     public boolean checkPassword(String user, String pass)
     {
         try {
@@ -314,6 +341,26 @@ public class UserDBConnection {
         {
             log.fatal(ikse.getMessage());
             return false;
+        }
+    }
+
+    public void logMove(String userName, String gameId, String move) {
+
+        String id = getUserID(userName);
+        try {
+            // Setup the connection with the DB
+            connect = DriverManager
+                    .getConnection(url, username, password);
+            preparedStatement = connect
+                    .prepareStatement("insert into stratego.moveshistory (user_id, game_id, move, dateAdded) (?, ?, ?, SYSDATE())");
+            preparedStatement.setString(1, id);
+            preparedStatement.setString(2, gameId);
+            preparedStatement.setString(3, move);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            connect.close();
+        }
+        catch (Exception e) {
+            log.fatal(e.getMessage());
         }
     }
 }
