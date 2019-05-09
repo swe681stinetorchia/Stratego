@@ -2,8 +2,6 @@ package org.games.stratego.controller;
 
 import org.games.stratego.database.UserDBConnection;
 import org.games.stratego.model.admin.Sessions;
-import org.games.stratego.model.gameplay2.Player;
-import org.games.stratego.database.UserDBConnection;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,10 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UserHome extends HttpServlet {
+
+    private final Logger log = LogManager.getLogger(getClass());
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response )
@@ -26,8 +26,6 @@ public class UserHome extends HttpServlet {
         System.out.println( "doGet" );
         RequestDispatcher dispatcher = request.getRequestDispatcher( "/WEB-INF/html/userHome.jsp" );
 
-        String token = request.getParameter("token");
-
         //go ahead and process ... do business logic here
         String sessionUserName = Sessions.checkSession(storedToken);
 
@@ -35,12 +33,9 @@ public class UserHome extends HttpServlet {
         {
             //session token is stale or invalid
             session.setAttribute( "loggedIn", "false" );
-
+            log.error("Session token is stale or invalid");
             dispatcher = request.getRequestDispatcher( "WEB-INF/html/loginError.jsp" );
 
-            dispatcher.forward( request, response );
-
-            return;
         }
 
         UserDBConnection db = new UserDBConnection();
@@ -50,12 +45,6 @@ public class UserHome extends HttpServlet {
     }
 
     /*
-    //sudo code
-    public void startDefaultGame(String player_one, String player_two)
-    {
-
-
-    }
 
     public String[][] setDefaultBoard()
     {
