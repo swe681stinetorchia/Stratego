@@ -48,8 +48,9 @@
     <input type = "submit" value = "Submit" />
 </form>
 
-        <form method="put" action="${initParam.siteURL}/game" class="game">
+        <form method="get" action="${initParam.siteURL}/game" class="game">
 	        <label>Add Piece</label>
+            <input type="hidden" name="action" value="add" />
 			<p>Piece Type: <input type="text" name="pieceType" value="" style="width:150px"></p>
 			<p>Row: <input type="text" name="row" value="" style="width:150px"></p>
 			<p>Column: <input type="text" name="column" value="" style="width:150px"></p>
@@ -57,10 +58,11 @@
 		</form>
         <p>Available Pieces: ${sessionScope.board.availablePieces}</p>
 
-        <form method="put" action="${initParam.siteURL}/game" class="game">
+        <form method="get" action="${initParam.siteURL}/game" class="game">
 	        <label>Move Piece</label>
+            <input type="hidden" name="action" value="move" />
 			<p>From Row: <input type="text" name="fromRow" value="" style="width:150px"></p>
-			<p>From Column: <input type="text" name="fromXolumn" value="" style="width:150px"></p>
+			<p>From Column: <input type="text" name="fromColumn" value="" style="width:150px"></p>
 			<p>To Row: <input type="text" name="toRow" value="" style="width:150px"></p>
 			<p>To Column: <input type="text" name="toColumn" value="" style="width:150px"></p>
 			<p><input type="submit" name="modGame" value="Submit"></p>

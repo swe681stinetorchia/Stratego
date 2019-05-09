@@ -212,6 +212,221 @@ public class GameServlet extends HttpServlet {
         }
 
 
+        String action = request.getParameter("action");
+
+        if (action.equals("open")) //request is used to open a new game
+        {
+            int id = 0;
+
+            try
+            {
+                id = Integer.valueOf(request.getParameter("id"));
+            }
+            catch (ClassCastException cce)
+            {
+                cce.printStackTrace();
+                return;
+            }
+            catch (NullPointerException npe)
+            {
+                return;
+            }
+
+            Game game = new Game(id);
+
+            session.setAttribute("csrfToken", storedToken);
+
+            session.setAttribute("game", game);
+
+            BoardView boardView = new BoardView(game, storedToken);
+
+            session.setAttribute("board", boardView);
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+
+            dispatcher.forward( request, response );
+
+            return;
+        }
+        else if (action.equals("add")) //request is used to add a piece
+        {
+            String pieceType = request.getParameter("pieceType");
+            String row = request.getParameter("row");
+            String column = request.getParameter("column");
+            if (row == null || column == null || pieceType ==null)
+            {
+                //Not a meaningful request.
+                return;
+            }
+            Game game = null;
+
+            String gameId = (String) session.getAttribute("gameId");
+
+            try {
+                game = GameCache.getGame(gameId);
+            }
+            catch(IllegalArgumentException iae)
+            {
+                session.setAttribute( "message", "game is stale" );
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+
+                dispatcher.forward( request, response );
+
+                return;
+            }
+
+            if (game.isGameStart())
+            {
+                //cannot add pieces during the game
+                return;
+            }
+
+            int r = Integer.valueOf(row);
+
+            int c = Integer.valueOf(column);
+
+            System.out.println("Before: Piece at (" + r + ", " + c + "): " + game.getPieceAt(r, c, storedToken) );
+
+            try {
+                game.addPiece(r, c, pieceType, storedToken);
+            }
+            catch(IllegalArgumentException iae)
+            {
+                GameCache.addGame(gameId, game);
+
+                session.setAttribute("csrfToken", storedToken);
+
+                session.setAttribute("game", game);
+
+                session.setAttribute("gameId", gameId);
+
+                request.setAttribute("message", "Invalid Add");
+
+                BoardView boardView = new BoardView(game, storedToken);
+
+                session.setAttribute("board", boardView);
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+
+                dispatcher.forward( request, response );
+
+            }
+
+            System.out.println("After: Piece at (" + r + ", " + c + "): " + game.getPieceAt(r, c, storedToken) );
+
+            GameCache.addGame(gameId, game);
+
+            session.setAttribute("csrfToken", storedToken);
+
+            session.setAttribute("game", game);
+
+            session.setAttribute("gameId", gameId);
+
+            BoardView boardView = new BoardView(game, storedToken);
+
+            session.setAttribute("board", boardView);
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+
+            dispatcher.forward( request, response );
+
+        }
+        else if (action.equals("move")) //request is used to move a piece
+        {
+            String fromRow = request.getParameter("fromRow");
+            String fromColumn = request.getParameter("fromColumn");
+            String toRow = request.getParameter("toRow");
+            String toColumn = request.getParameter("toColumn");
+            if (fromRow == null || fromColumn == null || toRow == null || toColumn == null)
+            {
+                //invalid request
+                return;
+            }
+
+            Game game;
+
+            String gameId = (String) session.getAttribute("gameId");
+
+            try {
+                game = GameCache.getGame(gameId);
+            }
+            catch(IllegalArgumentException iae)
+            {
+                session.setAttribute( "message", "game is stale" );
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+
+                dispatcher.forward( request, response );
+
+                return;
+            }
+
+            if (!game.isGameStart())
+            {
+                //cannot move pieces until game has started
+                //return;
+            }
+
+            int fr = Integer.valueOf(fromRow);
+            int fc = Integer.valueOf(fromColumn);
+            int tr = Integer.valueOf(toRow);
+            int tc = Integer.valueOf(toColumn);
+
+            try
+            {
+                game.move(fr, fc, tr, tc, storedToken);
+            }
+            catch(IllegalArgumentException iae)
+            {
+
+                GameCache.addGame(gameId, game);
+
+                session.setAttribute("csrfToken", storedToken);
+
+                session.setAttribute("game", game);
+
+                session.setAttribute("gameId", game);
+
+                BoardView boardView = new BoardView(game, storedToken);
+
+                session.setAttribute("board", boardView);
+
+                request.setAttribute("message", "Invalid move.");
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+
+                dispatcher.forward( request, response );
+            }
+            catch(IllegalAccessException iae2)
+            {
+
+            }
+
+            GameCache.addGame(gameId, game);
+
+            session.setAttribute("csrfToken", storedToken);
+
+            session.setAttribute("game", game);
+
+            session.setAttribute("gameId", game);
+
+            BoardView boardView = new BoardView(game, storedToken);
+
+            session.setAttribute("board", boardView);
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
+
+            dispatcher.forward( request, response );
+        }
+        else
+        {
+            //invalid action
+            return;
+        }
+
+
+        /*
         String pieceType = request.getParameter("pieceType");
 
         if (pieceType==null)
@@ -238,7 +453,7 @@ public class GameServlet extends HttpServlet {
                 RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/game.jsp" );
 
                 dispatcher.forward( request, response );
-                //Not a meaningful request.
+
                 return;
             }
 
@@ -384,7 +599,7 @@ public class GameServlet extends HttpServlet {
 
             dispatcher.forward( request, response );
 
-        }
+        }*/
 
     }
 

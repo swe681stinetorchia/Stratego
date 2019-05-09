@@ -14,13 +14,14 @@ public class Game {
 
     static Board board;
 
-    static private Player playerOne;
-    static private Player playerTwo;
-    static private User winner;
-    static private User loser;
-    static private List<Piece> playerOnePieces;
-    static private List<Piece> playerTwoPieces;
-    static private boolean gameOver;
+    private Player playerOne;
+    private Player playerTwo;
+    private User winner;
+    private User loser;
+    private List<Piece> playerOnePieces;
+    private List<Piece> playerTwoPieces;
+    private boolean gameOver;
+    private boolean gameStart;
 
     //New Game
     public Game(User userOne, User userTwo)
@@ -32,6 +33,7 @@ public class Game {
         board = new Board(playerOne, playerTwo);
         instantiatePieces();
         gameOver = false;
+        gameStart = false;
     }
 
     public Game(int gameId)
@@ -77,7 +79,12 @@ public class Game {
     {
         if (gameOver)
         {
-            throw new IllegalArgumentException("This game is over");
+            throw new IllegalStateException("This game is over");
+        }
+
+        if (!gameStart)
+        {
+            throw new IllegalStateException("This game has not finished setting up.");
         }
 
         String username = Sessions.checkSession(token);
@@ -165,6 +172,16 @@ public class Game {
         return playerTwo;
     }
 
+    public boolean isGameStart()
+    {
+        return gameStart;
+    }
+
+    public boolean isGameOver()
+    {
+        return gameOver;
+    }
+
     public List<Piece> getAvailablePlayerPieces(String token)
     {
         if (gameOver)
@@ -192,7 +209,12 @@ public class Game {
     {
         if (gameOver)
         {
-            throw new IllegalArgumentException("This game is over");
+            throw new IllegalStateException("This game is over");
+        }
+
+        if (gameStart)
+        {
+            throw new IllegalStateException("This game has already started");
         }
 
         String username = Sessions.checkSession(token);
@@ -217,8 +239,6 @@ public class Game {
                     board.addPiece(row, col, pieceToTry);
 
                     playerOnePieces.remove(pieceToTry);
-
-                    return;
                 }
             }
         }
@@ -241,13 +261,17 @@ public class Game {
 
                     board.addPiece(row, col, pieceToTry);
                     playerTwoPieces.remove(pieceToTry);
-                    return;
                 }
             }
         }
         else
         {
             return;
+        }
+
+        if ((playerOnePieces.size()<=0)&&(playerTwoPieces.size()<=0))
+        {
+            gameStart=true;
         }
     }
 
