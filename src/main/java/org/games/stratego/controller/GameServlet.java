@@ -1,6 +1,12 @@
 package org.games.stratego.controller;
 
 import org.apache.logging.log4j.Logger;
+<<<<<<< HEAD
+=======
+import org.games.stratego.Services.RegexHelper;
+import org.games.stratego.database.BoardDBConnection;
+import org.games.stratego.database.UserDBConnection;
+>>>>>>> 323b3d604362ec18aa479424b0f353377202ceeb
 import org.games.stratego.model.admin.GameCache;
 import org.games.stratego.model.admin.Sessions;
 import org.games.stratego.model.admin.User;
@@ -639,8 +645,11 @@ public class GameServlet extends HttpServlet {
 
                 try {
                     game.move(fr, fc, tr, tc, storedToken);
-                } catch (IllegalArgumentException iae)
-                {
+
+                    UserDBConnection db = new UserDBConnection();
+
+                    db.logMove(sessionUserName, gameId, "Move from " + fromRow + ":" + fromColumn + " to" + toRow + ":" + toColumn);
+                } catch (IllegalArgumentException iae) {
 
                     GameCache.addGame(gameId, game);
 
