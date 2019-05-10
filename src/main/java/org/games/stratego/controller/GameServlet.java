@@ -614,6 +614,7 @@ public class GameServlet extends HttpServlet {
             String fromColumn ="";
             String toRow ="";
             String toColumn ="";
+            //Make sure move is 1-10
             if(rx.isMoveRegex(request.getParameter("fromRow")))
             fromRow = request.getParameter("fromRow");
             if(rx.isMoveRegex(request.getParameter("fromColumn")))
