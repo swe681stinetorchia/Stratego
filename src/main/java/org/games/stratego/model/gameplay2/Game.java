@@ -229,6 +229,19 @@ public class Game {
             throw new IllegalStateException("This game is over");
         }
 
+        String username = Sessions.checkSession(token);
+
+        if (username.equals(playerOne.getName()))
+        {
+            loser = playerOne.getUser();
+            winner = playerTwo.getUser();
+        }
+        else if (username.equals(playerTwo.getName()))
+        {
+            loser = playerTwo.getUser();
+            winner = playerOne.getUser();
+        }
+        gameOver = true;
     }
 
     public void addPiece(int row, int col, String pieceType, String token)
