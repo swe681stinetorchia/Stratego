@@ -244,6 +244,31 @@ public class Game {
         gameOver = true;
     }
 
+    public boolean victory(String token)
+    {
+        if (!gameOver)
+        {
+            return false;
+        }
+
+        String username = Sessions.checkSession(token);
+
+        return username.equals(winner.getName());
+    }
+
+    public boolean defeat(String token)
+    {
+        if (!gameOver)
+        {
+            return false;
+        }
+
+        String username = Sessions.checkSession(token);
+
+        return username.equals(loser.getName());
+
+    }
+
     public void addPiece(int row, int col, String pieceType, String token)
     {
         System.out.println("A");
