@@ -45,6 +45,8 @@
 </tbody>
 </table>
 
+        <p>${requestScope.message}</p>
+
         <form method="get" action="${initParam.siteURL}/game" class="game">
 	        <label>Add Piece</label>
             <input type="hidden" name="action" value="add" />

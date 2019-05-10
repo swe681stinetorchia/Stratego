@@ -222,6 +222,15 @@ public class Game {
         }
     }
 
+    public void surrender(String token)
+    {
+        if (gameOver)
+        {
+            throw new IllegalStateException("This game is over");
+        }
+
+    }
+
     public void addPiece(int row, int col, String pieceType, String token)
     {
         System.out.println("A");

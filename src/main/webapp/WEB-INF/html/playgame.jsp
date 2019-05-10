@@ -44,21 +44,24 @@
 <tr> <th>${sessionScope.board.row10}</th><th><img src = "${sessionScope.board.sq101}" title="position 10x1" > </th><th><img src = "${sessionScope.board.sq102}" title="position 1x2" ></th><th><img src = "${sessionScope.board.sq103}" title="position 1x3" ></th><th><img src = "${sessionScope.board.sq104}" title="position 1x4" ></th><th><img src = "${sessionScope.board.sq105}" title="position 1x5" ></th><th><img src = "${sessionScope.board.sq106}" title="position 1x6" ></th><th><img src = "${sessionScope.board.sq107}" title="position 1x7" ></th><th><img src = "${sessionScope.board.sq108}" title="position 1x8" ></th><th><img src = "${sessionScope.board.sq109}" title="position 1x9" ></th><th><img src = "${sessionScope.board.sq1010}" title="position 1x10" ></th></tr>
 </tbody>
 </table>
-        <form method="get" action="${initParam.siteURL}/game" class="game">
-	        <label>Move Piece</label>
-            <input type="hidden" name="action" value="move" />
-			<p>From Row: <input type="text" name="fromRow" value="" style="width:150px"></p>
-			<p>From Column: <input type="text" name="fromColumn" value="" style="width:150px"></p>
-			<p>To Row: <input type="text" name="toRow" value="" style="width:150px"></p>
-			<p>To Column: <input type="text" name="toColumn" value="" style="width:150px"></p>
-			<p><input type="submit" name="modGame" value="Submit"></p>
-		</form>
 
-      <form method="get" action="${initParam.siteURL}/game" class="update">
+    <p>${requestScope.message}</p>
+
+    <form method="get" action="${initParam.siteURL}/game" class="game">
+	    <label>Move Piece</label>
+        <input type="hidden" name="action" value="move" />
+		<p>From Row: <input type="text" name="fromRow" value="" style="width:150px"></p>
+		<p>From Column: <input type="text" name="fromColumn" value="" style="width:150px"></p>
+		<p>To Row: <input type="text" name="toRow" value="" style="width:150px"></p>
+		<p>To Column: <input type="text" name="toColumn" value="" style="width:150px"></p>
+		<p><input type="submit" name="modGame" value="Submit"></p>
+	</form>
+
+    <form method="get" action="${initParam.siteURL}/game" class="update">
         <input type="hidden" name="action" value="open" />
         <input type="hidden" name="gameId" value="${entry.value}">
         <p><input type="submit" name="openGame" value="${entry.key}"></p>
-      </form>
+    </form>
 
 </body>
 </html>
