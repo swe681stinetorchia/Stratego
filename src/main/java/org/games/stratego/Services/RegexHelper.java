@@ -13,19 +13,10 @@ public class RegexHelper {
         Matcher matcher = pattern.matcher(input);
         return matcher.matches();
     }
-    //Move format is currRow:currCol moveRow:move:Col
+    //Move format is 1-10
     public Boolean isMoveRegex (String input)
     {
         String regex = "^([1-9]|10)$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input);
-        return matcher.matches();
-    }
-
-    //Move format is currRow:currCol moveRow:move:Col
-    public Boolean isOldMoveRegex (String input)
-    {
-        String regex = "^([1-9]|10){1}:([1-9]|10){1} ([1-9]|10){1}:([1-9]|10){1}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
         return matcher.matches();
