@@ -1,5 +1,6 @@
 package org.games.stratego.controller;
 
+import  org.games.stratego.Services.RegexHelper;
 import org.apache.logging.log4j.Logger;
 import org.games.stratego.database.UserDBConnection;
 import org.games.stratego.model.admin.GameCache;
@@ -363,104 +364,94 @@ public class GameServlet extends HttpServlet {
                 }
                 return;
             }
+            RegexHelper rx = new RegexHelper();
+                if(rx.isMoveRegex(row) && rx.isMoveRegex(column)) {
+                    try {
+                        int r = Integer.valueOf(row);
 
-            try
-            {
-                int r = Integer.valueOf(row);
+                        int c = Integer.valueOf(column);
 
-                int c = Integer.valueOf(column);
+                        game.addPiece(r, c, pieceType, storedToken);
+                    } catch (NumberFormatException nfe) {
+                        GameCache.addGame(gameId, game);
 
-                game.addPiece(r, c, pieceType, storedToken);
-            }
-            catch(NumberFormatException nfe)
-            {
-                GameCache.addGame(gameId, game);
+                        session.setAttribute("csrfToken", storedToken);
 
-                session.setAttribute("csrfToken", storedToken);
+                        session.setAttribute("game", game);
 
-                session.setAttribute("game", game);
+                        session.setAttribute("gameId", gameId);
 
-                session.setAttribute("gameId", gameId);
+                        request.setAttribute("message", "Invalid Add");
 
-                request.setAttribute("message", "Invalid Add");
+                        BoardView boardView = new BoardView(game, storedToken);
 
-                BoardView boardView = new BoardView(game, storedToken);
+                        session.setAttribute("board", boardView);
 
-                session.setAttribute("board", boardView);
+                        if (game.isGameStart()) {
+                            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/playgame.jsp");
 
-                if (game.isGameStart())
-                {
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/playgame.jsp");
+                            dispatcher.forward(request, response);
+                        } else {
+                            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/setupgame.jsp");
 
-                    dispatcher.forward( request, response );
+                            dispatcher.forward(request, response);
+                        }
+
+                        return;
+                    } catch (IllegalArgumentException iae) {
+                        GameCache.addGame(gameId, game);
+
+                        session.setAttribute("csrfToken", storedToken);
+
+                        session.setAttribute("game", game);
+
+                        session.setAttribute("gameId", gameId);
+
+                        request.setAttribute("message", "Invalid Add");
+
+                        BoardView boardView = new BoardView(game, storedToken);
+
+                        session.setAttribute("board", boardView);
+
+                        if (game.isGameStart()) {
+                            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/playgame.jsp");
+
+                            dispatcher.forward(request, response);
+                        } else {
+                            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/setupgame.jsp");
+
+                            dispatcher.forward(request, response);
+                        }
+
+                        return;
+
+                    }
+
+                    GameCache.addGame(gameId, game);
+
+                    session.setAttribute("csrfToken", storedToken);
+
+                    session.setAttribute("game", game);
+
+                    session.setAttribute("gameId", gameId);
+
+                    BoardView boardView = new BoardView(game, storedToken);
+
+                    session.setAttribute("board", boardView);
+
+                    if (game.isGameStart()) {
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/playgame.jsp");
+
+                        dispatcher.forward(request, response);
+                    } else {
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/setupgame.jsp");
+
+                        dispatcher.forward(request, response);
+                    }
                 }
-                else
-                {
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/setupgame.jsp");
-
-                    dispatcher.forward( request, response );
+                else{
+                    log.warn("Move isn't legitmate");
                 }
-
-                return;
-            }
-            catch(IllegalArgumentException iae)
-            {
-                GameCache.addGame(gameId, game);
-
-                session.setAttribute("csrfToken", storedToken);
-
-                session.setAttribute("game", game);
-
-                session.setAttribute("gameId", gameId);
-
-                request.setAttribute("message", "Invalid Add");
-
-                BoardView boardView = new BoardView(game, storedToken);
-
-                session.setAttribute("board", boardView);
-
-                if (game.isGameStart())
-                {
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/playgame.jsp");
-
-                    dispatcher.forward( request, response );
-                }
-                else
-                {
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/setupgame.jsp");
-
-                    dispatcher.forward( request, response );
-                }
-
-                return;
-
-            }
-
-            GameCache.addGame(gameId, game);
-
-            session.setAttribute("csrfToken", storedToken);
-
-            session.setAttribute("game", game);
-
-            session.setAttribute("gameId", gameId);
-
-            BoardView boardView = new BoardView(game, storedToken);
-
-            session.setAttribute("board", boardView);
-
-            if (game.isGameStart())
-            {
-                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/playgame.jsp");
-
-                dispatcher.forward( request, response );
-            }
-            else
-            {
-                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/setupgame.jsp");
-
-                dispatcher.forward( request, response );
-            }
-
         }
         else if (action.equals("move")) //request is used to move a piece
         {
@@ -528,14 +519,19 @@ public class GameServlet extends HttpServlet {
 
                 return;
             }
-
-            String fromRow = request.getParameter("fromRow");
-
-            String fromColumn = request.getParameter("fromColumn");
-
-            String toRow = request.getParameter("toRow");
-
-            String toColumn = request.getParameter("toColumn");
+            RegexHelper rx = new RegexHelper();
+            String fromRow = "";
+            String fromColumn ="";
+            String toRow ="";
+            String toColumn ="";
+            if(rx.isMoveRegex(request.getParameter("fromRow")))
+            fromRow = request.getParameter("fromRow");
+            if(rx.isMoveRegex(request.getParameter("fromColumn")))
+            fromColumn = request.getParameter("fromColumn");
+            if(rx.isMoveRegex(request.getParameter("toRow")))
+            toRow = request.getParameter("toRow");
+            if(rx.isMoveRegex(request.getParameter("toColumn")))
+            toColumn = request.getParameter("toColumn");
 
             if (fromRow == null || fromColumn == null || toRow == null || toColumn == null
                     || fromRow.equals("") || fromColumn.equals("") || toRow.equals("") || toColumn.equals(""))
