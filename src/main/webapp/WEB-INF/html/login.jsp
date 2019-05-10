@@ -21,6 +21,7 @@
 			<hr style="margin:auto; height:1px"/>
 	
 			<section>
+				<p>${requestScope.message}</p>
 
 				<p class="explanation">Please enter your user credentials below. If you are a new user, select the new user link below and complete the form.</p>
 
