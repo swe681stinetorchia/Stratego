@@ -13,8 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
-@SuppressWarnings("serial")
-@WebServlet("/Logout")
+
 public class Logout extends HttpServlet {
     private final Logger log = LogManager.getLogger(getClass());
 
