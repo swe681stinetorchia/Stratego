@@ -27,24 +27,16 @@ public class Square {
 
     protected void addPiece(Piece pieceToAdd)
     {
-        System.out.println("66");
         if (piece != null)
         {
-            System.out.println("77");
             if (!piece.isOnBoard())
             {
-                System.out.println("88: " + "Piece is listed in the square (" + row + "," + column + ") doesn't have the 'isOnBoard' attribute.");
                 throw new RuntimeException("Piece is listed in the square (" + row + "," + column + ") doesn't have the 'isOnBoard' attribute.");
             }
-            System.out.println("99");
             piece.removeFromBoard();
-            System.out.println("1010");
         }
-        System.out.println("1111");
         piece = pieceToAdd;
-        System.out.println("1212");
         piece.addToBoard();
-        System.out.println("1313");
     }
 
     protected Piece getPiece()
@@ -72,20 +64,5 @@ public class Square {
     public boolean hasPiece()
     {
         return (piece!=null);
-    }
-
-    public String readPiece(Player reader)
-    {
-        if (piece==null)
-        {
-            return null;
-        }
-
-        if (reader == piece.getOwner())
-        {
-            return piece.getType();
-        }
-
-        return "A Piece";
     }
 }

@@ -41,39 +41,21 @@ public class Board
                 //board[row][col] = db.getPiece(col_name, gameId);
             }
         }
-
-        /**
-        for (int row = 0; row < board.length; row++) {
-            System.out.print((row + 1) + "\t");
-            for (int col = 0; col < board[row].length; col++) {
-                System.out.print(board[row][col] + "\t");
-            }
-            System.out.println();
-        }
-        System.out.print("\t");
-        for(int row = 0; row < 10; row++) {
-            System.out.print((row + 1) + "\t");
-        }*/
     }
 
     protected void addPiece(int row, int col, Piece piece)
     {
-        System.out.println("11");
         Player boardOwner =  board[row-1][col-1].getOwner();
-        System.out.println("22");
+
         Player pieceOwner = piece.getOwner();
-        System.out.println("33");
 
 
         if (boardOwner != null && boardOwner.equals(pieceOwner))
         {
-            System.out.println("44");
             board[row-1][col-1].addPiece(piece);
-            System.out.println("55");
         }
         else
         {
-            System.out.println("Failed add piece in Board because: " + boardOwner + " : " + pieceOwner);
             throw new IllegalArgumentException("The player " + pieceOwner.getName() + " is not allowed to add pieces to the cell (" + row + "," + col +").");
         }
     }
@@ -101,16 +83,6 @@ public class Board
 
     protected FightResult move(int fromRow, int fromCol, int toRow, int toCol)
     {
-        if (Math.abs(fromRow-toRow)>1)
-        {
-            throw new IllegalArgumentException("Invalid move");
-        }
-
-        if (Math.abs(fromCol-toCol)>1)
-        {
-            throw new IllegalArgumentException("Invalid move");
-        }
-
         Square fromSquare = board[fromRow-1][fromCol-1];
 
         Square toSquare = board[toRow-1][toCol-1];
@@ -122,9 +94,9 @@ public class Board
 
         Piece piece = fromSquare.getPiece();
 
-        if (piece.canMove())
+        if (!piece.canMove())
         {
-            throw new IllegalArgumentException("Invalid move");
+            throw new IllegalArgumentException("This piece cannot move.");
         }
 
         if (!toSquare.hasPiece())

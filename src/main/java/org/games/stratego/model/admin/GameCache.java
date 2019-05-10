@@ -38,7 +38,6 @@ public class GameCache {
 
     public static Map<String, Game> getAssignedGames(String username)
     {
-        System.out.println("Looking for assigned games for " + username);
         Map<String, Game> assignedGames = new HashMap<String, Game>();
         for (String key: games.keySet())
         {
@@ -47,7 +46,6 @@ public class GameCache {
             User userTwo = game.getPlayerTwo().getUser();
             String userNameOne = userOne.getName();
             String userNameTwo = userTwo.getName();
-            System.out.println("Compare " + username + " to " + userNameOne + " and " + userNameTwo + ".");
             if (userNameOne.equals(username)||userNameTwo.equals(username))
             {
                 assignedGames.put(key, game);

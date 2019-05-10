@@ -309,7 +309,6 @@ public class Game {
 
     public void addPiece(int row, int col, String pieceType, String token)
     {
-        System.out.println("A");
         if (gameOver)
         {
             throw new IllegalStateException("This game is over");
@@ -327,11 +326,9 @@ public class Game {
         }
 
         String username = Sessions.checkSession(token);
-        System.out.println("B");
 
         if (username.equals(playerOne.getName()))
         {
-            System.out.println("C: " + username + " : " + pieceType);
             Piece pieceToReturn = null;
             Iterator iterator = playerOnePieces.iterator();
             while(iterator.hasNext())
@@ -360,34 +357,30 @@ public class Game {
         }
         else if (username.equals(playerTwo.getName()))
         {
-            System.out.println("D: " + username + " : " + pieceType);
             Piece pieceToReturn = null;
+
             Iterator iterator = playerTwoPieces.iterator();
-            System.out.println("E: ");
+
             while(iterator.hasNext())
             {
                 Piece pieceToTry = (Piece) iterator.next();
-                System.out.println("F pieceToTry: " + pieceType + " : " + pieceToTry.getType());
+
                 if(pieceType.equals(pieceToTry.getType()))
                 {
-                    System.out.println("G ");
-                    System.out.println("I: ");
 
                     if (board.hasPiece(row, col))
                     {
-                        System.out.println("J: ");
                         pieceToReturn = board.getPieceAt(row, col);
-                        System.out.println("K: " + pieceToReturn.getType());
+
                         //playerTwoPieces.add(board.getPieceAt(row, col));
                         board.removePiece(row, col, playerTwo);
                     }
-                    System.out.println("L: " + board.getPieceAt(row, col));
 
                     board.addPiece(row, col, pieceToTry);
-                    System.out.println("M: " + board.getPieceAt(row, col));
+
                     iterator.remove();
+
                     break;
-                    //playerTwoPieces.remove(pieceToTry);
                 }
             }
             if (pieceToReturn!=null)
@@ -515,8 +508,6 @@ public class Game {
             Bomb bomb = new Bomb(playerTwo);
             playerTwoPieces.add(bomb);
         }
-        System.out.println("player one pieces size: "+ playerOnePieces.size());
-        System.out.println("player two pieces size: "+ playerTwoPieces.size());
     }
 
 

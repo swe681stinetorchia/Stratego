@@ -591,7 +591,6 @@ public class GameServlet extends HttpServlet {
 
                 dispatcher.forward(request, response);
 
-                System.out.println("b");
 
                 return;
             }
@@ -608,8 +607,6 @@ public class GameServlet extends HttpServlet {
                 RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/userHome.jsp");
 
                 dispatcher.forward(request, response);
-
-                System.out.println("b");
 
                 return;
             }

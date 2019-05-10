@@ -22,8 +22,6 @@ public class NewUser extends HttpServlet {
     public void doGet( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException
     {
-        System.out.println( "doGet" );
-
         // Create a session
         HttpSession session = request.getSession();
         session.setAttribute( "loggedIn", "false" );
@@ -33,9 +31,8 @@ public class NewUser extends HttpServlet {
 
     @Override
     public void doPost( HttpServletRequest request, HttpServletResponse response )
-            throws ServletException, IOException {
-        System.out.println("doPost");
-
+            throws ServletException, IOException
+    {
         HttpSession session = request.getSession();
         if (session.isNew()) {
             // A session should already exist--something's wrong
@@ -66,7 +63,6 @@ public class NewUser extends HttpServlet {
                 }
             else {
                 log.warn("Please enter alpha numeric for username");
-            System.out.println("Please enter alpha numeric for username");
             }
         }
     }
