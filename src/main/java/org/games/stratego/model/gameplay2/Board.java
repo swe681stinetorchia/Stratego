@@ -72,10 +72,18 @@ public class Board
         }
     }
 
-    protected void removePiece(int row, int col)
+    protected void removePiece(int row, int col, Player player)
     {
+
         if(board[row-1][col-1].hasPiece())
         {
+            Piece piece = board[row-1][col-1].getPiece();
+
+            if (!player.equals(piece.getOwner()))
+            {
+                throw new IllegalArgumentException("Invalid remove.");
+            }
+
             board[row-1][col-1].removePiece();
         }
     }

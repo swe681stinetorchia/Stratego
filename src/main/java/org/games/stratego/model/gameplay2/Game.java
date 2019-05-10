@@ -263,7 +263,7 @@ public class Game {
                     {
                         pieceToReturn = board.getPieceAt(row, col);
                         //playerOnePieces.add(board.getPieceAt(row, col));
-                        board.removePiece(row, col);
+                        board.removePiece(row, col, playerOne);
                     }
 
                     board.addPiece(row, col, pieceToTry);
@@ -303,7 +303,7 @@ public class Game {
                         pieceToReturn = board.getPieceAt(row, col);
                         System.out.println("K: " + pieceToReturn.getType());
                         //playerTwoPieces.add(board.getPieceAt(row, col));
-                        board.removePiece(row, col);
+                        board.removePiece(row, col, playerTwo);
                     }
                     System.out.println("L: " + board.getPieceAt(row, col));
 
