@@ -196,7 +196,7 @@ public class GameDBConnection {
             preparedStatement.setInt(1, winnerId);
             preparedStatement.setInt(2, loserId);
             preparedStatement.setString(3, gameId);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            preparedStatement.executeQuery();
 
         }
         catch (SQLException e) {
