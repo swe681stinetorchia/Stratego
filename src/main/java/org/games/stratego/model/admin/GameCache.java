@@ -1,6 +1,6 @@
 package org.games.stratego.model.admin;
 
-import org.games.stratego.model.gameplay2.Game;
+import org.games.stratego.model.gameplay.Game;
 
 import java.util.HashMap;
 import java.util.Map;

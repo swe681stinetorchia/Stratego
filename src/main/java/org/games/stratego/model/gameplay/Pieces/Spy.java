@@ -2,7 +2,7 @@ package org.games.stratego.model.gameplay.Pieces;
 
 import org.games.stratego.model.gameplay.Player;
 
-public class Spy extends Piece{
+public class Spy extends Piece {
 
     private String name = "spy";
     private boolean canMove = true;
@@ -11,5 +11,27 @@ public class Spy extends Piece{
     public Spy(Player owner)
     {
         this.owner = owner;
+        this.name = "spy";
+    }
+
+    @Override
+    public String getType()
+    {
+        if (isDead) throw new IllegalStateException("This piece is dead.");
+
+        return "spy";
+    }
+
+    @Override
+    public boolean canMove()
+    {
+        if (isDead) throw new IllegalStateException("This piece is dead.");
+
+        return canMove;
+    }
+
+    public String toString()
+    {
+        return owner.getName() + ":spy";
     }
 }

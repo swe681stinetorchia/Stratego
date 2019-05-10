@@ -3,7 +3,7 @@ package org.games.stratego.model.gameplay.Pieces;
 import org.games.stratego.model.gameplay.FightResult;
 import org.games.stratego.model.gameplay.Player;
 
-public class Flag extends Piece{
+public class Flag extends Piece {
 
     private String name = "flag";
     private boolean canMove = false;
@@ -40,5 +40,27 @@ public class Flag extends Piece{
         }
 
         return FightResult.CapturedFlag;
+    }
+
+
+    @Override
+    public String getType()
+    {
+        if (isDead) throw new IllegalStateException("This piece is dead.");
+
+        return "flag";
+    }
+
+    @Override
+    public boolean canMove()
+    {
+        if (isDead) throw new IllegalStateException("This piece is dead.");
+
+        return canMove;
+    }
+
+    public String toString()
+    {
+        return owner.getName() + ":flag";
     }
 }

@@ -19,7 +19,7 @@ import org.games.stratego.Services.UserService;
 import org.games.stratego.model.admin.DashboardView;
 import org.games.stratego.model.admin.GameCache;
 import org.games.stratego.model.admin.Sessions;
-import org.games.stratego.model.gameplay2.Game;
+import org.games.stratego.model.gameplay.Game;
 
 public class Login extends HttpServlet {
     private final Logger log = LogManager.getLogger(getClass());

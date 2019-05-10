@@ -15,30 +15,17 @@ public class Square {
         this.column = column;
     }
 
-    public void addPiece(Piece pieceToAdd)
+    protected void setOwner(Player player)
     {
-        if (piece != null)
-        {
-            if (!piece.isOnBoard())
-            {
-                throw new RuntimeException("Piece is listed in the square (" + row + "," + column + ") doesn't have the 'isOnBoard' attribute.");
-            }
-            piece.removeFromBoard();
-        }
-
-        Player pieceOwner = pieceToAdd.getOwner();
-
-        if (owner != null && owner.equals(pieceOwner))
-        {
-            piece = pieceToAdd;
-        }
-        else
-        {
-            throw new IllegalArgumentException("The player " + owner.getName() + " is not allowed to add pieces to the cell (" + row + "," + column +").");
-        }
+        this.owner = player;
     }
 
-    public void removePiece()
+    protected Player getOwner()
+    {
+        return owner;
+    }
+
+    protected void addPiece(Piece pieceToAdd)
     {
         if (piece != null)
         {
@@ -48,5 +35,49 @@ public class Square {
             }
             piece.removeFromBoard();
         }
+        piece = pieceToAdd;
+        piece.addToBoard();
+    }
+
+    protected Piece getPiece()
+    {
+        if (piece==null)
+        {
+            return null;
+        }
+        return piece;
+    }
+
+    protected void removePiece()
+    {
+        if (piece != null)
+        {
+            if (!piece.isOnBoard())
+            {
+                throw new RuntimeException("Piece is listed in the square (" + row + "," + column + ") doesn't have the 'isOnBoard' attribute.");
+            }
+            piece.removeFromBoard();
+        }
+        piece = null;
+    }
+
+    public boolean hasPiece()
+    {
+        return (piece!=null);
+    }
+
+    public String readPiece(Player reader)
+    {
+        if (piece==null)
+        {
+            return null;
+        }
+
+        if (reader == piece.getOwner())
+        {
+            return piece.getType();
+        }
+
+        return "A Piece";
     }
 }

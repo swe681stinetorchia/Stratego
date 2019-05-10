@@ -2,7 +2,7 @@ package org.games.stratego.model.gameplay.Pieces;
 
 import org.games.stratego.model.gameplay.Player;
 
-public class Colonel extends Piece{
+public class Colonel extends Piece {
 
     private String name = "colonel";
     private boolean canMove = true;
@@ -11,5 +11,27 @@ public class Colonel extends Piece{
     public Colonel(Player owner)
     {
         this.owner = owner;
+    }
+
+
+    @Override
+    public String getType()
+    {
+        if (isDead) throw new IllegalStateException("This piece is dead.");
+
+        return "colonel";
+    }
+
+    public String toString()
+    {
+        return owner.getName() + ":colonel";
+    }
+
+    @Override
+    public boolean canMove()
+    {
+        if (isDead) throw new IllegalStateException("This piece is dead.");
+
+        return canMove;
     }
 }

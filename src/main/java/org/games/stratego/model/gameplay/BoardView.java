@@ -1,7 +1,7 @@
-package org.games.stratego.model.gameplay2;
+package org.games.stratego.model.gameplay;
 
 import org.games.stratego.model.admin.Sessions;
-import org.games.stratego.model.gameplay2.Pieces.Piece;
+import org.games.stratego.model.gameplay.Pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
