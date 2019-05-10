@@ -39,7 +39,7 @@ public class Bomb extends Piece {
             return FightResult.IllegalMove;
         }
 
-        if (piece.getType().equals("minor") && piece.getRank() == 3)
+        if (piece.getType().equals("miner") && piece.getRank() == 3)
         {
             return FightResult.AttackerVictory;
         }

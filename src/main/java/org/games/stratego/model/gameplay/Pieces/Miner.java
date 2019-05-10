@@ -3,24 +3,24 @@ package org.games.stratego.model.gameplay.Pieces;
 import org.games.stratego.model.gameplay.FightResult;
 import org.games.stratego.model.gameplay.Player;
 
-public class Sergeant extends Piece {
+public class Miner extends Piece {
 
-    private String name = "sergeant";
+    private String name = "miner";
     private boolean canMove = true;
-    private int rank = 4;
+    private int rank = 3;
 
-    public Sergeant(Player owner)
+    public Miner(Player owner)
     {
-        this.name = "sergeant";
         this.owner = owner;
     }
+
 
     @Override
     public String getType()
     {
         if (isDead) throw new IllegalStateException("This piece is dead.");
 
-        return "sergeant";
+        return "miner";
     }
 
     @Override
@@ -76,6 +76,6 @@ public class Sergeant extends Piece {
 
     public String toString()
     {
-        return owner.getName() + ":sergeant";
+        return owner.getName() + ":minor";
     }
 }
