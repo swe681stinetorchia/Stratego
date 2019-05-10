@@ -17,6 +17,7 @@ public class Game {
 
     private Player playerOne;
     private Player playerTwo;
+    private Player ownerOfTurn;
     private User winner;
     private User loser;
     private List<Piece> playerOnePieces;
@@ -78,16 +79,11 @@ public class Game {
 
     public void move(int fromRow, int fromCol, int toRow, int toCol, String token)
     {
-        if (gameOver)
-        {
-            throw new IllegalStateException("This game is over");
-        }
 
-        /*if (!gameStart)
+        if (!gameStart)
         {
             throw new IllegalStateException("This game has not finished setting up.");
-        }*/
-
+        }
 
         if (fromRow>10||fromRow<1||fromCol>10||fromCol<1)
         {
@@ -105,10 +101,52 @@ public class Game {
 
         if (username.equals(playerOne.getName()))
         {
+
+            if (gameOver)
+            {
+                if (playerOne.equals(winner))
+                {
+                    throw new IllegalStateException("This game is over. You won!");
+                }
+                else if (playerOne.equals(loser))
+                {
+                    throw new IllegalStateException("This game is over. You lost!");
+                }
+                else
+                {
+                    throw new IllegalStateException("This game is over. Stalemate?");
+                }
+            }
+
+            if (!playerOne.equals(ownerOfTurn))
+            {
+                throw new IllegalStateException("It is not this player's turn.");
+            }
             player = playerOne;
         }
-        else if (username.equals(playerOne.getName()))
+        else if (username.equals(playerTwo.getName()))
         {
+
+            if (gameOver)
+            {
+                if (playerTwo.equals(winner))
+                {
+                    throw new IllegalStateException("This game is over. You won!");
+                }
+                else if (playerTwo.equals(loser))
+                {
+                    throw new IllegalStateException("This game is over. You lost!");
+                }
+                else
+                {
+                    throw new IllegalStateException("This game is over. Stalemate?");
+                }
+            }
+
+            if (!playerTwo.equals(ownerOfTurn))
+            {
+                throw new IllegalArgumentException("It is not this player's turn.");
+            }
             player = playerTwo;
         }
         else
@@ -301,10 +339,6 @@ public class Game {
                 Piece pieceToTry = (Piece) iterator.next();
                 if(pieceType.equals(pieceToTry.getType()))
                 {
-                    if(pieceToTry.isOnBoard())
-                    {
-                        continue;
-                    }
 
                     if (board.hasPiece(row, col))
                     {
@@ -337,11 +371,6 @@ public class Game {
                 if(pieceType.equals(pieceToTry.getType()))
                 {
                     System.out.println("G ");
-                    if(pieceToTry.isOnBoard())
-                    {
-                        System.out.println("H: ");
-                        continue;
-                    }
                     System.out.println("I: ");
 
                     if (board.hasPiece(row, col))
@@ -363,9 +392,7 @@ public class Game {
             }
             if (pieceToReturn!=null)
             {
-                System.out.println("N: " + playerTwoPieces);
                 playerTwoPieces.add(pieceToReturn);
-                System.out.println("O: " + playerTwoPieces);
             }
         }
         else
@@ -376,6 +403,7 @@ public class Game {
         if ((playerOnePieces.size()<=0)&&(playerTwoPieces.size()<=0))
         {
             gameStart=true;
+            ownerOfTurn = playerOne;
         }
     }
 
@@ -425,6 +453,8 @@ public class Game {
         General general = new General(playerOne);
         playerOnePieces.add(general);
         Marshal marshal = new Marshal(playerOne);
+        playerOnePieces.add(marshal);
+
 
         for (int i = 0; i < 6; i++)
         {
@@ -476,8 +506,9 @@ public class Game {
             playerTwoPieces.add(colonel);
         }
         General general2 = new General(playerTwo);
-        playerTwoPieces.add(general);
+        playerTwoPieces.add(general2);
         Marshal marshal2 = new Marshal(playerTwo);
+        playerTwoPieces.add(marshal2);
 
         for (int i = 0; i < 6; i++)
         {

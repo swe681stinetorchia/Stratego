@@ -767,7 +767,7 @@ public class GameServlet extends HttpServlet {
 
                     session.setAttribute("board", boardView);
 
-                    request.setAttribute("message", "Invalid move.");
+                    request.setAttribute("message", iae.getMessage());
 
                     if (game.isGameStart())
                     {
