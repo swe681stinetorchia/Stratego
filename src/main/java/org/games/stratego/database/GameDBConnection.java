@@ -186,6 +186,24 @@ public class GameDBConnection {
         return playerTwoId;
     }
 
+    public void gameOver (String gameId, int winnerId, int loserId) {
+        try {
+            // Setup the connection with the DB
+            connect = DriverManager
+                    .getConnection(url, username, password);
+            preparedStatement = connect
+                    .prepareStatement("update stratego.game set winner = ?, loser = ? where id = ?");
+            preparedStatement.setInt(1, winnerId);
+            preparedStatement.setInt(2, loserId);
+            preparedStatement.setString(3, gameId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+        }
+        catch (SQLException e) {
+            log.fatal(e.getMessage());
+        }
+    }
+
 
 }
 

@@ -16,7 +16,7 @@
 			</style>
 	</head>
 	<body>
-	   <h1>Stratego
+	   <h1>Stratego - New User
 			</h1>
 			<hr style="margin:auto; height:1px"/>
 	

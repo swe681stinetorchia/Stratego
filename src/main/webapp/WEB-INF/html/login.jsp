@@ -16,22 +16,16 @@
 			</style>
 	</head>
 	<body>
-	   <h1>Stratego
+	   <h1>Stratego - Login
 			</h1>
 			<hr style="margin:auto; height:1px"/>
 	
 			<section>
-				<p class="explanation">
-					Login
-		   	</p>
-		   	
-		   	<%--
-		   	<p>${initParam['siteURL']}</p>
-		   	<p>${1+1}</p>
-            --%>
+
+				<p class="explanation">Please enter your user credentials below. If you are a new user, select the new user link below and complete the form.</p>
 
             <a href="${initParam.siteURL}/newUser"> New User </a>
-            
+
 		   	<form method="post" action="${initParam.siteURL}/login" class="login">
 					<p>Username: <input type="text" name="username" value="" style="width:150px"></p>
 					<p>Password: <input type="password" name="password" value="" style="width:150px"></p>

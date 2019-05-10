@@ -16,7 +16,7 @@
 			</style>
 
 	<body>
-			<h1>Error
+			<h1>Login - Error
 			</h1>
 			<hr style="margin:auto; height:1px"/>
 	
@@ -24,12 +24,6 @@
 				<p class="errorText">
 					You have entered an incorrect username or password. Please try again.
 				</p>
-	 
-				<%--<form method="post" action="${initParam.siteURL}" class="login">
-					<p>Username: <input type="text" name="username" value="" style="width:150px"></p>
-					<p>Password: <input type="password" name="password" value="" style="width:150px"></p>
-					<p><input type="submit" name="loginSubmit" value="Submit"></p>
-				</form>--%>
 
 				<form method="post" action="${initParam.siteURL}/login" class="login">
                     <p>Username: <input type="text" name="username" value="" style="width:150px"></p>

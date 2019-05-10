@@ -16,7 +16,7 @@
 			</style>
 	</head>
 	<body>
-	   <h1>Logout
+	   <h1>Stratego - Logout
 			</h1>
 			<hr style="margin:auto; height:1px"/>
 	

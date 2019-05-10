@@ -24,6 +24,8 @@
 </head>
 </head>
 <body>
+<h1>Stratego - Game
+</h1>
 
 <a href="${initParam.siteURL}/logout"> Logout </a>
 
