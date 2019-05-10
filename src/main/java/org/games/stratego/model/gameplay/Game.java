@@ -394,8 +394,8 @@ public class Game {
         }
         for (int i = 0; i < 5; i++)
         {
-            Minor minor = new Minor(playerOne);
-            playerOnePieces.add(minor);
+            Miner miner = new Miner(playerOne);
+            playerOnePieces.add(miner);
         }
         for (int i = 0; i < 4; i++)
         {
@@ -447,8 +447,8 @@ public class Game {
         }
         for (int i = 0; i < 5; i++)
         {
-            Minor minor = new Minor(playerTwo);
-            playerTwoPieces.add(minor);
+            Miner miner = new Miner(playerTwo);
+            playerTwoPieces.add(miner);
         }
         for (int i = 0; i < 4; i++)
         {

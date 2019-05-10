@@ -541,6 +541,28 @@ public class GameServlet extends HttpServlet {
                 }
                 else{
                     log.warn("Move isn't legitmate");
+
+                    session.setAttribute("csrfToken", storedToken);
+
+                    session.setAttribute("game", game);
+
+                    session.setAttribute("gameId", gameId);
+
+                    request.setAttribute("message", "Invalid Add");
+
+                    BoardView boardView = new BoardView(game, storedToken);
+
+                    session.setAttribute("board", boardView);
+
+                    if (game.isGameStart()) {
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/playgame.jsp");
+
+                        dispatcher.forward(request, response);
+                    } else {
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/setupgame.jsp");
+
+                        dispatcher.forward(request, response);
+                    }
                 }
         }
         else if (action.equals("move")) //request is used to move a piece
