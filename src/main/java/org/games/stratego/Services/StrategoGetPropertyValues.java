@@ -14,7 +14,6 @@ public class StrategoGetPropertyValues {
 
         try {
             Properties prop = new Properties();
-            //String propFileName = "org/games/stratego/config.properties";
             String propFileName = "config.properties";
             inputStream = StrategoGetPropertyValues.class.getClassLoader().getResourceAsStream(propFileName);
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -24,9 +23,6 @@ public class StrategoGetPropertyValues {
             } else {
                 throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
             }
-
-            Date time = new Date(System.currentTimeMillis());
-
             // get the property value and print it out
 
             value = prop.getProperty(key);

@@ -28,8 +28,6 @@ public class Login extends HttpServlet {
     public void doGet( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException
     {
-        System.out.println("doGet");
-
         // Create a session
         HttpSession session = request.getSession();
         session.setAttribute( "loggedIn", "false" );
@@ -41,14 +39,11 @@ public class Login extends HttpServlet {
     public void doPost( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException
     {
-        System.out.println( "doPost" );
-
         HttpSession session = request.getSession();
         if( session.isNew() )
         {
             // A session should already exist--something's wrong
-            log.error("Please enter alpha numeric for username");
-            System.out.println( "New session error" );
+            log.error("New session error");
             invalidAccess( response );
             return;
         }
@@ -71,11 +66,7 @@ public class Login extends HttpServlet {
 
                     Map<String, Game> assignedGames = GameCache.getAssignedGames(username);
 
-                    System.out.println("Assigned games: " + assignedGames.size());
-
                     DashboardView view = new DashboardView(username, assignedGames);
-
-                    System.out.println("Ongoing games: " + view.getOngoingGames().size());
 
                     request.setAttribute("assigned", assignedGames);
 
@@ -91,8 +82,6 @@ public class Login extends HttpServlet {
                 } else {
 
                     log.warn("validation failed");
-
-                    System.out.println("validation failed");
 
                     session.setAttribute("loggedIn", "false");
 

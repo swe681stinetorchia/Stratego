@@ -39,7 +39,6 @@ public class NewUser extends HttpServlet {
         HttpSession session = request.getSession();
         if (session.isNew()) {
             // A session should already exist--something's wrong
-            System.out.println("New session error");
             log.error("New session error");
             invalidAccess(response);
             return;
@@ -56,7 +55,6 @@ public class NewUser extends HttpServlet {
                 if (username.equals(db.validateUserName(username)))
                 {
                     log.warn("Username already taken");
-                    System.out.println("Username already taken");
                 }
                 else {
                     UserService userService = UserService.getInstance();

@@ -38,8 +38,7 @@ public class UserService
 
             UserDBConnection userDBConnection = new UserDBConnection();
 
-            System.out.println("1 adding " + username + " : " + hash + " : " +SecureHash.validatePassword(password, hash));
-
+            log.info("1 adding " + username + " : " + hash + " : " +SecureHash.validatePassword(password, hash));
             int id = userDBConnection.addUser(username, hash);
 
             return new User(username, id);
@@ -57,10 +56,7 @@ public class UserService
     
     public boolean validate( String username, String password )
     {
-        System.out.println("Password to check: " + password);
-
         UserDBConnection userDBConnection = new UserDBConnection();
-
         return userDBConnection.checkPassword(username, password);
     }
     
