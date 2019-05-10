@@ -40,15 +40,7 @@
 	</form>--%>
 
 
-	<p>Ongoing Games</p>
-
-	<c:forEach var="entry" items="${requestScope.view.ongoingGames}">
-      Key: <c:out value="${entry.key}"/>
-      Value: <c:out value="${entry.value}"/>
-    </c:forEach>
-
-
-    <p>Ongoing Games 2</p>
+    <p>Ongoing Games</p>
 
 	<c:forEach var="entry" items="${requestScope.view.ongoingGames}">
       <form method="get" action="${initParam.siteURL}/game" class="openGame">

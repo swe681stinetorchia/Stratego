@@ -181,7 +181,7 @@ public class GameServlet extends HttpServlet {
 
         String action = request.getParameter("action");
 
-        if (action.equals("open")) //request is used to open a new game
+        if (action.equals("open")) //request is used to open a new game and to open an existing game
         {
             String gameId = request.getParameter("gameId");
 
@@ -195,6 +195,96 @@ public class GameServlet extends HttpServlet {
                 session.setAttribute("csrfToken", storedToken);
 
                 request.setAttribute( "message", iae );
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/userHome.jsp" );
+
+                dispatcher.forward( request, response );
+
+                return;
+            }
+
+            session.setAttribute("csrfToken", storedToken);
+
+            session.setAttribute("game", game);
+
+            session.setAttribute("gameId", gameId);
+
+            BoardView boardView = new BoardView(game, storedToken);
+
+            session.setAttribute("board", boardView);
+
+            if (game.isGameStart())
+            {
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/playgame.jsp");
+
+                dispatcher.forward( request, response );
+            }
+            else
+            {
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/setupgame.jsp");
+
+                dispatcher.forward( request, response );
+            }
+        }
+        if (action.equals("update")) //request is used update the board
+        {
+            Game game;
+
+            String gameId;
+
+            try {
+                gameId = (String) session.getAttribute("gameId");
+
+                game = GameCache.getGame(gameId);
+            }
+            catch(IllegalArgumentException iae)
+            {
+                request.setAttribute( "message", iae );
+
+                session.removeAttribute("gameId");
+
+                session.removeAttribute("board");
+
+                session.removeAttribute("game");
+
+                session.setAttribute("csrfToken", storedToken);
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/userHome.jsp" );
+
+                dispatcher.forward( request, response );
+
+                return;
+            }
+            catch (ClassCastException cce)
+            {
+                request.setAttribute( "message", "No game available." );
+
+                session.removeAttribute("gameId");
+
+                session.removeAttribute("board");
+
+                session.removeAttribute("game");
+
+                session.setAttribute("csrfToken", storedToken);
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/userHome.jsp" );
+
+                dispatcher.forward( request, response );
+
+                return;
+            }
+            
+            if (game==null)
+            {
+                request.setAttribute( "message", "game is stale" );
+
+                session.removeAttribute("gameId");
+
+                session.removeAttribute("board");
+
+                session.removeAttribute("game");
+
+                session.setAttribute("csrfToken", storedToken);
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/userHome.jsp" );
 

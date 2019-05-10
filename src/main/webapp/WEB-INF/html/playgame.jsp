@@ -53,5 +53,12 @@
 			<p>To Column: <input type="text" name="toColumn" value="" style="width:150px"></p>
 			<p><input type="submit" name="modGame" value="Submit"></p>
 		</form>
+
+      <form method="get" action="${initParam.siteURL}/game" class="update">
+        <input type="hidden" name="action" value="open" />
+        <input type="hidden" name="gameId" value="${entry.value}">
+        <p><input type="submit" name="openGame" value="${entry.key}"></p>
+      </form>
+
 </body>
 </html>
