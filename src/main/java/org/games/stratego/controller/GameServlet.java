@@ -3,6 +3,7 @@ package org.games.stratego.controller;
 import  org.games.stratego.Services.RegexHelper;
 import org.apache.logging.log4j.Logger;
 import org.games.stratego.database.UserDBConnection;
+import org.games.stratego.model.admin.DashboardView;
 import org.games.stratego.model.admin.GameCache;
 import org.games.stratego.model.admin.Sessions;
 import org.games.stratego.model.admin.User;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Map;
 import java.util.UUID;
 
 public class GameServlet extends HttpServlet {
@@ -90,6 +92,14 @@ public class GameServlet extends HttpServlet {
 
                 request.setAttribute("message", "Cannot play against oneself.");
 
+                String username = Sessions.checkSession(storedToken);
+
+                Map<String, Game> assignedGames = GameCache.getAssignedGames(username);
+
+                DashboardView view = new DashboardView(username, assignedGames);
+
+                request.setAttribute("view", view);
+
                 RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/userHome.jsp" );
 
                 dispatcher.forward( request, response );
@@ -122,6 +132,14 @@ public class GameServlet extends HttpServlet {
             session.setAttribute("csrfToken", storedToken);
 
             request.setAttribute("message", iae.getMessage());
+
+            String username = Sessions.checkSession(storedToken);
+
+            Map<String, Game> assignedGames = GameCache.getAssignedGames(username);
+
+            DashboardView view = new DashboardView(username, assignedGames);
+
+            request.setAttribute("view", view);
 
             RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/userHome.jsp" );
 
@@ -205,7 +223,15 @@ public class GameServlet extends HttpServlet {
             {
                 session.setAttribute("csrfToken", storedToken);
 
-                request.setAttribute( "message", iae );
+                request.setAttribute( "message", iae.getMessage() );
+
+                String username = Sessions.checkSession(storedToken);
+
+                Map<String, Game> assignedGames = GameCache.getAssignedGames(username);
+
+                DashboardView view = new DashboardView(username, assignedGames);
+
+                request.setAttribute("view", view);
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/userHome.jsp" );
 
@@ -250,7 +276,7 @@ public class GameServlet extends HttpServlet {
             }
             catch(IllegalArgumentException iae)
             {
-                request.setAttribute( "message", iae );
+                request.setAttribute( "message", iae.getMessage() );
 
                 session.removeAttribute("gameId");
 
@@ -259,6 +285,14 @@ public class GameServlet extends HttpServlet {
                 session.removeAttribute("game");
 
                 session.setAttribute("csrfToken", storedToken);
+
+                String username = Sessions.checkSession(storedToken);
+
+                Map<String, Game> assignedGames = GameCache.getAssignedGames(username);
+
+                DashboardView view = new DashboardView(username, assignedGames);
+
+                request.setAttribute("view", view);
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/userHome.jsp" );
 
@@ -278,6 +312,14 @@ public class GameServlet extends HttpServlet {
 
                 session.setAttribute("csrfToken", storedToken);
 
+                String username = Sessions.checkSession(storedToken);
+
+                Map<String, Game> assignedGames = GameCache.getAssignedGames(username);
+
+                DashboardView view = new DashboardView(username, assignedGames);
+
+                request.setAttribute("view", view);
+
                 RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/userHome.jsp" );
 
                 dispatcher.forward( request, response );
@@ -296,6 +338,14 @@ public class GameServlet extends HttpServlet {
                 session.removeAttribute("game");
 
                 session.setAttribute("csrfToken", storedToken);
+
+                String username = Sessions.checkSession(storedToken);
+
+                Map<String, Game> assignedGames = GameCache.getAssignedGames(username);
+
+                DashboardView view = new DashboardView(username, assignedGames);
+
+                request.setAttribute("view", view);
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/userHome.jsp" );
 
@@ -340,7 +390,7 @@ public class GameServlet extends HttpServlet {
             }
             catch(IllegalArgumentException iae)
             {
-                request.setAttribute( "message", iae );
+                request.setAttribute( "message", iae.getMessage() );
 
                 session.removeAttribute("gameId");
 
@@ -349,6 +399,14 @@ public class GameServlet extends HttpServlet {
                 session.removeAttribute("game");
 
                 session.setAttribute("csrfToken", storedToken);
+
+                String username = Sessions.checkSession(storedToken);
+
+                Map<String, Game> assignedGames = GameCache.getAssignedGames(username);
+
+                DashboardView view = new DashboardView(username, assignedGames);
+
+                request.setAttribute("view", view);
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/userHome.jsp" );
 
@@ -367,6 +425,14 @@ public class GameServlet extends HttpServlet {
                 session.removeAttribute("game");
 
                 session.setAttribute("csrfToken", storedToken);
+
+                String username = Sessions.checkSession(storedToken);
+
+                Map<String, Game> assignedGames = GameCache.getAssignedGames(username);
+
+                DashboardView view = new DashboardView(username, assignedGames);
+
+                request.setAttribute("view", view);
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/userHome.jsp" );
 
@@ -388,6 +454,14 @@ public class GameServlet extends HttpServlet {
                 session.removeAttribute("game");
 
                 session.setAttribute("csrfToken", storedToken);
+
+                String username = Sessions.checkSession(storedToken);
+
+                Map<String, Game> assignedGames = GameCache.getAssignedGames(username);
+
+                DashboardView view = new DashboardView(username, assignedGames);
+
+                request.setAttribute("view", view);
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/userHome.jsp" );
 
@@ -598,6 +672,14 @@ public class GameServlet extends HttpServlet {
 
                 request.setAttribute("message", iae.getMessage());
 
+                String username = Sessions.checkSession(storedToken);
+
+                Map<String, Game> assignedGames = GameCache.getAssignedGames(username);
+
+                DashboardView view = new DashboardView(username, assignedGames);
+
+                request.setAttribute("view", view);
+
                 RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/userHome.jsp");
 
                 dispatcher.forward(request, response);
@@ -614,6 +696,14 @@ public class GameServlet extends HttpServlet {
                 session.removeAttribute("gameId");
 
                 request.setAttribute("message", "Game not available.");
+
+                String username = Sessions.checkSession(storedToken);
+
+                Map<String, Game> assignedGames = GameCache.getAssignedGames(username);
+
+                DashboardView view = new DashboardView(username, assignedGames);
+
+                request.setAttribute("view", view);
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/userHome.jsp");
 
@@ -632,6 +722,14 @@ public class GameServlet extends HttpServlet {
                 session.removeAttribute("gameId");
 
                 request.setAttribute("message", "game is stale");
+
+                String username = Sessions.checkSession(storedToken);
+
+                Map<String, Game> assignedGames = GameCache.getAssignedGames(username);
+
+                DashboardView view = new DashboardView(username, assignedGames);
+
+                request.setAttribute("view", view);
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/userHome.jsp");
 
