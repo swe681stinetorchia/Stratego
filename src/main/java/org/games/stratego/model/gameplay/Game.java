@@ -77,7 +77,7 @@ public class Game {
         gameOver = false;
     }
 
-    public void move(int fromRow, int fromCol, int toRow, int toCol, String token)
+    public String move(int fromRow, int fromCol, int toRow, int toCol, String token)
     {
 
         if (!gameStart)
@@ -151,10 +151,19 @@ public class Game {
         }
         else
         {
-            return;
+            throw new IllegalStateException("Not a participant in this game.");
         }
 
         FightResult fightResult = board.move(fromRow, fromCol, toRow, toCol);
+
+        if (ownerOfTurn.equals(playerOne))
+        {
+            ownerOfTurn = playerTwo;
+        }
+        else
+        {
+            ownerOfTurn = playerOne;
+        }
 
         if (fightResult == FightResult.CapturedFlag)
         {
@@ -170,6 +179,35 @@ public class Game {
                 loser = playerOne.getUser();
                 gameOver = true;
             }
+            return "Victory!";
+        }
+        else if (fightResult == FightResult.AttackerVictory)
+        {
+            return "Killed piece.";
+        }
+        else if (fightResult == FightResult.DefenderVictory)
+        {
+            return "Killed by piece.";
+        }
+        else if (fightResult == FightResult.BothDie)
+        {
+            return "Bomb!";
+        }
+        else if (fightResult == FightResult.SuccessfulMove)
+        {
+            return "Movement made";
+        }
+        else if (fightResult == FightResult.IllegalMove)
+        {
+            return "Cannot move there.";
+        }
+        else if (fightResult == FightResult.UndefinedResult)
+        {
+            return "Undefined result.";
+        }
+        else
+        {
+            return "Nothing.";
         }
     }
 

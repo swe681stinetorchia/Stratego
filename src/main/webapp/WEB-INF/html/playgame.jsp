@@ -58,9 +58,8 @@
 	</form>
 
     <form method="get" action="${initParam.siteURL}/game" class="update">
-        <input type="hidden" name="action" value="open" />
-        <input type="hidden" name="gameId" value="${entry.value}">
-        <p><input type="submit" name="openGame" value="${entry.key}"></p>
+        <input type="hidden" name="action" value="update" />
+        <p><input type="submit" name="openGame" value="Refresh Board"></p>
     </form>
 
 </body>

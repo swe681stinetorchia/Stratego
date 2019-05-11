@@ -84,6 +84,17 @@ public class GameServlet extends HttpServlet {
 
             String userTwoName = request.getParameter("opponent");
 
+            if (sessionUserName.equals(userTwoName))
+            {
+                session.setAttribute("csrfToken", storedToken);
+
+                request.setAttribute("message", "Cannot play against oneself.");
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher( "WEB-INF/html/userHome.jsp" );
+
+                dispatcher.forward( request, response );
+            }
+
             User userTwo = new User(userTwoName);
 
             Game game = new Game(userOne, userTwo);
@@ -585,7 +596,7 @@ public class GameServlet extends HttpServlet {
 
                 session.removeAttribute("gameId");
 
-                request.setAttribute("message", iae);
+                request.setAttribute("message", iae.getMessage());
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/userHome.jsp");
 
@@ -658,6 +669,8 @@ public class GameServlet extends HttpServlet {
 
                 session.setAttribute("board", boardView);
 
+                request.setAttribute("message", "Insufficient movement data.");
+
                 if (game.isGameStart())
                 {
                     RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/html/playgame.jsp");
@@ -723,7 +736,7 @@ public class GameServlet extends HttpServlet {
 
                 session.setAttribute("board", boardView);
 
-                request.setAttribute("message", "Invalid move.");
+                request.setAttribute("message", "Invalid movement data.");
 
                 if (game.isGameStart())
                 {

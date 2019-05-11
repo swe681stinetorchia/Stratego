@@ -56,5 +56,10 @@
 			<p><input type="submit" name="modGame" value="Submit"></p>
 		</form>
         <p>Available Pieces: ${sessionScope.board.availablePieces}</p>
+
+        <form method="get" action="${initParam.siteURL}/game" class="update">
+            <input type="hidden" name="action" value="update" />
+            <p><input type="submit" name="openGame" value="Refresh Board"></p>
+        </form>
 </body>
 </html>

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.games.stratego.model.admin.GameCache;
+import org.games.stratego.model.gameplay.Game;
 
 import java.io.IOException;
 
@@ -27,6 +29,35 @@ public class Logout extends HttpServlet {
          * First step : Invalidate user session
          */
         HttpSession session = request.getSession(false);
+
+        if (session.getAttribute("gameId")!=null)
+        {
+            Game game;
+            try
+            {
+                String gameId = (String) session.getAttribute("gameId");
+
+                game = GameCache.getGame(gameId);
+
+                try
+                {
+                    String token = (String) session.getAttribute("csrfToken");
+
+                    game.surrender(token);
+
+                    GameCache.addGame(gameId, game);
+                }
+                catch (ClassCastException cce)
+                {
+                    log.warn("session token attribute is not a String");
+                }
+            }
+            catch (ClassCastException cce)
+            {
+                log.warn("gameId attribute is not a String");
+            }
+        }
+
         if (session != null) {
             session.invalidate();
         }
