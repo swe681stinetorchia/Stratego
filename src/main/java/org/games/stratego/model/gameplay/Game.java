@@ -232,18 +232,8 @@ public class Game {
         return gameStart;
     }
 
-    public boolean isGameOver()
-    {
-        return gameOver;
-    }
-
     List<Piece> getAvailablePlayerPieces(String token)
     {
-        if (gameOver)
-        {
-            throw new IllegalArgumentException("This game is over");
-        }
-
         String username = Sessions.checkSession(token);
 
         if (username.equals(playerOne.getName()))
@@ -264,7 +254,7 @@ public class Game {
     {
         if (gameOver)
         {
-            throw new IllegalStateException("This game is over");
+            return;
         }
 
         String username = Sessions.checkSession(token);
@@ -280,31 +270,6 @@ public class Game {
             winner = playerOne.getUser();
         }
         gameOver = true;
-    }
-
-    public boolean victory(String token)
-    {
-        if (!gameOver)
-        {
-            return false;
-        }
-
-        String username = Sessions.checkSession(token);
-
-        return username.equals(winner.getName());
-    }
-
-    public boolean defeat(String token)
-    {
-        if (!gameOver)
-        {
-            return false;
-        }
-
-        String username = Sessions.checkSession(token);
-
-        return username.equals(loser.getName());
-
     }
 
     public void addPiece(int row, int col, String pieceType, String token)

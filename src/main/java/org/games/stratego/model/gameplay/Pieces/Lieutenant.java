@@ -33,6 +33,12 @@ public class Lieutenant extends Piece {
     }
 
     @Override
+    public int getRank()
+    {
+        return rank;
+    }
+
+    @Override
     public FightResult fight(Piece piece)
     {
         if (isDead) throw new IllegalStateException("This piece is dead.");

@@ -273,7 +273,7 @@ public class UserDBConnection {
         }
     }
 
-    public void logMove(String userName, String gameId, String move) {
+    public void logMove(String user, String gameId, String move) {
 
         try {
             // Setup the connection with the DB
@@ -281,14 +281,14 @@ public class UserDBConnection {
                     .getConnection(url, username, password);
             preparedStatement = connect
                     .prepareStatement("insert into stratego.moveshistory (username, game_id, move, dateAdded) values(?, ?, ?, SYSDATE())");
-            preparedStatement.setString(1, userName);
+            preparedStatement.setString(1, user);
             preparedStatement.setString(2, gameId);
             preparedStatement.setString(3, move);
             int result = preparedStatement.executeUpdate();
 
             if (result!=1)
             {
-                log.debug("failed insert");
+                log.fatal("failed insert");
             }
 
             connect.close();

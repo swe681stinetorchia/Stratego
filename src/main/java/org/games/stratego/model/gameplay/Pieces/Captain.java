@@ -36,6 +36,12 @@ public class Captain extends Piece {
         return canMove;
     }
 
+    @Override
+    public int getRank()
+    {
+        return rank;
+    }
+
     public FightResult fight(Piece piece)
     {
         if (isDead) throw new IllegalStateException("This piece is dead.");

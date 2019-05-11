@@ -59,6 +59,12 @@ public class Flag extends Piece {
         return canMove;
     }
 
+    @Override
+    public int getRank()
+    {
+        return rank;
+    }
+
     public String toString()
     {
         return owner.getName() + ":flag";

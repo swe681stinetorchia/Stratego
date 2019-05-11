@@ -55,7 +55,7 @@ public class GameDBConnection {
         }
     }
 
-    public List<String> getMyWins(String username)
+    public List<String> getMyWins(String user)
     {
         List<String> wins = new ArrayList<String>();
         try {
@@ -65,7 +65,7 @@ public class GameDBConnection {
 
             preparedStatement = connect
                     .prepareStatement("select id, loser from stratego.game where winner=?");
-            preparedStatement.setString(1, username);
+            preparedStatement.setString(1, user);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next())
@@ -81,7 +81,7 @@ public class GameDBConnection {
         return wins;
     }
 
-    public List<String> getMyLosses(String username)
+    public List<String> getMyLosses(String user)
     {
         List<String> losses = new ArrayList<String>();
         try {
@@ -91,7 +91,7 @@ public class GameDBConnection {
 
             preparedStatement = connect
                     .prepareStatement("select id, winner from stratego.game where loser=?");
-            preparedStatement.setString(1, username);
+            preparedStatement.setString(1, user);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next())
