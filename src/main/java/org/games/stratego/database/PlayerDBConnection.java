@@ -83,4 +83,48 @@ public class PlayerDBConnection {
         }
         return userId;
     }
+
+    public int getLosses(int playerId)
+    {
+        int losses = 0;
+
+        try
+        {
+            // Setup the connection with the DB
+            connect = DriverManager
+                    .getConnection(url, username, password);
+            preparedStatement = connect
+                    .prepareStatement("select count(loser) as losses from stratego.game where loser =?");
+            preparedStatement.setInt(1, playerId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            losses = resultSet.getInt("losses");
+
+        }
+        catch (SQLException e) {
+            log.fatal(e.getMessage());
+        }
+        return losses;
+    }
+
+    public int getWins(int playerId)
+    {
+        int wins = 0;
+
+        try
+        {
+            // Setup the connection with the DB
+            connect = DriverManager
+                    .getConnection(url, username, password);
+            preparedStatement = connect
+                    .prepareStatement("select count(winner) as wins from stratego.game where winner =?");
+            preparedStatement.setInt(1, playerId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+                wins = resultSet.getInt("wins");
+
+        }
+        catch (SQLException e) {
+            log.fatal(e.getMessage());
+        }
+        return wins;
+    }
 }
