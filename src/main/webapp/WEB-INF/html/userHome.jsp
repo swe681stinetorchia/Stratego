@@ -52,10 +52,16 @@
 	</form>
 
 <p>Moves History for Completed Games:</p>
-<c:forEach var="moveHistory" items="${moveHistory}">
-    <td>
-        <c:out value="${moveHistory}" />
-    </td>
-</c:forEach>
+
+<p>Victories:</p>
+	<c:forEach var="entry" items="${requestScope.view.victories}">
+      <p>${entry}</p>
+    </c:forEach>
+
+<p>Defeates:</p>
+	<c:forEach var="entry" items="${requestScope.view.defeats}">
+      <p>${entry}</p>
+    </c:forEach>
+
 </body>
 </html>

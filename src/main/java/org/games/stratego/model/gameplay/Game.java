@@ -24,10 +24,12 @@ public class Game {
     private List<Piece> playerTwoPieces;
     private boolean gameOver;
     private boolean gameStart;
+    private String gameId;
 
     //New Game
-    public Game(User userOne, User userTwo)
+    public Game(User userOne, User userTwo, String gameId)
     {
+        this.gameId = gameId;
         Player p1 = new Player(userOne);
         Player p2 = new Player(userTwo);
         this.playerOne = p1;
@@ -36,45 +38,6 @@ public class Game {
         instantiatePieces();
         gameOver = false;
         gameStart = false;
-    }
-
-    public Game(int gameId)
-    {
-        GameDBConnection gameDBConnection = new GameDBConnection();
-
-        int loserId = gameDBConnection.getLoserId(gameId);
-        if (loserId==-1)
-        {
-            loser = null;
-        }
-        else
-        {
-            loser = new User(loserId);
-        }
-
-        int winnerId = gameDBConnection.getWinnerId(gameId);
-        if (winnerId==-1)
-        {
-            winner = null;
-        }
-        else
-        {
-            winner = new User(winnerId);
-        }
-
-        PlayerDBConnection playerDBConnection = new PlayerDBConnection();
-
-        int playerOneId = gameDBConnection.getPlayerOneId(gameId);
-        int playerOneUserId = playerDBConnection.getUserId(playerOneId);
-        playerOne = new Player(new User(playerOneUserId));
-
-        int playerTwoId = gameDBConnection.getPlayerTwoId(gameId);
-        int playerTwoUserId = playerDBConnection.getUserId(playerTwoId);
-        playerTwo = new Player(new User(playerTwoUserId));
-
-        board = new Board(gameId);
-
-        gameOver = false;
     }
 
     public String move(int fromRow, int fromCol, int toRow, int toCol, String token)
@@ -97,18 +60,18 @@ public class Game {
 
         String username = Sessions.checkSession(token);
 
-        Player player = null;
+        Player player;
 
         if (username.equals(playerOne.getName()))
         {
 
             if (gameOver)
             {
-                if (playerOne.equals(winner))
+                if (playerOne.getUser().equals(winner))
                 {
                     throw new IllegalStateException("This game is over. You won!");
                 }
-                else if (playerOne.equals(loser))
+                else if (playerOne.getUser().equals(loser))
                 {
                     throw new IllegalStateException("This game is over. You lost!");
                 }
@@ -129,11 +92,11 @@ public class Game {
 
             if (gameOver)
             {
-                if (playerTwo.equals(winner))
+                if (playerTwo.getUser().equals(winner))
                 {
                     throw new IllegalStateException("This game is over. You won!");
                 }
-                else if (playerTwo.equals(loser))
+                else if (playerTwo.getUser().equals(loser))
                 {
                     throw new IllegalStateException("This game is over. You lost!");
                 }
@@ -172,12 +135,16 @@ public class Game {
                 winner = playerOne.getUser();
                 loser = playerTwo.getUser();
                 gameOver = true;
+                GameDBConnection gameDBConnection = new GameDBConnection();
+                gameDBConnection.addCompletedGame(gameId, winner.getName(), loser.getName());
             }
             if (player==playerTwo)
             {
                 winner = playerTwo.getUser();
                 loser = playerOne.getUser();
                 gameOver = true;
+                GameDBConnection gameDBConnection = new GameDBConnection();
+                gameDBConnection.addCompletedGame(gameId, winner.getName(), loser.getName());
             }
             return "Victory!";
         }
@@ -211,13 +178,8 @@ public class Game {
         }
     }
 
-    public String getPieceAt(int row, int col, String token)
+    String getPieceAt(int row, int col, String token)
     {
-        if (gameOver)
-        {
-            throw new IllegalArgumentException("This game is over");
-        }
-
         if (row>10||row<1||col>10||col<1)
         {
             throw new IllegalArgumentException("Invalid coordinates.");
@@ -225,7 +187,7 @@ public class Game {
 
         String username = Sessions.checkSession(token);
 
-        Player player = null;
+        Player player;
 
         if (username.equals(playerOne.getName()))
         {
@@ -275,7 +237,7 @@ public class Game {
         return gameOver;
     }
 
-    public List<Piece> getAvailablePlayerPieces(String token)
+    List<Piece> getAvailablePlayerPieces(String token)
     {
         if (gameOver)
         {

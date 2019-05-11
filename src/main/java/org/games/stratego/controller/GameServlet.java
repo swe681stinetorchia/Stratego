@@ -107,9 +107,9 @@ public class GameServlet extends HttpServlet {
 
             User userTwo = new User(userTwoName);
 
-            Game game = new Game(userOne, userTwo);
-
             String uuid = UUID.randomUUID().toString();
+
+            Game game = new Game(userOne, userTwo, uuid);
 
             GameCache.addGame(uuid, game);
 
@@ -854,9 +854,10 @@ public class GameServlet extends HttpServlet {
 
             if (legitMove(fr, fc, tr, tc))
             {
+                String message = "";
 
                 try {
-                    game.move(fr, fc, tr, tc, storedToken);
+                    message = game.move(fr, fc, tr, tc, storedToken);
 
                     UserDBConnection db = new UserDBConnection();
 
@@ -935,6 +936,8 @@ public class GameServlet extends HttpServlet {
                 BoardView boardView = new BoardView(game, storedToken);
 
                 session.setAttribute("board", boardView);
+
+                request.setAttribute("message", message);
 
                 if (game.isGameStart())
                 {

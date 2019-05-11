@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -72,30 +73,7 @@ public class UserDBConnection {
         return -1;
     }
 
-    /*
-    public Boolean isActiveUser(int userID)
-    {
-        Boolean isActive = false;
-        try {
-            // Setup the connection with the DB
-            connect = DriverManager
-                    .getConnection(url, username, password);
 
-            preparedStatement = connect
-                    .prepareStatement("select isActive from stratego.users WHERE id = ?");
-            preparedStatement.setInt(1, userID);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next())
-            {
-                isActive = Boolean.parseBoolean(resultSet.getString("isActive"));
-            }
-            connect.close();
-        }
-        catch (SQLException e) {
-            log.fatal(e.getMessage());
-        }
-        return isActive;
-    }*/
 
     public List<String> getMoves(String username)
     {
@@ -149,56 +127,6 @@ public class UserDBConnection {
         return users;
     }
 
-    /*
-    public String getID(String sessionID)
-    {
-        String user ="";
-        try {
-            // Setup the connection with the DB
-            connect = DriverManager
-                    .getConnection(url, username, password);
-            preparedStatement = connect
-                    .prepareStatement("select id from stratego.users WHERE session_id = ?");
-            preparedStatement.setString(1, sessionID);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next())
-            {
-               user = resultSet.getString("id");
-            }
-            connect.close();
-        }
-        catch (SQLException e) {
-            log.fatal(e.getMessage());
-        }
-        return user;
-    }*/
-
-    /*
-    public void setSessionID(String sessionID, String user, String pass)
-    {
-        try {
-            // Setup the connection with the DB
-            connect = DriverManager
-                    .getConnection(url, username, password);
-            preparedStatement = connect
-                    .prepareStatement("update stratego.users set session_id = ? WHERE username = ? and password = ?");
-            preparedStatement.setString(1, sessionID);
-            preparedStatement.setString(2, username);
-            preparedStatement.setString(3, password);
-
-            int result = preparedStatement.executeUpdate();
-
-            if (result!=1)
-            {
-                log.debug("failed update");
-            }
-
-            connect.close();
-        }
-        catch (SQLException e) {
-            log.fatal(e.getMessage());
-        }
-    }*/
 
     public String validateUserName(String usname)
     {
@@ -347,17 +275,22 @@ public class UserDBConnection {
 
     public void logMove(String userName, String gameId, String move) {
 
-        String id = getUserID(userName);
         try {
             // Setup the connection with the DB
             connect = DriverManager
                     .getConnection(url, username, password);
             preparedStatement = connect
-                    .prepareStatement("insert into stratego.moveshistory (user_id, game_id, move, dateAdded) (?, ?, ?, SYSDATE())");
-            preparedStatement.setString(1, id);
+                    .prepareStatement("insert into stratego.moveshistory (username, game_id, move, dateAdded) values(?, ?, ?, SYSDATE())");
+            preparedStatement.setString(1, userName);
             preparedStatement.setString(2, gameId);
             preparedStatement.setString(3, move);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            int result = preparedStatement.executeUpdate();
+
+            if (result!=1)
+            {
+                log.debug("failed insert");
+            }
+
             connect.close();
         }
         catch (Exception e) {
@@ -365,5 +298,35 @@ public class UserDBConnection {
         }
     }
 
-    public Map<String, String> getGameMoves(String gameId)
+    public List<String> getGameMoves(String gameId)
+    {
+
+        List<String>  moves = new ArrayList<String>();
+        try {
+            // Setup the connection with the DB
+            connect = DriverManager
+                    .getConnection(url, username, password);
+            preparedStatement = connect
+                    .prepareStatement("select username, move from stratego.moveshistory where game_id=?");
+
+            preparedStatement.setString(1, gameId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next())
+            {
+                String username = resultSet.getString("username");
+                String move = resultSet.getString("move");
+                moves.add(username + ": " + move);
+            }
+
+            connect.close();
+        }
+        catch (Exception e) {
+            log.fatal(e.getMessage());
+        }
+
+        return moves;
+
+    }
 }

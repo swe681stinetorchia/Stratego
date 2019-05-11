@@ -30,15 +30,10 @@ CREATE TABLE stratego.player (
 
 CREATE TABLE stratego.game (
     id VARCHAR(36) NOT NULL,
-    player_one int NOT NULL,
-	player_two int NOT NULL,
     startTime datetime NOT NULL,
-    winner int null,
-    loser int NULL,
-    nextTurn int NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (player_one) REFERENCES stratego.users(id),
-	FOREIGN KEY (player_two) REFERENCES stratego.users(id)
+    winner VARCHAR(36) null,
+    loser VARCHAR(36) NULL,
+    PRIMARY KEY (id)
 )  ENGINE=INNODB;
 
 CREATE TABLE stratego.board (
