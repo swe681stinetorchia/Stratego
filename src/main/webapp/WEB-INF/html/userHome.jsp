@@ -26,16 +26,14 @@
 
 	<p>
 	<br>
-	<br>
         <p>${requestScope.message}</p>
-	<br>
 	<br>
 	<p>
 	
 
 
 
-    <p>Ongoing Games</p>
+    <p>Ongoing Games:</p>
 
 	<c:forEach var="entry" items="${requestScope.view.ongoingGames}">
       <form method="get" action="${initParam.siteURL}/game" class="openGame">
@@ -44,6 +42,8 @@
         <p><input type="submit" name="openGame" value="${entry.key}"></p>
       </form>
     </c:forEach>
+    <br>
+    <br>
 
 	<form method="post" action="${initParam.siteURL}/game" class="newGame">
 	    <label>Start new game.</label>

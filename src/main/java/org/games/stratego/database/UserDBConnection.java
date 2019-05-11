@@ -10,6 +10,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class UserDBConnection {
 
@@ -363,4 +364,6 @@ public class UserDBConnection {
             log.fatal(e.getMessage());
         }
     }
+
+    public Map<String, String> getGameMoves(String gameId)
 }

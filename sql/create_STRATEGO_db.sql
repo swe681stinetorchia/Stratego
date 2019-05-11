@@ -204,12 +204,11 @@ CREATE TABLE stratego.piece (
 
 CREATE TABLE stratego.movesHistory (
     id int NOT NULL auto_increment,
-    user_id int NOT NULL,
+    username VARCHAR(255) NOT NULL,
     game_id VARCHAR(36) NOT NULL,
 	move VARCHAR(12),
     dateAdded datetime NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES stratego.users(id),
 	FOREIGN KEY (game_id) REFERENCES stratego.game(id)
 )  ENGINE=INNODB;
 
